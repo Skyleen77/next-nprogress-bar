@@ -1,0 +1,4 @@
+node_modules
+demo/app-dir/.next
+demo/pages-dir/.next
+.DS_Store

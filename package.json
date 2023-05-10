@@ -1,0 +1,44 @@
+{
+  "name": "next-progress-bar",
+  "version": "1.0.0",
+  "description": "NextJS progress bar compatible with new app directory",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rollup -c --bundleConfigAsCjs",
+    "start": "rollup -c -w --bundleConfigAsCjs"
+  },
+  "keywords": [
+    "next",
+    "nextjs",
+    "next js",
+    "react",
+    "nprogress",
+    "progress bar",
+    "progress bar app directory"
+  ],
+  "author": "Skyleen",
+  "license": "MIT",
+  "dependencies": {
+    "nprogress": "^0.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.1.2",
+    "@types/nprogress": "^0.2.0",
+    "@types/react": "^18.2.6",
+    "@types/react-dom": "^18.2.4",
+    "babel-core": "^6.26.3",
+    "babel-runtime": "^6.26.0",
+    "eslint": "^8.40.0",
+    "eslint-config-next": "^13.4.1",
+    "next": "^13.4.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "rollup": "^3.21.6",
+    "rollup-plugin-typescript2": "^0.34.1",
+    "typescript": "^5.0.4"
+  }
+}
