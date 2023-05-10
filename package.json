@@ -2,6 +2,14 @@
   "name": "next-progress-bar",
   "version": "1.0.0",
   "description": "NextJS progress bar compatible with new app directory",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Skyleen77/next-progress-bar.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Skyleen77/next-progress-bar/issues"
+  },
+  "homepage": "https://github.com/Skyleen77/next-progress-bar#readme",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
