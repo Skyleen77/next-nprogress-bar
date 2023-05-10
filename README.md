@@ -1,5 +1,5 @@
 <div align="center">
-<h1>Next progress bar</h1>
+<h1>Next NProgress bar</h1>
 
 <p>NProgress integration on next.js compatible with /app and /pages folders</p>
 </div>
@@ -33,16 +33,14 @@
 
 ### Install
 
-npm install --save next-progress
-
 ```bash
-npm install next-progress-bar
+npm install next-nprogress-bar
 ```
 
 or
 
 ```bash
-yarn add next-progress-bar
+yarn add next-nprogress-bar
 ```
 
 ### Import
@@ -64,7 +62,7 @@ import NextProgress from 'next-progress';
 ### JavaScript
 
 ```jsx
-import ProgressBar from 'next-progress-bar';
+import ProgressBar from 'next-nprogress-bar';
 
 export default function App({ Component, pageProps }) {
   return (
@@ -85,7 +83,7 @@ export default function App({ Component, pageProps }) {
 
 ```tsx
 import type { AppProps } from 'next/app';
-import ProgressBar from 'next-progress-bar';
+import ProgressBar from 'next-nprogress-bar';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -112,7 +110,7 @@ export default function App({ Component, pageProps }: AppProps) {
 // In /app/layout.jsx
 'use client';
 
-import ProgressBar from 'next-progress-bar';
+import ProgressBar from 'next-nprogress-bar';
 
 export default function RootLayout({ children }) {
   return (
@@ -135,10 +133,10 @@ export default function RootLayout({ children }) {
 #### Second approach wrap in a use client Providers component
 
 ```jsx
-// Create a Providers component to wrap your application with all the components requiring 'use client', such as next-progress-bar or your different contexts...
+// Create a Providers component to wrap your application with all the components requiring 'use client', such as next-nprogress-bar or your different contexts...
 'use client';
 
-import ProgressBar from 'next-progress-bar';
+import ProgressBar from 'next-nprogress-bar';
 
 const Providers = ({ children }) => {
   return (
@@ -184,7 +182,7 @@ export default function RootLayout({ children }) {
 // In /app/layout.tsx
 'use client';
 
-import ProgressBar from 'next-progress-bar';
+import ProgressBar from 'next-nprogress-bar';
 
 export default function RootLayout({
   children,
@@ -211,10 +209,10 @@ export default function RootLayout({
 #### Second approach wrap in a use client Providers component
 
 ```tsx
-// Create a Providers component to wrap your application with all the components requiring 'use client', such as next-progress-bar or your different contexts...
+// Create a Providers component to wrap your application with all the components requiring 'use client', such as next-nprogress-bar or your different contexts...
 'use client';
 
-import ProgressBar from 'next-progress-bar';
+import ProgressBar from 'next-nprogress-bar';
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -284,7 +282,7 @@ See [Next.js docs](https://nextjs.org/docs/pages/building-your-application/routi
 
 Please file an issue for bugs, missing documentation, or unexpected behavior.
 
-[**File an issue**](#https://github.com/Skyleen77/next-progress-bar/issues)
+[File an issue](https://github.com/Skyleen77/next-nprogress-bar/issues)
 
 ## LICENSE
 
