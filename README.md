@@ -27,7 +27,6 @@
   - [appDirectory](#appdirectory)
   - [shallowRouting](#shallowrouting)
 - [Issues](#issues)
-  - [Bugs](#-bugs)
 - [LICENSE](#license)
 
 ## Getting started
@@ -283,14 +282,9 @@ See [Next.js docs](https://nextjs.org/docs/pages/building-your-application/routi
 
 ## Issues
 
-_Looking to contribute? Look for the [Good First Issue][good-first-issue]
-label._
-
-### Bugs
-
 Please file an issue for bugs, missing documentation, or unexpected behavior.
 
-[**See Bugs**][bugs]
+[**File an issue**](#https://github.com/Skyleen77/next-progress-bar/issues)
 
 ## LICENSE
 
