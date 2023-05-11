@@ -1,7 +1,7 @@
 <div align="center">
 <h1>Next NProgress bar</h1>
 
-<p>NProgress integration on next.js compatible with /app and /pages folders</p>
+<p>NProgress integration on Next.js compatible with /app and /pages folders</p>
 </div>
 
 ## Table of Contents
@@ -48,7 +48,7 @@ yarn add next-nprogress-bar
 _Import it into your **/pages/\_app(.js/.jsx/.ts/.tsx)** or **/app/layout(.js/.jsx/.ts/.tsx)** folder_
 
 ```javascript
-import NextProgress from 'next-progress';
+import ProgressBar from 'next-nprogress-bar';
 ```
 
 ### Use

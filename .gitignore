@@ -1,4 +1,5 @@
 node_modules
+.npmrc
 demo/app-dir/.next
 demo/pages-dir/.next
 .DS_Store
