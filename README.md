@@ -26,6 +26,8 @@
   - [options](#options)
   - [appDirectory](#appdirectory)
   - [shallowRouting](#shallowrouting)
+  - [delay](#delay)
+  - [style](#style)
 - [Issues](#issues)
 - [LICENSE](#license)
 
@@ -256,27 +258,37 @@ export default function RootLayout({
 
 ## Props
 
-### height
+### height _optional_ - _string_
 
-Height of the progress bar - by default 2px
+Height of the progress bar - **by default 2px**
 
-### color
+### color _optional_ - _string_
 
-Color of the progress bar - by default #0A2FFF
+Color of the progress bar - **by default #0A2FFF**
 
-### options
+### options _optional_ - _Partial<NProgressOptions>_
+
+**by default undefined**
 
 See [NProgress docs](https://www.npmjs.com/package/nprogress#configuration)
 
-### appDirectory
+### appDirectory _optional_ - _boolean_
 
-If your are in the new **/app** directory
+If your are in the new **/app** directory - **by default false**
 
-### shallowRouting
+### shallowRouting _optional_ - _boolean_
 
-If the progress bar is not displayed when you use shallow routing
+If the progress bar is not displayed when you use shallow routing - **by default false**
 
 See [Next.js docs](https://nextjs.org/docs/pages/building-your-application/routing/linking-and-navigating#shallow-routing)
+
+### delay _optional_ - _number_
+
+When the page loads faster than the progress bar, it does not display - **by default 0**
+
+### style _optional_ - _string_
+
+Your custom CSS - **by default [NProgress CSS](https://github.com/rstacruz/nprogress/blob/master/nprogress.css)**
 
 ## Issues
 
