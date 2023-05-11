@@ -134,6 +134,8 @@ export default function RootLayout({ children }) {
 
 #### Second approach wrap in a use client Providers component
 
+See [Next.js documentation](https://nextjs.org/docs/getting-started/react-essentials#rendering-third-party-context-providers-in-server-components)
+
 ```jsx
 // Create a Providers component to wrap your application with all the components requiring 'use client', such as next-nprogress-bar or your different contexts...
 'use client';
@@ -209,6 +211,8 @@ export default function RootLayout({
 ```
 
 #### Second approach wrap in a use client Providers component
+
+See [Next.js documentation](https://nextjs.org/docs/getting-started/react-essentials#rendering-third-party-context-providers-in-server-components)
 
 ```tsx
 // Create a Providers component to wrap your application with all the components requiring 'use client', such as next-nprogress-bar or your different contexts...

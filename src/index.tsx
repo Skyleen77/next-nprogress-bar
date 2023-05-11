@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import NProgress, { NProgressOptions } from 'nprogress';
-// import Router from 'next/router';
 
 interface ProgressBarProps {
   color?: string;
@@ -24,7 +23,7 @@ type PushStateInput = [
  * @param options NProgress options. @default undefined
  * @param appDirectory If your are in the app directory - @default false
  * @param shallowRouting If the progress bar is not displayed when you use shallow routing - @default false
- * @param delay When the page loads faster than the progress bar, it does not display. - @default 0
+ * @param delay When the page loads faster than the progress bar, it does not display - @default 0
  * @param style Custom css - @default undefined
  */
 
@@ -136,9 +135,12 @@ const ProgressBar = React.memo(
         NProgress.configure({ showSpinner: false });
 
         const handleAnchorClick = (event: MouseEvent) => {
-          const targetUrl = (event.currentTarget as HTMLAnchorElement).href;
-          const currentUrl = location.href;
-          if (!shallowRouting || targetUrl !== currentUrl) {
+          const targetUrl = new URL(
+            (event.currentTarget as HTMLAnchorElement).href,
+          );
+          const currentUrl = new URL(location.href);
+
+          if (!shallowRouting || !isSameURL(targetUrl, currentUrl)) {
             startProgress();
           }
         };
@@ -163,7 +165,10 @@ const ProgressBar = React.memo(
         import('next/router')
           .then(({ default: Router }) => {
             const handleRouteStart = (url: string) => {
-              if (!shallowRouting || url !== Router.route) {
+              const targetUrl = new URL(url, location.href);
+              const currentUrl = new URL(Router.route, location.href);
+
+              if (!shallowRouting || !isSameURL(targetUrl, currentUrl)) {
                 startProgress();
               }
             };
@@ -190,3 +195,11 @@ const ProgressBar = React.memo(
 );
 
 export default ProgressBar;
+
+function isSameURL(target: URL, current: URL) {
+  const cleanTarget = target.protocol + '//' + target.host + target.pathname;
+  const cleanCurrent =
+    current.protocol + '//' + current.host + current.pathname;
+
+  return cleanTarget === cleanCurrent;
+}
