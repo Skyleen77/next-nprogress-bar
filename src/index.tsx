@@ -8,6 +8,8 @@ interface ProgressBarProps {
   options?: Partial<NProgressOptions>;
   appDirectory?: boolean;
   shallowRouting?: boolean;
+  delay?: number;
+  style?: string;
 }
 
 type PushStateInput = [
@@ -17,11 +19,13 @@ type PushStateInput = [
 ];
 
 /**
- * @param color Color of the progress bar.
- * @param height Height of the progress bar.
- * @param options NProgress options.
- * @param appDirectory If your are in the app directory - false by default
- * @param shallowRouting If the progress bar is not displayed when you use shallow routing - false by default
+ * @param color Color of the progress bar. @default #0A2FFF
+ * @param height Height of the progress bar. @default 2px
+ * @param options NProgress options. @default undefined
+ * @param appDirectory If your are in the app directory - @default false
+ * @param shallowRouting If the progress bar is not displayed when you use shallow routing - @default false
+ * @param delay When the page loads faster than the progress bar, it does not display. - @default 0
+ * @param style Custom css - @default undefined
  */
 
 const ProgressBar = React.memo(
@@ -31,36 +35,102 @@ const ProgressBar = React.memo(
     options,
     appDirectory = false,
     shallowRouting = false,
+    delay = 0,
+    style,
   }: ProgressBarProps) => {
     const styles = (
-      <style>{`
-      #nprogress {
-        pointer-events: none;
-      }
-      #nprogress .bar {
-        background: ${color};
-        position: fixed;
-        z-index: 99999;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: ${height};
-      }
-      #nprogress .peg {
-        display: block;
-        position: absolute;
-        right: 0px;
-        width: 100px;
-        height: 100%;
-        box-shadow: 0 0 10px ${color}, 0 0 5px ${color};
-        opacity: 1;
-        transform: rotate(3deg) translate(0px, -4px);
-      }
-    `}</style>
+      <style>
+        {style ||
+          `
+          #nprogress {
+            pointer-events: none;
+          }
+          
+          #nprogress .bar {
+            background: ${color};
+          
+            position: fixed;
+            z-index: 1031;
+            top: 0;
+            left: 0;
+          
+            width: 100%;
+            height: ${height};
+          }
+          
+          /* Fancy blur effect */
+          #nprogress .peg {
+            display: block;
+            position: absolute;
+            right: 0px;
+            width: 100px;
+            height: 100%;
+            box-shadow: 0 0 10px ${color}, 0 0 5px ${color};
+            opacity: 1.0;
+          
+            -webkit-transform: rotate(3deg) translate(0px, -4px);
+                -ms-transform: rotate(3deg) translate(0px, -4px);
+                    transform: rotate(3deg) translate(0px, -4px);
+          }
+          
+          /* Remove these to get rid of the spinner */
+          #nprogress .spinner {
+            display: block;
+            position: fixed;
+            z-index: 1031;
+            top: 15px;
+            right: 15px;
+          }
+          
+          #nprogress .spinner-icon {
+            width: 18px;
+            height: 18px;
+            box-sizing: border-box;
+          
+            border: solid 2px transparent;
+            border-top-color: ${color};
+            border-left-color: ${color};
+            border-radius: 50%;
+          
+            -webkit-animation: nprogress-spinner 400ms linear infinite;
+                    animation: nprogress-spinner 400ms linear infinite;
+          }
+          
+          .nprogress-custom-parent {
+            overflow: hidden;
+            position: relative;
+          }
+          
+          .nprogress-custom-parent #nprogress .spinner,
+          .nprogress-custom-parent #nprogress .bar {
+            position: absolute;
+          }
+          
+          @-webkit-keyframes nprogress-spinner {
+            0%   { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+          }
+          @keyframes nprogress-spinner {
+            0%   { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}
+      </style>
     );
 
     useEffect(() => {
       options && NProgress.configure(options);
+
+      let timer: NodeJS.Timeout;
+
+      const startProgress = () => {
+        timer = setTimeout(NProgress.start, delay);
+      };
+
+      const stopProgress = () => {
+        clearTimeout(timer);
+        NProgress.done();
+      };
 
       if (appDirectory) {
         NProgress.configure({ showSpinner: false });
@@ -69,7 +139,7 @@ const ProgressBar = React.memo(
           const targetUrl = (event.currentTarget as HTMLAnchorElement).href;
           const currentUrl = location.href;
           if (!shallowRouting || targetUrl !== currentUrl) {
-            NProgress.start();
+            startProgress();
           }
         };
 
@@ -85,7 +155,7 @@ const ProgressBar = React.memo(
 
         window.history.pushState = new Proxy(window.history.pushState, {
           apply: (target, thisArg, argArray: PushStateInput) => {
-            NProgress.done();
+            stopProgress();
             return target.apply(thisArg, argArray);
           },
         });
@@ -94,10 +164,10 @@ const ProgressBar = React.memo(
           .then(({ default: Router }) => {
             const handleRouteStart = (url: string) => {
               if (!shallowRouting || url !== Router.route) {
-                NProgress.start();
+                startProgress();
               }
             };
-            const handleRouteDone = () => NProgress.done();
+            const handleRouteDone = () => stopProgress();
 
             Router.events.on('routeChangeStart', handleRouteStart);
             Router.events.on('routeChangeComplete', handleRouteDone);
