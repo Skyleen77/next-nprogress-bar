@@ -270,7 +270,7 @@ Height of the progress bar - **by default 2px**
 
 Color of the progress bar - **by default #0A2FFF**
 
-### options _optional_ - _Partial<NProgressOptions>_
+### options _optional_ - _NProgressOptions_
 
 **by default undefined**
 
