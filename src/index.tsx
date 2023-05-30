@@ -135,9 +135,12 @@ const ProgressBar = React.memo(
         NProgress.configure({ showSpinner: false });
 
         const handleAnchorClick = (event: MouseEvent) => {
-          const targetUrl = new URL(
-            (event.currentTarget as HTMLAnchorElement).href,
-          );
+          const anchorElement = event.currentTarget as HTMLAnchorElement;
+
+          // Skip anchors with target="_blank"
+          if (anchorElement.target === '_blank') return;
+
+          const targetUrl = new URL(anchorElement.href);
           const currentUrl = new URL(location.href);
 
           if (!shallowRouting || !isSameURL(targetUrl, currentUrl)) {

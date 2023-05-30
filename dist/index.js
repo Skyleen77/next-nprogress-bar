@@ -31,7 +31,11 @@ var ProgressBar = React.memo(function (_a) {
         if (appDirectory) {
             NProgress.configure({ showSpinner: false });
             var handleAnchorClick_1 = function (event) {
-                var targetUrl = new URL(event.currentTarget.href);
+                var anchorElement = event.currentTarget;
+                // Skip anchors with target="_blank"
+                if (anchorElement.target === '_blank')
+                    return;
+                var targetUrl = new URL(anchorElement.href);
                 var currentUrl = new URL(location.href);
                 if (!shallowRouting || !isSameURL(targetUrl, currentUrl)) {
                     startProgress();
