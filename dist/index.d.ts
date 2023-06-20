@@ -1,6 +1,7 @@
 import React from 'react';
 import { NProgressOptions } from 'nprogress';
-interface ProgressBarProps {
+export { NProgressOptions };
+export interface ProgressBarProps {
     color?: string;
     height?: string;
     options?: Partial<NProgressOptions>;
