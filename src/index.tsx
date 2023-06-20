@@ -117,9 +117,9 @@ const ProgressBar = React.memo(
       </style>
     );
 
-    useEffect(() => {
-      options && NProgress.configure(options);
+    NProgress.configure(options || {});
 
+    useEffect(() => {
       let timer: NodeJS.Timeout;
 
       const startProgress = () => {
@@ -132,8 +132,6 @@ const ProgressBar = React.memo(
       };
 
       if (appDirectory) {
-        NProgress.configure({ showSpinner: false });
-
         const handleAnchorClick = (event: MouseEvent) => {
           const anchorElement = event.currentTarget as HTMLAnchorElement;
 
