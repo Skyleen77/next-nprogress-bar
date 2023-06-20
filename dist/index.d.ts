@@ -1,6 +1,17 @@
 import React from 'react';
-import { NProgressOptions } from 'nprogress';
-export { NProgressOptions };
+export interface NProgressOptions {
+    minimum?: number;
+    template?: string;
+    easing?: string;
+    speed?: number;
+    trickle?: boolean;
+    trickleSpeed?: number;
+    showSpinner?: boolean;
+    parent?: string;
+    positionUsing?: string;
+    barSelector?: string;
+    spinnerSelector?: string;
+}
 export interface ProgressBarProps {
     color?: string;
     height?: string;

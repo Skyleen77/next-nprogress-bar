@@ -1,6 +1,6 @@
 'use client';
 
-import ProgressBar from '../../../../dist';
+import ProgressBar, { NProgressOptions } from '../../../../dist';
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
