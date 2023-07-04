@@ -31,6 +31,7 @@
 - [App directory router](#app-directory-router)
   - [Import](#import)
   - [Use](#use)
+- [Migrating from v1 to v2](#migrating-from-v1-to-v2)
 - [Issues](#issues)
 - [LICENSE](#license)
 
@@ -309,6 +310,57 @@ Replace your 'next/navigation' routers with this one. It's the same router, but 
 const router = useRouter();
 
 router.push('/about');
+```
+
+## Migrating from v1 to v2
+
+### Pages directory
+
+```jsx
+// before (v1)
+import ProgressBar from 'next-nprogress-bar';
+
+<ProgressBar
+  height="4px"
+  color="#fffd00"
+  options={{ showSpinner: false }}
+  shallowRouting
+/>;
+
+// after (v2)
+import { PagesProgressBar as ProgressBar } from 'next-nprogress-bar';
+
+<ProgressBar
+  height="4px"
+  color="#fffd00"
+  options={{ showSpinner: false }}
+  shallowRouting
+/>;
+```
+
+### App directory
+
+```jsx
+// before (v1)
+import ProgressBar from 'next-nprogress-bar';
+
+<ProgressBar
+  height="4px"
+  color="#fffd00"
+  options={{ showSpinner: false }}
+  appDirectory
+  shallowRouting
+/>;
+
+// after (v2)
+import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
+
+<ProgressBar
+  height="4px"
+  color="#fffd00"
+  options={{ showSpinner: false }}
+  shallowRouting
+/>;
 ```
 
 ## Issues
