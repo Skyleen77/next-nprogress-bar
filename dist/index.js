@@ -5,6 +5,34 @@ var NProgress = require('nprogress');
 var navigation = require('next/navigation');
 var Router = require('next/router');
 
+/******************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise */
+
+
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+
 function isSameURL(target, current) {
     var cleanTarget = target.protocol + '//' + target.host + target.pathname;
     var cleanCurrent = current.protocol + '//' + current.host + current.pathname;
@@ -37,9 +65,11 @@ var AppProgressBar = React.memo(function (_a) {
                 return;
             var targetUrl = new URL(anchorElement.href);
             var currentUrl = new URL(location.href);
-            if (!shallowRouting || !isSameURL(targetUrl, currentUrl)) {
-                startProgress();
-            }
+            if (shallowRouting && isSameURL(targetUrl, currentUrl))
+                return;
+            if ((targetUrl === null || targetUrl === void 0 ? void 0 : targetUrl.href) === (currentUrl === null || currentUrl === void 0 ? void 0 : currentUrl.href))
+                return;
+            startProgress();
         };
         var handleMutation = function () {
             var anchorElements = document.querySelectorAll('a');
@@ -58,16 +88,14 @@ var AppProgressBar = React.memo(function (_a) {
     }, []);
     return styles;
 }, function () { return true; });
-
-var useRouter = function () {
+function useRouter() {
     var router = navigation.useRouter();
-    var push = router.push;
-    router.push = function (href, options) {
+    function push(href, options) {
         NProgress.start();
-        push(href, options);
-    };
-    return router;
-};
+        return router.push(href, options);
+    }
+    return __assign(__assign({}, router), { push: push });
+}
 
 var PagesProgressBar = React.memo(function (_a) {
     var _b = _a.color, color = _b === void 0 ? '#0A2FFF' : _b, _c = _a.height, height = _c === void 0 ? '2px' : _c, options = _a.options, _d = _a.shallowRouting, shallowRouting = _d === void 0 ? false : _d, _e = _a.delay, delay = _e === void 0 ? 0 : _e, style = _a.style;

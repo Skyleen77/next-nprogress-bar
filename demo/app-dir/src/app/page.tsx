@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+// import { useRouter } from 'next/navigation';
 import { useRouter } from '../../../../dist';
 
 export default function Home() {
@@ -8,6 +9,7 @@ export default function Home() {
 
   return (
     <main>
+      <Link href="/">Same route</Link>
       <Link href="/?test=param">Sallow</Link>
       <Link href="/dashboard">Dashboard</Link>
       <button onClick={() => router.push('/dashboard')}>Push Dashboard</button>

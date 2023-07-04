@@ -1,8 +1,13 @@
 import React, { useEffect } from 'react';
 import NProgress from 'nprogress';
 import { isSameURL } from './utils/sameURL';
-import { usePathname, useSearchParams } from 'next/navigation';
+import {
+  usePathname,
+  useSearchParams,
+  useRouter as useNextRouter,
+} from 'next/navigation';
 import { ProgressBarProps } from '.';
+import { NavigateOptions } from 'next/dist/shared/lib/app-router-context';
 
 type PushStateInput = [
   data: any,
@@ -129,9 +134,10 @@ export const AppProgressBar = React.memo(
         const targetUrl = new URL(anchorElement.href);
         const currentUrl = new URL(location.href);
 
-        if (!shallowRouting || !isSameURL(targetUrl, currentUrl)) {
-          startProgress();
-        }
+        if (shallowRouting && isSameURL(targetUrl, currentUrl)) return;
+        if (targetUrl?.href === currentUrl?.href) return;
+
+        startProgress();
       };
 
       const handleMutation: MutationCallback = () => {
@@ -156,3 +162,14 @@ export const AppProgressBar = React.memo(
   },
   () => true,
 );
+
+export function useRouter() {
+  const router = useNextRouter();
+
+  function push(href: string, options?: NavigateOptions) {
+    NProgress.start();
+    return router.push(href, options);
+  }
+
+  return { ...router, push };
+}
