@@ -1,5 +1,5 @@
 import type { AppProps } from 'next/app';
-import ProgressBar from '../../../../dist';
+import { PagesProgressBar as ProgressBar } from '../../../../dist';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

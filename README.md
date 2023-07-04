@@ -28,6 +28,9 @@
   - [shallowRouting](#shallowrouting)
   - [delay](#delay)
   - [style](#style)
+- [App directory router](#app-directory-router)
+  - [Import](#import)
+  - [Use](#use)
 - [Issues](#issues)
 - [LICENSE](#license)
 
@@ -50,7 +53,11 @@ yarn add next-nprogress-bar
 _Import it into your **/pages/\_app(.js/.jsx/.ts/.tsx)** or **/app/layout(.js/.jsx/.ts/.tsx)** folder_
 
 ```javascript
-import ProgressBar from 'next-nprogress-bar';
+// In app directory
+import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
+
+// In pages directory
+import { PagesProgressBar as ProgressBar } from 'next-nprogress-bar';
 ```
 
 ### Use
@@ -64,7 +71,7 @@ import ProgressBar from 'next-nprogress-bar';
 ### JavaScript
 
 ```jsx
-import ProgressBar from 'next-nprogress-bar';
+import { PagesProgressBar as ProgressBar } from 'next-nprogress-bar';
 
 export default function App({ Component, pageProps }) {
   return (
@@ -85,7 +92,7 @@ export default function App({ Component, pageProps }) {
 
 ```tsx
 import type { AppProps } from 'next/app';
-import ProgressBar from 'next-nprogress-bar';
+import { PagesProgressBar as ProgressBar } from 'next-nprogress-bar';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -112,7 +119,7 @@ export default function App({ Component, pageProps }: AppProps) {
 // In /app/layout.jsx
 'use client';
 
-import ProgressBar from 'next-nprogress-bar';
+import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
 
 export default function RootLayout({ children }) {
   return (
@@ -124,7 +131,6 @@ export default function RootLayout({ children }) {
           color="#fffd00"
           options={{ showSpinner: false }}
           shallowRouting
-          appDirectory
         />
       </body>
     </html>
@@ -140,7 +146,7 @@ See [Next.js documentation](https://nextjs.org/docs/getting-started/react-essent
 // Create a Providers component to wrap your application with all the components requiring 'use client', such as next-nprogress-bar or your different contexts...
 'use client';
 
-import ProgressBar from 'next-nprogress-bar';
+import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
 
 const Providers = ({ children }) => {
   return (
@@ -151,7 +157,6 @@ const Providers = ({ children }) => {
         color="#fffd00"
         options={{ showSpinner: false }}
         shallowRouting
-        appDirectory
       />
     </>
   );
@@ -186,7 +191,7 @@ export default function RootLayout({ children }) {
 // In /app/layout.tsx
 'use client';
 
-import ProgressBar from 'next-nprogress-bar';
+import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
 
 export default function RootLayout({
   children,
@@ -202,7 +207,6 @@ export default function RootLayout({
           color="#fffd00"
           options={{ showSpinner: false }}
           shallowRouting
-          appDirectory
         />
       </body>
     </html>
@@ -218,7 +222,7 @@ See [Next.js documentation](https://nextjs.org/docs/getting-started/react-essent
 // Create a Providers component to wrap your application with all the components requiring 'use client', such as next-nprogress-bar or your different contexts...
 'use client';
 
-import ProgressBar from 'next-nprogress-bar';
+import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -229,7 +233,6 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
         color="#fffd00"
         options={{ showSpinner: false }}
         shallowRouting
-        appDirectory
       />
     </>
   );
@@ -276,10 +279,6 @@ Color of the progress bar - **by default #0A2FFF**
 
 See [NProgress docs](https://www.npmjs.com/package/nprogress#configuration)
 
-### appDirectory _optional_ - _boolean_
-
-If your are in the new **/app** directory - **by default false**
-
 ### shallowRouting _optional_ - _boolean_
 
 If the progress bar is not displayed when you use shallow routing - **by default false**
@@ -293,6 +292,24 @@ When the page loads faster than the progress bar, it does not display - **by def
 ### style _optional_ - _string_
 
 Your custom CSS - **by default [NProgress CSS](https://github.com/rstacruz/nprogress/blob/master/nprogress.css)**
+
+## App directory router
+
+### Import
+
+```jsx
+import { useRouter } from 'next-nprogress-bar';
+```
+
+### Use
+
+Replace your 'next/navigation' routers with this one. It's the same router, but this one supports NProgress.
+
+```jsx
+const router = useRouter();
+
+router.push('/about');
+```
 
 ## Issues
 

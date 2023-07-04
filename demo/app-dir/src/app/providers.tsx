@@ -1,6 +1,6 @@
 'use client';
 
-import ProgressBar, { NProgressOptions } from '../../../../dist';
+import { AppProgressBar as ProgressBar } from '../../../../dist';
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -11,7 +11,6 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
         color="#0A2FFF"
         options={{ showSpinner: true }}
         shallowRouting
-        appDirectory
       />
     </>
   );

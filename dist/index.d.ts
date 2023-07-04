@@ -1,4 +1,3 @@
-import React from 'react';
 export interface NProgressOptions {
     minimum?: number;
     template?: string;
@@ -30,5 +29,6 @@ export interface ProgressBarProps {
  * @param delay When the page loads faster than the progress bar, it does not display - @default 0
  * @param style Custom css - @default undefined
  */
-declare const ProgressBar: React.MemoExoticComponent<({ color, height, options, appDirectory, shallowRouting, delay, style, }: ProgressBarProps) => React.JSX.Element>;
-export default ProgressBar;
+export { AppProgressBar } from './appDir';
+export { useRouter } from './appRouter';
+export { PagesProgressBar } from './pagesDir';
