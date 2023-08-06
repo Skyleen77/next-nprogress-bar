@@ -175,5 +175,9 @@ export function useRouter() {
     return router.push(href, options);
   }
 
-  return { ...router, push };
+  function back(options?: { showProgressBar?: boolean }) {
+    if (options?.showProgressBar) NProgress.start();
+    return router.back();
+  }
+  return { ...router, push, back };
 }

@@ -96,7 +96,12 @@ function useRouter() {
         NProgress.start();
         return router.push(href, options);
     }
-    return __assign(__assign({}, router), { push: push });
+    function back(options) {
+        if (options === null || options === void 0 ? void 0 : options.showProgressBar)
+            NProgress.start();
+        return router.back();
+    }
+    return __assign(__assign({}, router), { push: push, back: back });
 }
 
 var PagesProgressBar = React.memo(function (_a) {
