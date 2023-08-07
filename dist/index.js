@@ -92,11 +92,24 @@ var AppProgressBar = React.memo(function (_a) {
 }, function () { return true; });
 function useRouter() {
     var router = navigation.useRouter();
-    function push(href, options) {
+    var pathname = navigation.usePathname();
+    function push(href, options, NProgressOptions) {
+        if ((NProgressOptions === null || NProgressOptions === void 0 ? void 0 : NProgressOptions.showProgressBar) === false)
+            return router.push(href, options);
+        var currentUrl = new URL(pathname, location.href);
+        var targetUrl = new URL(href, location.href);
+        if (isSameURL(targetUrl, currentUrl) || href === pathname)
+            return router.push(href, options);
         NProgress.start();
         return router.push(href, options);
     }
-    return __assign(__assign({}, router), { push: push });
+    function back(NProgressOptions) {
+        if ((NProgressOptions === null || NProgressOptions === void 0 ? void 0 : NProgressOptions.showProgressBar) === false)
+            return router.back();
+        NProgress.start();
+        return router.back();
+    }
+    return __assign(__assign({}, router), { push: push, back: back });
 }
 
 var PagesProgressBar = React.memo(function (_a) {

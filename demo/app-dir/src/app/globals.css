@@ -1,0 +1,47 @@
+main {
+ display: flex;
+ flex-direction: column;
+}
+
+button, a {
+  all: unset;
+  color: white;
+  padding: 7px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  width: fit-content;
+  margin-top: 5px;
+  position: relative;
+}
+
+button {
+  background-color: red;
+}
+
+button::after {
+  content: "router.push()";
+}
+
+button.back::after {
+  content: "router.back()" !important;
+}
+
+a::after {
+  content: "<Link>";
+}
+
+a.a::after {
+  content: "<a>";
+}
+
+a::after, button::after {
+  position: absolute;
+  color: black;
+  margin-left: 20px;
+  font-size: 10px;
+  bottom: 0;
+}
+
+a {
+  background-color: blue;
+}

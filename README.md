@@ -309,7 +309,19 @@ Replace your 'next/navigation' routers with this one. It's the same router, but 
 ```jsx
 const router = useRouter();
 
+// With progress bar
 router.push('/about');
+router.back();
+
+// Without progress bar
+router.push(
+  '/about',
+  {},
+  {
+    showProgressBar: false,
+  },
+);
+router.back({ showProgressBar: false });
 ```
 
 ## Migrating from v1 to v2
