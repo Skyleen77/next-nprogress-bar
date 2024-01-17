@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import NProgress from 'nprogress';
+import { getAnchorProperty } from './utils/getAnchorProperty';
 import { isSameURL } from './utils/sameURL';
 import {
   usePathname,
@@ -126,15 +127,15 @@ export const AppProgressBar = React.memo(
       };
 
       const handleAnchorClick = (event: MouseEvent) => {
-        const anchorElement = event.currentTarget as HTMLAnchorElement;
+        const anchorElement = event.currentTarget as HTMLAnchorElement | SVGAElement;
 
         // Skip anchors with target="_blank"
-        if (anchorElement.target === '_blank') return;
+        if (getAnchorProperty(anchorElement, 'target') === '_blank') return;
 
         // Skip control/command+click
         if (event.metaKey || event.ctrlKey) return;
 
-        const targetUrl = new URL(anchorElement.href);
+        const targetUrl = new URL(getAnchorProperty(anchorElement, 'href'));
         const currentUrl = new URL(location.href);
 
         if (shallowRouting && isSameURL(targetUrl, currentUrl)) return;
@@ -144,10 +145,14 @@ export const AppProgressBar = React.memo(
       };
 
       const handleMutation: MutationCallback = () => {
-        const anchorElements = document.querySelectorAll('a');
+        const anchorElements = Array.from(
+          document.querySelectorAll('a')
+        ) as (HTMLAnchorElement | SVGAElement)[];
         // Skip anchors with target="_blank" and anchors without href
-        const validAnchorELes = Array.from(anchorElements).filter(
-          (anchor) => anchor.href && anchor.target !== '_blank',
+        const validAnchorELes = anchorElements.filter(
+          (anchor) =>
+            getAnchorProperty(anchor, 'href') &&
+            getAnchorProperty(anchor, 'target') !== '_blank',
         );
         validAnchorELes.forEach((anchor) =>
           anchor.addEventListener('click', handleAnchorClick),

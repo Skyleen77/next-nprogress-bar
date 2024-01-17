@@ -33,6 +33,40 @@ var __assign = function() {
     return __assign.apply(this, arguments);
 };
 
+function parsePath(path) {
+    var hashIndex = path.indexOf('#');
+    var queryIndex = path.indexOf('?');
+    var hasQuery = queryIndex > -1 && (hashIndex < 0 || queryIndex < hashIndex);
+    if (hasQuery || hashIndex > -1) {
+        return {
+            pathname: path.substring(0, hasQuery ? queryIndex : hashIndex),
+            query: hasQuery
+                ? path.substring(queryIndex, hashIndex > -1 ? hashIndex : undefined)
+                : '',
+            hash: hashIndex > -1 ? path.slice(hashIndex) : '',
+        };
+    }
+    return { pathname: path, query: '', hash: '' };
+}
+function addPathPrefix(path, prefix) {
+    if (!path.startsWith('/') || !prefix) {
+        return path;
+    }
+    var _a = parsePath(path), pathname = _a.pathname, query = _a.query, hash = _a.hash;
+    return "".concat(prefix).concat(pathname).concat(query).concat(hash);
+}
+function getAnchorProperty(a, key) {
+    var prop = a[key];
+    if (prop instanceof SVGAnimatedString) {
+        var value = prop.baseVal;
+        if (key === 'href') {
+            return addPathPrefix(value, location.origin);
+        }
+        return value;
+    }
+    return prop;
+}
+
 function isSameURL(target, current) {
     var cleanTarget = target.protocol + '//' + target.host + target.pathname;
     var cleanCurrent = current.protocol + '//' + current.host + current.pathname;
@@ -61,12 +95,12 @@ var AppProgressBar = React.memo(function (_a) {
         var handleAnchorClick = function (event) {
             var anchorElement = event.currentTarget;
             // Skip anchors with target="_blank"
-            if (anchorElement.target === '_blank')
+            if (getAnchorProperty(anchorElement, 'target') === '_blank')
                 return;
             // Skip control/command+click
             if (event.metaKey || event.ctrlKey)
                 return;
-            var targetUrl = new URL(anchorElement.href);
+            var targetUrl = new URL(getAnchorProperty(anchorElement, 'href'));
             var currentUrl = new URL(location.href);
             if (shallowRouting && isSameURL(targetUrl, currentUrl))
                 return;
@@ -75,9 +109,12 @@ var AppProgressBar = React.memo(function (_a) {
             startProgress();
         };
         var handleMutation = function () {
-            var anchorElements = document.querySelectorAll('a');
+            var anchorElements = Array.from(document.querySelectorAll('a'));
             // Skip anchors with target="_blank" and anchors without href
-            var validAnchorELes = Array.from(anchorElements).filter(function (anchor) { return anchor.href && anchor.target !== '_blank'; });
+            var validAnchorELes = anchorElements.filter(function (anchor) {
+                return getAnchorProperty(anchor, 'href') &&
+                    getAnchorProperty(anchor, 'target') !== '_blank';
+            });
             validAnchorELes.forEach(function (anchor) {
                 return anchor.addEventListener('click', handleAnchorClick);
             });

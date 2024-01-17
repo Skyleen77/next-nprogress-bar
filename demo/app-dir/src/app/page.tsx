@@ -35,6 +35,12 @@ export default function Home() {
         Link with target=`&quot;`_blank`&quot;` not affected
       </a>
       <a className="a">Link without href won&apos;t throw error</a>
+
+      <svg>
+        <Link href="/dashboard">
+          <circle cx={30} cy={30} r={30} />
+        </Link>
+      </svg>
     </main>
   );
 }
