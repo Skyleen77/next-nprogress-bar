@@ -144,11 +144,9 @@ export const AppProgressBar = React.memo(
       };
 
       const handleMutation: MutationCallback = () => {
-        const anchorElements = document.querySelectorAll('a');
-        // Skip anchors with target="_blank" and anchors without href
-        const validAnchorELes = Array.from(anchorElements).filter(
-          (anchor) => anchor.href && anchor.target !== '_blank',
-        );
+        const validAnchorELes = Array.from(document.querySelectorAll<HTMLAnchorElement>(
+          'a[href]:not([target="_blank"]):not([href^="tel:"]):not([href^="mailto:"])'
+        ));
         validAnchorELes.forEach((anchor) =>
           anchor.addEventListener('click', handleAnchorClick),
         );

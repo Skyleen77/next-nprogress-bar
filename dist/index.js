@@ -75,9 +75,7 @@ var AppProgressBar = React.memo(function (_a) {
             startProgress();
         };
         var handleMutation = function () {
-            var anchorElements = document.querySelectorAll('a');
-            // Skip anchors with target="_blank" and anchors without href
-            var validAnchorELes = Array.from(anchorElements).filter(function (anchor) { return anchor.href && anchor.target !== '_blank'; });
+            var validAnchorELes = Array.from(document.querySelectorAll('a[href]:not([target="_blank"]):not([href^="tel:"]):not([href^="mailto:"])'));
             validAnchorELes.forEach(function (anchor) {
                 return anchor.addEventListener('click', handleAnchorClick);
             });
