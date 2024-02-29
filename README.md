@@ -143,6 +143,8 @@ export default function RootLayout({ children }) {
 
 See [Next.js documentation](https://nextjs.org/docs/getting-started/react-essentials#rendering-third-party-context-providers-in-server-components)
 
+##### /components/ProgressBarProvider.jsx
+
 ```jsx
 // Create a Providers component to wrap your application with all the components requiring 'use client', such as next-nprogress-bar or your different contexts...
 'use client';
@@ -164,7 +166,11 @@ const Providers = ({ children }) => {
 };
 
 export default Providers;
+```
 
+##### /app/layout.jsx
+
+```jsx
 // Import and use it in /app/layout.jsx
 import Providers from './providers';
 
@@ -219,6 +225,8 @@ export default function RootLayout({
 
 See [Next.js documentation](https://nextjs.org/docs/getting-started/react-essentials#rendering-third-party-context-providers-in-server-components)
 
+##### /components/ProgressBarProvider.tsx
+
 ```tsx
 // Create a Providers component to wrap your application with all the components requiring 'use client', such as next-nprogress-bar or your different contexts...
 'use client';
@@ -240,7 +248,11 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
 };
 
 export default Providers;
+```
 
+##### /app/layout.tsx
+
+```tsx
 // Import and use it in /app/layout.tsx
 import Providers from './providers';
 
