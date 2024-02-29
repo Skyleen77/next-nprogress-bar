@@ -18,6 +18,7 @@ export interface ProgressBarProps {
     shallowRouting?: boolean;
     delay?: number;
     style?: string;
+    targetPreprocessor?: (url: URL) => URL;
 }
 /**
  * @param color Color of the progress bar. @default #0A2FFF

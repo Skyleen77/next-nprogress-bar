@@ -19,6 +19,7 @@ export interface ProgressBarProps {
   shallowRouting?: boolean;
   delay?: number;
   style?: string;
+  targetPreprocessor?: (url: URL) => URL;
 }
 
 /**

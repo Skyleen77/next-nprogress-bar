@@ -23,6 +23,7 @@ export const AppProgressBar = React.memo(
     shallowRouting = false,
     delay = 0,
     style,
+    targetPreprocessor,
   }: ProgressBarProps) => {
     const styles = (
       <style>
@@ -134,7 +135,7 @@ export const AppProgressBar = React.memo(
         // Skip control/command+click
         if (event.metaKey || event.ctrlKey) return;
 
-        const targetUrl = new URL(anchorElement.href);
+        const targetUrl = targetPreprocessor ? targetPreprocessor(new URL(anchorElement.href)) : new URL(anchorElement.href);
         const currentUrl = new URL(location.href);
 
         if (shallowRouting && isSameURL(targetUrl, currentUrl)) return;
