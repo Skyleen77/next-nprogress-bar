@@ -3,9 +3,16 @@
 import Link from 'next/link';
 // import { useRouter } from 'next-nprogress-bar';
 import { useRouter } from '../../../../../dist';
+// import { useEffect } from 'react';
 
 const Dashboard = () => {
   const router = useRouter();
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     router.push('/');
+  //   }, 3000);
+  // }, [router]);
 
   return (
     <main>

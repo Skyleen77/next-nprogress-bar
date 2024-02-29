@@ -20,7 +20,9 @@
   - [TypeScript](#typescript)
     - [First approach in a use client layout](#first-approach-in-a-use-client-layout)
     - [Second approach wrap in a use client Providers component](#second-approach-wrap-in-a-use-client-providers-component)
-- [Props](#other-solutions)
+- [Tips](#tips)
+  - [Disable progress bar on specific links](#disable-progress-bar-on-specific-links)
+- [Props](#props)
   - [height](#height)
   - [color](#color)
   - [options](#options)
@@ -28,6 +30,8 @@
   - [shallowRouting](#shallowrouting)
   - [delay](#delay)
   - [style](#style)
+  - [shouldCompareComplexProps](#shouldcomparecomplexprops)
+  - [targetPreprocessor](#targetpreprocessor)
 - [App directory router](#app-directory-router)
   - [Import](#import)
   - [Use](#use)
@@ -276,6 +280,20 @@ export default function RootLayout({
 }
 ```
 
+## Tips
+
+### Disable progress bar on specific links
+
+You can disable the progress bar on specific links by adding the `data-disable-nprogress={true}` attribute.
+
+_/!\ This will not work for Link in svg elements._
+
+```jsx
+<Link href="#features" data-disable-nprogress={true}>
+  Features
+</Link>
+```
+
 ## Props
 
 ### height _optional_ - _string_
@@ -294,7 +312,7 @@ See [NProgress docs](https://www.npmjs.com/package/nprogress#configuration)
 
 ### shallowRouting _optional_ - _boolean_
 
-If the progress bar is not displayed when you use shallow routing - **by default false**
+If the progress bar is not displayed when you only change URL parameters without changing route - **by default false**
 
 See [Next.js docs](https://nextjs.org/docs/pages/building-your-application/routing/linking-and-navigating#shallow-routing)
 
@@ -305,6 +323,20 @@ When the page loads faster than the progress bar, it does not display - **by def
 ### style _optional_ - _string_
 
 Your custom CSS - **by default [NProgress CSS](https://github.com/rstacruz/nprogress/blob/master/nprogress.css)**
+
+### shouldCompareComplexProps _optional_ - _boolean_ - (_only for app directory progress bar_)
+
+Activates a detailed comparison of component props to determine if a rerender is necessary.
+When `true`, the component will only rerender if there are changes in key props such as `color`, `height`, `shallowRouting`, `delay`, `options`, and `style`.
+This is useful for optimizing performance in scenarios where these props change infrequently. If not provided or set to `false`, the component will assume props have not changed and will not rerender, which can enhance performance in scenarios where the props remain static. - **by default undefined**
+
+### targetPreprocessor _optional_ - _(url: URL) => URL_ - (_only for app directory progress bar_)
+
+Provides a custom function to preprocess the target URL before comparing it with the current URL.
+This is particularly useful in scenarios where URLs undergo transformations, such as localization or path modifications, after navigation.
+The function takes a `URL` object as input and should return a modified `URL` object.
+If this prop is provided, the preprocessed URL will be used for comparisons, ensuring accurate determination of whether the navigation target is equivalent to the current URL.
+This can prevent unnecessary display of the progress bar when the target URL is effectively the same as the current URL after preprocessing. - **by default undefined**
 
 ## App directory router
 
@@ -323,11 +355,19 @@ const router = useRouter();
 
 // With progress bar
 router.push('/about');
+router.replace('/?counter=10');
 router.back();
 
 // Without progress bar
 router.push(
   '/about',
+  {},
+  {
+    showProgressBar: false,
+  },
+);
+router.replace(
+  '/?counter=10',
   {},
   {
     showProgressBar: false,

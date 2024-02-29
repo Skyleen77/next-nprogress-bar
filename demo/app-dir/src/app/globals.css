@@ -22,6 +22,10 @@ button::after {
   content: "router.push()";
 }
 
+button.replace::after {
+  content: "router.replace()" !important;
+}
+
 button.back::after {
   content: "router.back()" !important;
 }
@@ -38,7 +42,7 @@ a::after, button::after {
   position: absolute;
   color: black;
   margin-left: 20px;
-  font-size: 10px;
+  font-size: 12px;
   bottom: 0;
 }
 

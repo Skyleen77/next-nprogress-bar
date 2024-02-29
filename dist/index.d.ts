@@ -18,6 +18,8 @@ export interface ProgressBarProps {
     shallowRouting?: boolean;
     delay?: number;
     style?: string;
+    shouldCompareComplexProps?: boolean;
+    targetPreprocessor?: (url: URL) => URL;
 }
 /**
  * @param color Color of the progress bar. @default #0A2FFF
@@ -26,6 +28,8 @@ export interface ProgressBarProps {
  * @param shallowRouting If the progress bar is not displayed when you use shallow routing - @default false
  * @param delay When the page loads faster than the progress bar, it does not display - @default 0
  * @param style Custom css - @default undefined
+ * @param shouldCompareComplexProps If you want to compare props in the React.memo return - @default false
+ * @param targetPreprocessor If you want to preprocess the target URL - @default undefined
  */
 export { AppProgressBar, useRouter } from './appDir';
 export { PagesProgressBar } from './pagesDir';

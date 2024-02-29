@@ -12,7 +12,10 @@ export const PagesProgressBar = React.memo(
     shallowRouting = false,
     delay = 0,
     style,
-  }: ProgressBarProps) => {
+  }: Omit<
+    ProgressBarProps,
+    'shouldCompareComplexProps' | 'targetPreprocessor'
+  >) => {
     const styles = (
       <style>
         {style ||

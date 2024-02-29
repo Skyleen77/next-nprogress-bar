@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { Suspense, useCallback, useEffect, useMemo } from 'react';
 import NProgress from 'nprogress';
-import { isSameURL } from './utils/sameURL';
+import { isSameURL, isSameURLWithoutSearch } from './utils/sameURL';
 import {
   usePathname,
   useSearchParams,
@@ -8,6 +8,7 @@ import {
 } from 'next/navigation';
 import { ProgressBarProps } from '.';
 import { NavigateOptions } from 'next/dist/shared/lib/app-router-context';
+import { getAnchorProperty } from './utils/getAnchorProperty';
 
 type PushStateInput = [
   data: any,
@@ -15,7 +16,7 @@ type PushStateInput = [
   url?: string | URL | null | undefined,
 ];
 
-export const AppProgressBar = React.memo(
+const AppProgressBarComponent = React.memo(
   ({
     color = '#0A2FFF',
     height = '2px',
@@ -23,6 +24,7 @@ export const AppProgressBar = React.memo(
     shallowRouting = false,
     delay = 0,
     style,
+    targetPreprocessor,
   }: ProgressBarProps) => {
     const styles = (
       <style>
@@ -111,7 +113,6 @@ export const AppProgressBar = React.memo(
 
     useEffect(() => {
       NProgress.done();
-      return () => NProgress.start();
     }, [pathname, searchParams]);
 
     useEffect(() => {
@@ -127,30 +128,52 @@ export const AppProgressBar = React.memo(
       };
 
       const handleAnchorClick = (event: MouseEvent) => {
-        const anchorElement = event.currentTarget as HTMLAnchorElement;
+        const anchorElement = event.currentTarget as
+          | HTMLAnchorElement
+          | SVGAElement;
 
         // Skip anchors with target="_blank"
-        if (anchorElement.target === '_blank') return;
+        if (getAnchorProperty(anchorElement, 'target') === '_blank') return;
 
         // Skip control/command+click
         if (event.metaKey || event.ctrlKey) return;
 
-        const targetUrl = new URL(anchorElement.href);
+        const targetHref = getAnchorProperty(anchorElement, 'href');
+        const targetUrl = targetPreprocessor
+          ? targetPreprocessor(new URL(targetHref))
+          : new URL(targetHref);
         const currentUrl = new URL(location.href);
 
-        if (shallowRouting && isSameURL(targetUrl, currentUrl)) return;
+        if (shallowRouting && isSameURLWithoutSearch(targetUrl, currentUrl))
+          return;
         if (targetUrl?.href === currentUrl?.href) return;
 
         startProgress();
       };
 
       const handleMutation: MutationCallback = () => {
-        const validAnchorELes = Array.from(document.querySelectorAll<HTMLAnchorElement>(
-          'a[href]:not([target="_blank"]):not([href^="tel:"]):not([href^="mailto:"])'
-        ));
-        validAnchorELes.forEach((anchor) =>
-          anchor.addEventListener('click', handleAnchorClick),
-        );
+        const anchorElements = Array.from(document.querySelectorAll('a')) as (
+          | HTMLAnchorElement
+          | SVGAElement
+        )[];
+
+        const validAnchorElements = anchorElements.filter((anchor) => {
+          const href = getAnchorProperty(anchor, 'href');
+          const isNProgressDisabled =
+            anchor.getAttribute('data-disable-nprogress') === 'true';
+          const isNotTelOrMailto =
+            href && !href.startsWith('tel:') && !href.startsWith('mailto:');
+
+          return (
+            !isNProgressDisabled &&
+            isNotTelOrMailto &&
+            getAnchorProperty(anchor, 'target') !== '_blank'
+          );
+        });
+
+        validAnchorElements.forEach((anchor) => {
+          anchor.addEventListener('click', handleAnchorClick);
+        });
       };
 
       const mutationObserver = new MutationObserver(handleMutation);
@@ -166,39 +189,88 @@ export const AppProgressBar = React.memo(
 
     return styles;
   },
-  () => true,
+  (prevProps, nextProps) => {
+    if (!nextProps.shouldCompareComplexProps) {
+      return true;
+    }
+
+    return (
+      prevProps.color === nextProps.color &&
+      prevProps.height === nextProps.height &&
+      prevProps.shallowRouting === nextProps.shallowRouting &&
+      prevProps.delay === nextProps.delay &&
+      JSON.stringify(prevProps.options) === JSON.stringify(nextProps.options) &&
+      prevProps.style === nextProps.style
+    );
+  },
+);
+
+export const AppProgressBar = (props: ProgressBarProps) => (
+  <Suspense fallback={<></>}>
+    <AppProgressBarComponent {...props} />
+  </Suspense>
 );
 
 export function useRouter() {
   const router = useNextRouter();
-  const pathname = usePathname();
 
-  function push(
-    href: string,
-    options?: NavigateOptions,
-    NProgressOptions?: { showProgressBar?: boolean },
-  ) {
-    if (NProgressOptions?.showProgressBar === false)
+  const startProgress = useCallback(
+    (
+      href: string,
+      options?: NavigateOptions,
+      NProgressOptions?: { showProgressBar?: boolean },
+    ) => {
+      if (NProgressOptions?.showProgressBar === false)
+        return router.push(href, options);
+
+      const currentUrl = new URL(location.href);
+      const targetUrl = new URL(href, location.href);
+
+      if (isSameURL(targetUrl, currentUrl)) return router.push(href, options);
+
+      NProgress.start();
+    },
+    [router],
+  );
+
+  const push = useCallback(
+    (
+      href: string,
+      options?: NavigateOptions,
+      NProgressOptions?: { showProgressBar?: boolean },
+    ) => {
+      startProgress(href, options, NProgressOptions);
       return router.push(href, options);
+    },
+    [router, startProgress],
+  );
 
-    const currentUrl = new URL(pathname, location.href);
-    const targetUrl = new URL(href, location.href);
+  const replace = useCallback(
+    (
+      href: string,
+      options?: NavigateOptions,
+      NProgressOptions?: { showProgressBar?: boolean },
+    ) => {
+      startProgress(href, options, NProgressOptions);
+      return router.replace(href, options);
+    },
+    [router, startProgress],
+  );
 
-    if (isSameURL(targetUrl, currentUrl) || href === pathname)
-      return router.push(href, options);
+  const back = useCallback(
+    (NProgressOptions?: { showProgressBar?: boolean }) => {
+      if (NProgressOptions?.showProgressBar === false) return router.back();
 
-    NProgress.start();
+      NProgress.start();
 
-    return router.push(href, options);
-  }
+      return router.back();
+    },
+    [router],
+  );
 
-  function back(NProgressOptions?: { showProgressBar?: boolean }) {
-    if (NProgressOptions?.showProgressBar === false) return router.back();
+  const enhancedRouter = useMemo(() => {
+    return { ...router, push, replace, back };
+  }, [router, push, replace, back]);
 
-    NProgress.start();
-
-    return router.back();
-  }
-
-  return { ...router, push, back };
+  return enhancedRouter;
 }
