@@ -13,7 +13,8 @@ export default function Home() {
       <Link href="/">Same route</Link>
       <Link href="/?test=param">Sallow</Link>
       <Link href="/dashboard">Dashboard</Link>
-      <Link href="#test" data-disable-nprogress={true}>
+      <Link href="#test">Link with href</Link>
+      <Link href="/dashboard" data-disable-nprogress={true}>
         Link with nprogress disabled
       </Link>
       <button onClick={() => router.push('/dashboard')}>Push Dashboard</button>
@@ -36,24 +37,24 @@ export default function Home() {
       >
         Push Dashboard without progress bar
       </button>
-      <a
+      <Link
         className="a"
         href="https://www.npmjs.com/package/next-nprogress-bar"
         target="_blank"
         rel="noopener noreferrer"
       >
         Link with target=`&quot;`_blank`&quot;` not affected
-      </a>
-      <a
+      </Link>
+      <Link
         className="a"
         href="mailto:john.doe@exemple.com"
         rel="noopener noreferrer"
       >
         Link with mailto not affected
-      </a>
-      <a className="a" href="tel:0000000000" rel="noopener noreferrer">
+      </Link>
+      <Link className="a" href="tel:0000000000" rel="noopener noreferrer">
         Link with tel not affected
-      </a>
+      </Link>
       <a className="a">Link without href won&apos;t throw error</a>
 
       <p

@@ -28,12 +28,14 @@
   - [options](#options)
   - [appDirectory](#appdirectory)
   - [shallowRouting](#shallowrouting)
+  - [startPosition](#startposition)
   - [delay](#delay)
   - [style](#style)
   - [shouldCompareComplexProps](#shouldcomparecomplexprops)
   - [targetPreprocessor](#targetpreprocessor)
 - [App directory router](#app-directory-router)
   - [Import](#import)
+  - [Types](#types)
   - [Use](#use)
 - [Migrating from v1 to v2](#migrating-from-v1-to-v2)
 - [Issues](#issues)
@@ -316,6 +318,10 @@ If the progress bar is not displayed when you only change URL parameters without
 
 See [Next.js docs](https://nextjs.org/docs/pages/building-your-application/routing/linking-and-navigating#shallow-routing)
 
+### startPosition _optional_ - _number_
+
+The position the progress bar starts at from 0 to 1 - **by default 0**
+
 ### delay _optional_ - _number_
 
 When the page loads faster than the progress bar, it does not display - **by default 0**
@@ -324,7 +330,7 @@ When the page loads faster than the progress bar, it does not display - **by def
 
 Your custom CSS - **by default [NProgress CSS](https://github.com/rstacruz/nprogress/blob/master/nprogress.css)**
 
-### shouldCompareComplexProps _optional_ - _boolean_ - (_only for app directory progress bar_)
+### shouldCompareComplexProps _optional_ - _boolean_
 
 Activates a detailed comparison of component props to determine if a rerender is necessary.
 When `true`, the component will only rerender if there are changes in key props such as `color`, `height`, `shallowRouting`, `delay`, `options`, and `style`.
@@ -346,34 +352,34 @@ This can prevent unnecessary display of the progress bar when the target URL is 
 import { useRouter } from 'next-nprogress-bar';
 ```
 
+### Types
+
+```tsx
+router.push(url: string, options?: NavigateOptions, NProgressOptions?: RouterNProgressOptions)
+router.replace(url: string, options?: NavigateOptions, NProgressOptions?: RouterNProgressOptions)
+router.back(NProgressOptions?: RouterNProgressOptions)
+```
+
+`NavigateOptions` is the options of the next router.
+
+```tsx
+interface RouterNProgressOptions {
+  showProgressBar?: boolean;
+  startPosition?: number;
+}
+```
+
 ### Use
 
 Replace your 'next/navigation' routers with this one. It's the same router, but this one supports NProgress.
 
-```jsx
+```tsx
 const router = useRouter();
 
 // With progress bar
 router.push('/about');
 router.replace('/?counter=10');
 router.back();
-
-// Without progress bar
-router.push(
-  '/about',
-  {},
-  {
-    showProgressBar: false,
-  },
-);
-router.replace(
-  '/?counter=10',
-  {},
-  {
-    showProgressBar: false,
-  },
-);
-router.back({ showProgressBar: false });
 ```
 
 ## Migrating from v1 to v2

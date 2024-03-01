@@ -10,12 +10,10 @@ export const PagesProgressBar = React.memo(
     height = '2px',
     options,
     shallowRouting = false,
+    startPosition = 0,
     delay = 0,
     style,
-  }: Omit<
-    ProgressBarProps,
-    'shouldCompareComplexProps' | 'targetPreprocessor'
-  >) => {
+  }: Omit<ProgressBarProps, 'targetPreprocessor'>) => {
     const styles = (
       <style>
         {style ||
@@ -102,7 +100,10 @@ export const PagesProgressBar = React.memo(
       let timer: NodeJS.Timeout;
 
       const startProgress = () => {
-        timer = setTimeout(NProgress.start, delay);
+        timer = setTimeout(() => {
+          if (startPosition > 0) NProgress.set(startPosition);
+          NProgress.start();
+        }, delay);
       };
 
       const stopProgress = () => {
@@ -134,5 +135,20 @@ export const PagesProgressBar = React.memo(
 
     return styles;
   },
-  () => true,
+  (prevProps, nextProps) => {
+    if (!nextProps?.shouldCompareComplexProps) {
+      return true;
+    }
+
+    return (
+      prevProps?.color === nextProps?.color &&
+      prevProps?.height === nextProps?.height &&
+      prevProps?.shallowRouting === nextProps?.shallowRouting &&
+      prevProps?.startPosition === nextProps?.startPosition &&
+      prevProps?.delay === nextProps?.delay &&
+      JSON.stringify(prevProps?.options) ===
+        JSON.stringify(nextProps?.options) &&
+      prevProps?.style === nextProps?.style
+    );
+  },
 );

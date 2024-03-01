@@ -12,6 +12,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
         color="#0A2FFF"
         options={{ showSpinner: true }}
         // shallowRouting
+        // startPosition={0.3}
       />
     </>
   );

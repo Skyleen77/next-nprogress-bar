@@ -19,7 +19,7 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
-/* global Reflect, Promise */
+/* global Reflect, Promise, SuppressedError, Symbol */
 
 
 var __assign = function() {
@@ -31,6 +31,11 @@ var __assign = function() {
         return t;
     };
     return __assign.apply(this, arguments);
+};
+
+typeof SuppressedError === "function" ? SuppressedError : function (error, suppressed, message) {
+    var e = new Error(message);
+    return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
 };
 
 function isSameURL(target, current) {
@@ -82,8 +87,8 @@ function getAnchorProperty(a, key) {
     return prop;
 }
 
-var AppProgressBarComponent = React.memo(function (_a) {
-    var _b = _a.color, color = _b === void 0 ? '#0A2FFF' : _b, _c = _a.height, height = _c === void 0 ? '2px' : _c, options = _a.options, _d = _a.shallowRouting, shallowRouting = _d === void 0 ? false : _d, _e = _a.delay, delay = _e === void 0 ? 0 : _e, style = _a.style, targetPreprocessor = _a.targetPreprocessor;
+var AppProgressBar$1 = React.memo(function (_a) {
+    var _b = _a.color, color = _b === void 0 ? '#0A2FFF' : _b, _c = _a.height, height = _c === void 0 ? '2px' : _c, options = _a.options, _d = _a.shallowRouting, shallowRouting = _d === void 0 ? false : _d, _e = _a.startPosition, startPosition = _e === void 0 ? 0 : _e, _f = _a.delay, delay = _f === void 0 ? 0 : _f, style = _a.style, targetPreprocessor = _a.targetPreprocessor;
     var styles = (React.createElement("style", null, style ||
         "\n          #nprogress {\n            pointer-events: none;\n          }\n\n          #nprogress .bar {\n            background: ".concat(color, ";\n\n            position: fixed;\n            z-index: 1031;\n            top: 0;\n            left: 0;\n\n            width: 100%;\n            height: ").concat(height, ";\n          }\n\n          /* Fancy blur effect */\n          #nprogress .peg {\n            display: block;\n            position: absolute;\n            right: 0px;\n            width: 100px;\n            height: 100%;\n            box-shadow: 0 0 10px ").concat(color, ", 0 0 5px ").concat(color, ";\n            opacity: 1.0;\n\n            -webkit-transform: rotate(3deg) translate(0px, -4px);\n                -ms-transform: rotate(3deg) translate(0px, -4px);\n                    transform: rotate(3deg) translate(0px, -4px);\n          }\n\n          /* Remove these to get rid of the spinner */\n          #nprogress .spinner {\n            display: block;\n            position: fixed;\n            z-index: 1031;\n            top: 15px;\n            right: 15px;\n          }\n\n          #nprogress .spinner-icon {\n            width: 18px;\n            height: 18px;\n            box-sizing: border-box;\n\n            border: solid 2px transparent;\n            border-top-color: ").concat(color, ";\n            border-left-color: ").concat(color, ";\n            border-radius: 50%;\n\n            -webkit-animation: nprogress-spinner 400ms linear infinite;\n                    animation: nprogress-spinner 400ms linear infinite;\n          }\n\n          .nprogress-custom-parent {\n            overflow: hidden;\n            position: relative;\n          }\n\n          .nprogress-custom-parent #nprogress .spinner,\n          .nprogress-custom-parent #nprogress .bar {\n            position: absolute;\n          }\n\n          @-webkit-keyframes nprogress-spinner {\n            0%   { -webkit-transform: rotate(0deg); }\n            100% { -webkit-transform: rotate(360deg); }\n          }\n          @keyframes nprogress-spinner {\n            0%   { transform: rotate(0deg); }\n            100% { transform: rotate(360deg); }\n          }\n        ")));
     NProgress.configure(options || {});
@@ -95,7 +100,11 @@ var AppProgressBarComponent = React.memo(function (_a) {
     React.useEffect(function () {
         var timer;
         var startProgress = function () {
-            timer = setTimeout(NProgress.start, delay);
+            timer = setTimeout(function () {
+                if (startPosition > 0)
+                    NProgress.set(startPosition);
+                NProgress.start();
+            }, delay);
         };
         var stopProgress = function () {
             clearTimeout(timer);
@@ -103,11 +112,12 @@ var AppProgressBarComponent = React.memo(function (_a) {
         };
         var handleAnchorClick = function (event) {
             var anchorElement = event.currentTarget;
+            var anchorTarget = getAnchorProperty(anchorElement, 'target');
             // Skip anchors with target="_blank"
-            if (getAnchorProperty(anchorElement, 'target') === '_blank')
+            if (anchorTarget === '_blank')
                 return;
-            // Skip control/command+click
-            if (event.metaKey || event.ctrlKey)
+            // Skip control/command/option/alt+click
+            if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
                 return;
             var targetHref = getAnchorProperty(anchorElement, 'href');
             var targetUrl = targetPreprocessor
@@ -116,7 +126,7 @@ var AppProgressBarComponent = React.memo(function (_a) {
             var currentUrl = new URL(location.href);
             if (shallowRouting && isSameURLWithoutSearch(targetUrl, currentUrl))
                 return;
-            if ((targetUrl === null || targetUrl === void 0 ? void 0 : targetUrl.href) === (currentUrl === null || currentUrl === void 0 ? void 0 : currentUrl.href))
+            if (isSameURL(targetUrl, currentUrl))
                 return;
             startProgress();
         };
@@ -145,41 +155,47 @@ var AppProgressBarComponent = React.memo(function (_a) {
     }, []);
     return styles;
 }, function (prevProps, nextProps) {
-    if (!nextProps.shouldCompareComplexProps) {
+    if (!(nextProps === null || nextProps === void 0 ? void 0 : nextProps.shouldCompareComplexProps)) {
         return true;
     }
-    return (prevProps.color === nextProps.color &&
-        prevProps.height === nextProps.height &&
-        prevProps.shallowRouting === nextProps.shallowRouting &&
-        prevProps.delay === nextProps.delay &&
-        JSON.stringify(prevProps.options) === JSON.stringify(nextProps.options) &&
-        prevProps.style === nextProps.style);
+    return ((prevProps === null || prevProps === void 0 ? void 0 : prevProps.color) === (nextProps === null || nextProps === void 0 ? void 0 : nextProps.color) &&
+        (prevProps === null || prevProps === void 0 ? void 0 : prevProps.height) === (nextProps === null || nextProps === void 0 ? void 0 : nextProps.height) &&
+        (prevProps === null || prevProps === void 0 ? void 0 : prevProps.shallowRouting) === (nextProps === null || nextProps === void 0 ? void 0 : nextProps.shallowRouting) &&
+        (prevProps === null || prevProps === void 0 ? void 0 : prevProps.startPosition) === (nextProps === null || nextProps === void 0 ? void 0 : nextProps.startPosition) &&
+        (prevProps === null || prevProps === void 0 ? void 0 : prevProps.delay) === (nextProps === null || nextProps === void 0 ? void 0 : nextProps.delay) &&
+        JSON.stringify(prevProps === null || prevProps === void 0 ? void 0 : prevProps.options) ===
+            JSON.stringify(nextProps === null || nextProps === void 0 ? void 0 : nextProps.options) &&
+        (prevProps === null || prevProps === void 0 ? void 0 : prevProps.style) === (nextProps === null || nextProps === void 0 ? void 0 : nextProps.style));
 });
-var AppProgressBar = function (props) { return (React.createElement(React.Suspense, { fallback: React.createElement(React.Fragment, null) },
-    React.createElement(AppProgressBarComponent, __assign({}, props)))); };
 function useRouter() {
     var router = navigation.useRouter();
-    var startProgress = React.useCallback(function (href, options, NProgressOptions) {
-        if ((NProgressOptions === null || NProgressOptions === void 0 ? void 0 : NProgressOptions.showProgressBar) === false)
+    var startProgress = React.useCallback(function (startPosition) {
+        if (startPosition && startPosition > 0)
+            NProgress.set(startPosition);
+        NProgress.start();
+    }, [router]);
+    var progress = React.useCallback(function (href, options, NProgressOptions) {
+        if ((NProgressOptions === null || NProgressOptions === void 0 ? void 0 : NProgressOptions.showProgressBar) === false) {
             return router.push(href, options);
+        }
         var currentUrl = new URL(location.href);
         var targetUrl = new URL(href, location.href);
         if (isSameURL(targetUrl, currentUrl))
             return router.push(href, options);
-        NProgress.start();
+        startProgress(NProgressOptions === null || NProgressOptions === void 0 ? void 0 : NProgressOptions.startPosition);
     }, [router]);
     var push = React.useCallback(function (href, options, NProgressOptions) {
-        startProgress(href, options, NProgressOptions);
+        progress(href, options, NProgressOptions);
         return router.push(href, options);
     }, [router, startProgress]);
     var replace = React.useCallback(function (href, options, NProgressOptions) {
-        startProgress(href, options, NProgressOptions);
+        progress(href, options, NProgressOptions);
         return router.replace(href, options);
     }, [router, startProgress]);
     var back = React.useCallback(function (NProgressOptions) {
         if ((NProgressOptions === null || NProgressOptions === void 0 ? void 0 : NProgressOptions.showProgressBar) === false)
             return router.back();
-        NProgress.start();
+        startProgress(NProgressOptions === null || NProgressOptions === void 0 ? void 0 : NProgressOptions.startPosition);
         return router.back();
     }, [router]);
     var enhancedRouter = React.useMemo(function () {
@@ -188,15 +204,26 @@ function useRouter() {
     return enhancedRouter;
 }
 
+function withSuspense(Component) {
+    return function WithSuspenseComponent(props) {
+        return (React.createElement(React.Suspense, null,
+            React.createElement(Component, __assign({}, props))));
+    };
+}
+
 var PagesProgressBar = React.memo(function (_a) {
-    var _b = _a.color, color = _b === void 0 ? '#0A2FFF' : _b, _c = _a.height, height = _c === void 0 ? '2px' : _c, options = _a.options, _d = _a.shallowRouting, shallowRouting = _d === void 0 ? false : _d, _e = _a.delay, delay = _e === void 0 ? 0 : _e, style = _a.style;
+    var _b = _a.color, color = _b === void 0 ? '#0A2FFF' : _b, _c = _a.height, height = _c === void 0 ? '2px' : _c, options = _a.options, _d = _a.shallowRouting, shallowRouting = _d === void 0 ? false : _d, _e = _a.startPosition, startPosition = _e === void 0 ? 0 : _e, _f = _a.delay, delay = _f === void 0 ? 0 : _f, style = _a.style;
     var styles = (React.createElement("style", null, style ||
         "\n          #nprogress {\n            pointer-events: none;\n          }\n          \n          #nprogress .bar {\n            background: ".concat(color, ";\n          \n            position: fixed;\n            z-index: 1031;\n            top: 0;\n            left: 0;\n          \n            width: 100%;\n            height: ").concat(height, ";\n          }\n          \n          /* Fancy blur effect */\n          #nprogress .peg {\n            display: block;\n            position: absolute;\n            right: 0px;\n            width: 100px;\n            height: 100%;\n            box-shadow: 0 0 10px ").concat(color, ", 0 0 5px ").concat(color, ";\n            opacity: 1.0;\n          \n            -webkit-transform: rotate(3deg) translate(0px, -4px);\n                -ms-transform: rotate(3deg) translate(0px, -4px);\n                    transform: rotate(3deg) translate(0px, -4px);\n          }\n          \n          /* Remove these to get rid of the spinner */\n          #nprogress .spinner {\n            display: block;\n            position: fixed;\n            z-index: 1031;\n            top: 15px;\n            right: 15px;\n          }\n          \n          #nprogress .spinner-icon {\n            width: 18px;\n            height: 18px;\n            box-sizing: border-box;\n          \n            border: solid 2px transparent;\n            border-top-color: ").concat(color, ";\n            border-left-color: ").concat(color, ";\n            border-radius: 50%;\n          \n            -webkit-animation: nprogress-spinner 400ms linear infinite;\n                    animation: nprogress-spinner 400ms linear infinite;\n          }\n          \n          .nprogress-custom-parent {\n            overflow: hidden;\n            position: relative;\n          }\n          \n          .nprogress-custom-parent #nprogress .spinner,\n          .nprogress-custom-parent #nprogress .bar {\n            position: absolute;\n          }\n          \n          @-webkit-keyframes nprogress-spinner {\n            0%   { -webkit-transform: rotate(0deg); }\n            100% { -webkit-transform: rotate(360deg); }\n          }\n          @keyframes nprogress-spinner {\n            0%   { transform: rotate(0deg); }\n            100% { transform: rotate(360deg); }\n          }\n        ")));
     NProgress.configure(options || {});
     React.useEffect(function () {
         var timer;
         var startProgress = function () {
-            timer = setTimeout(NProgress.start, delay);
+            timer = setTimeout(function () {
+                if (startPosition > 0)
+                    NProgress.set(startPosition);
+                NProgress.start();
+            }, delay);
         };
         var stopProgress = function () {
             clearTimeout(timer);
@@ -221,7 +248,32 @@ var PagesProgressBar = React.memo(function (_a) {
         };
     }, []);
     return styles;
-}, function () { return true; });
+}, function (prevProps, nextProps) {
+    if (!(nextProps === null || nextProps === void 0 ? void 0 : nextProps.shouldCompareComplexProps)) {
+        return true;
+    }
+    return ((prevProps === null || prevProps === void 0 ? void 0 : prevProps.color) === (nextProps === null || nextProps === void 0 ? void 0 : nextProps.color) &&
+        (prevProps === null || prevProps === void 0 ? void 0 : prevProps.height) === (nextProps === null || nextProps === void 0 ? void 0 : nextProps.height) &&
+        (prevProps === null || prevProps === void 0 ? void 0 : prevProps.shallowRouting) === (nextProps === null || nextProps === void 0 ? void 0 : nextProps.shallowRouting) &&
+        (prevProps === null || prevProps === void 0 ? void 0 : prevProps.startPosition) === (nextProps === null || nextProps === void 0 ? void 0 : nextProps.startPosition) &&
+        (prevProps === null || prevProps === void 0 ? void 0 : prevProps.delay) === (nextProps === null || nextProps === void 0 ? void 0 : nextProps.delay) &&
+        JSON.stringify(prevProps === null || prevProps === void 0 ? void 0 : prevProps.options) ===
+            JSON.stringify(nextProps === null || nextProps === void 0 ? void 0 : nextProps.options) &&
+        (prevProps === null || prevProps === void 0 ? void 0 : prevProps.style) === (nextProps === null || nextProps === void 0 ? void 0 : nextProps.style));
+});
+
+/**
+ * @param color Color of the progress bar. @default #0A2FFF
+ * @param height Height of the progress bar. @default 2px
+ * @param options NProgress options. @default undefined
+ * @param shallowRouting If the progress bar is not displayed when you use shallow routing - @default false
+ * @param startPosition The position of the progress bar at the start of the page load - @default 0
+ * @param delay When the page loads faster than the progress bar, it does not display - @default 0
+ * @param style Custom css - @default undefined
+ * @param shouldCompareComplexProps If you want to compare props in the React.memo return - @default false
+ * @param targetPreprocessor If you want to./AppProgressBaress the target URL - @default undefined
+ */
+var AppProgressBar = withSuspense(AppProgressBar$1);
 
 exports.AppProgressBar = AppProgressBar;
 exports.PagesProgressBar = PagesProgressBar;
