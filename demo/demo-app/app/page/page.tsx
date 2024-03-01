@@ -2,12 +2,10 @@
 
 import { Home } from '@/components/home';
 import { ProgressLinkProps } from '@/components/progress-link';
-import { useProgress } from '@/context/progress-context';
 import { useRouter } from 'next-nprogress-bar';
 
 export default function Page() {
   const router = useRouter();
-  const { showSpinner } = useProgress();
 
   const progressLinks: ProgressLinkProps[] = [
     {
@@ -82,13 +80,7 @@ export default function Page() {
 
     {
       onClick: () => {
-        router.push(
-          '/',
-          {},
-          {
-            showProgressBar: showSpinner,
-          },
-        );
+        router.push('/');
       },
       children: (
         <>
@@ -98,13 +90,7 @@ export default function Page() {
     },
     {
       onClick: () => {
-        router.replace(
-          '/?test=param',
-          {},
-          {
-            showProgressBar: showSpinner,
-          },
-        );
+        router.replace('/?test=param');
       },
       children: (
         <>
@@ -114,9 +100,7 @@ export default function Page() {
     },
     {
       onClick: () => {
-        router.back({
-          showProgressBar: showSpinner,
-        });
+        router.back();
       },
       children: <>router.back()</>,
     },
