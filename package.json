@@ -1,6 +1,6 @@
 {
   "name": "next-nprogress-bar",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "NextJS progress bar compatible with new app directory",
   "repository": {
     "type": "git",
@@ -9,7 +9,7 @@
   "bugs": {
     "url": "https://github.com/Skyleen77/next-nprogress-bar/issues"
   },
-  "homepage": "https://github.com/Skyleen77/next-nprogress-bar#readme",
+  "homepage": "https://next-nprogress-bar.vercel.app",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
