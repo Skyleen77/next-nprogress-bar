@@ -1,3 +1,4 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "rules": { "react-hooks/exhaustive-deps": 0, "react/no-unescaped-entities": 0 }
 }
