@@ -12,6 +12,7 @@ export default function App({ Component, pageProps }: AppProps) {
         height="4px"
         color="#0A2FFF"
         options={{ showSpinner: false }}
+        // startPosition={0.3}
         shallowRouting
       />
     </>
