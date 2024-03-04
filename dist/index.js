@@ -135,7 +135,10 @@ var AppProgressBar$1 = React.memo(function (_a) {
             var validAnchorElements = anchorElements.filter(function (anchor) {
                 var href = getAnchorProperty(anchor, 'href');
                 var isNProgressDisabled = anchor.getAttribute('data-disable-nprogress') === 'true';
-                var isNotTelOrMailto = href && !href.startsWith('tel:') && !href.startsWith('mailto:');
+                var isNotTelOrMailto = href &&
+                    !href.startsWith('tel:') &&
+                    !href.startsWith('mailto:') &&
+                    !href.startsWith('blob:');
                 return (!isNProgressDisabled &&
                     isNotTelOrMailto &&
                     getAnchorProperty(anchor, 'target') !== '_blank');

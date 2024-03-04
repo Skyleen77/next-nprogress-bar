@@ -55,6 +55,15 @@ export default function Home() {
       <Link className="a" href="tel:0000000000" rel="noopener noreferrer">
         Link with tel not affected
       </Link>
+      <a
+        className="a"
+        href="blob:http://localhost:3000/123456789"
+        onClick={(e) => {
+          e.preventDefault();
+        }}
+      >
+        Link with blob not affected
+      </a>
       <a className="a">Link without href won&apos;t throw error</a>
 
       <p

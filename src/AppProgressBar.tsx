@@ -168,7 +168,10 @@ export const AppProgressBar = React.memo(
           const isNProgressDisabled =
             anchor.getAttribute('data-disable-nprogress') === 'true';
           const isNotTelOrMailto =
-            href && !href.startsWith('tel:') && !href.startsWith('mailto:');
+            href &&
+            !href.startsWith('tel:') &&
+            !href.startsWith('mailto:') &&
+            !href.startsWith('blob:');
 
           return (
             !isNProgressDisabled &&
