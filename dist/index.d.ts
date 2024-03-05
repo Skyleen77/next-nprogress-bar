@@ -39,6 +39,6 @@ export interface RouterNProgressOptions {
  * @param shouldCompareComplexProps If you want to compare props in the React.memo return - @default false
  * @param targetPreprocessor If you want to./AppProgressBaress the target URL - @default undefined
  */
-declare const AppProgressBar: (props: any) => import("react").JSX.Element;
+declare const AppProgressBar: (props: ProgressBarProps) => import("react").JSX.Element;
 export { AppProgressBar, useRouter };
 export { PagesProgressBar } from './PagesProgressBar';
