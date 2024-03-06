@@ -47,6 +47,6 @@ export interface RouterNProgressOptions {
  * @param targetPreprocessor If you want to./AppProgressBaress the target URL - @default undefined
  */
 
-const AppProgressBar = withSuspense(AppProgressBarComponent);
+const AppProgressBar = withSuspense<ProgressBarProps>(AppProgressBarComponent);
 export { AppProgressBar, useRouter };
 export { PagesProgressBar } from './PagesProgressBar';
