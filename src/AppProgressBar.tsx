@@ -171,7 +171,8 @@ export const AppProgressBar = React.memo(
             href &&
             !href.startsWith('tel:') &&
             !href.startsWith('mailto:') &&
-            !href.startsWith('blob:');
+            !href.startsWith('blob:') &&
+            !href.startsWith('javascript:');
 
           return (
             !isNProgressDisabled &&
