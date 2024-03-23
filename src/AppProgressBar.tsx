@@ -24,7 +24,7 @@ export const AppProgressBar = React.memo(
     shallowRouting = false,
     startPosition = 0,
     delay = 0,
-    stopDelayMs = 0,
+    stopDelay = 0,
     style,
     targetPreprocessor,
   }: ProgressBarProps) => {
@@ -116,7 +116,7 @@ export const AppProgressBar = React.memo(
     useEffect(() => {
       setTimeout(() => {
         NProgress.done(true);
-      }, stopDelayMs);
+      }, stopDelay);
     }, [pathname, searchParams]);
 
     useEffect(() => {
@@ -133,7 +133,7 @@ export const AppProgressBar = React.memo(
         if (timer) clearTimeout(timer);
         timer = setTimeout(() => {
           NProgress.done(true);
-        }, stopDelayMs);
+        }, stopDelay);
       };
 
       const handleAnchorClick = (event: MouseEvent) => {
