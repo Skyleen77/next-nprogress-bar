@@ -12,6 +12,7 @@ export const PagesProgressBar = React.memo(
     shallowRouting = false,
     startPosition = 0,
     delay = 0,
+    stopDelayMs = 0,
     style,
   }: Omit<ProgressBarProps, 'targetPreprocessor'>) => {
     const styles = (
@@ -107,8 +108,10 @@ export const PagesProgressBar = React.memo(
       };
 
       const stopProgress = () => {
-        clearTimeout(timer);
-        NProgress.done();
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => {
+          NProgress.done(true);
+        }, stopDelayMs);
       };
 
       const handleRouteStart = (url: string) => {

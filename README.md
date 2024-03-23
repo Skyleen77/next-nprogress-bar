@@ -326,6 +326,10 @@ The position the progress bar starts at from 0 to 1 - **by default 0**
 
 When the page loads faster than the progress bar, it does not display - **by default 0**
 
+### stopDelayMs _optional_ - _number_
+
+The delay in milliseconds before the progress bar stops - **by default 0**
+
 ### style _optional_ - _string_
 
 Your custom CSS - **by default [NProgress CSS](https://github.com/rstacruz/nprogress/blob/master/nprogress.css)**
