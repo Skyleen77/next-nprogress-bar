@@ -26,10 +26,11 @@ export const AppProgressBar = React.memo(
     delay = 0,
     stopDelay = 0,
     style,
+    nonce,
     targetPreprocessor,
   }: ProgressBarProps) => {
     const styles = (
-      <style>
+      <style nonce={nonce}>
         {style ||
           `
           #nprogress {

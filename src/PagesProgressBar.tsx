@@ -14,9 +14,10 @@ export const PagesProgressBar = React.memo(
     delay = 0,
     stopDelay = 0,
     style,
+    nonce,
   }: Omit<ProgressBarProps, 'targetPreprocessor'>) => {
     const styles = (
-      <style>
+      <style nonce={nonce}>
         {style ||
           `
           #nprogress {

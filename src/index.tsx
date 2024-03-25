@@ -27,6 +27,7 @@ export interface NProgressOptions {
  * @param delay When the page loads faster than the progress bar, it does not display - @default 0
  * @param stopDelay Delay to stop the progress bar - @default 0
  * @param style Custom css - @default undefined
+ * @param nonce Custom nonce for Content-Security-Policy directives - @default undefined
  * @param shouldCompareComplexProps If you want to compare props in the React.memo return - @default false
  * @param targetPreprocessor If you want to./AppProgressBaress the target URL - @default undefined
  */
@@ -39,6 +40,7 @@ export interface ProgressBarProps {
   delay?: number;
   stopDelay?: number;
   style?: string;
+  nonce?: string;
   shouldCompareComplexProps?: boolean;
   targetPreprocessor?: (url: URL) => URL;
 }
