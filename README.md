@@ -30,6 +30,8 @@
   - [shallowRouting](#shallowrouting)
   - [startPosition](#startposition)
   - [delay](#delay)
+  - [stopDelay](#stopdelay)
+  - [nonce](#nonce)
   - [style](#style)
   - [shouldCompareComplexProps](#shouldcomparecomplexprops)
   - [targetPreprocessor](#targetpreprocessor)
@@ -329,6 +331,10 @@ When the page loads faster than the progress bar, it does not display - **by def
 ### stopDelay _optional_ - _number_
 
 The delay in milliseconds before the progress bar stops - **by default 0**
+
+### nonce _optional_ - _string_
+
+A cryptographic nonce (number used once) used to declare inline scripts for Content Security Policy - **by default undefined**
 
 ### style _optional_ - _string_
 
