@@ -13,6 +13,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
         options={{ showSpinner: true }}
         // shallowRouting
         // startPosition={0.3}
+        stopDelay={1000}
       />
     </>
   );

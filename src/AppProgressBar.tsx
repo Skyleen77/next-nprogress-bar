@@ -110,12 +110,15 @@ export const AppProgressBar = React.memo(
 
     NProgress.configure(options || {});
 
+    let progressDoneTimer: NodeJS.Timeout;
+
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
     useEffect(() => {
-      setTimeout(() => {
-        NProgress.done(true);
+      if (progressDoneTimer) clearTimeout(progressDoneTimer);
+      progressDoneTimer = setTimeout(() => {
+        NProgress.done();
       }, stopDelay);
     }, [pathname, searchParams]);
 
@@ -132,7 +135,7 @@ export const AppProgressBar = React.memo(
       const stopProgress = () => {
         if (timer) clearTimeout(timer);
         timer = setTimeout(() => {
-          NProgress.done(true);
+          NProgress.done();
         }, stopDelay);
       };
 
