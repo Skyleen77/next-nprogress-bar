@@ -37,6 +37,15 @@ export default function Home() {
         Link with nprogress disabled
       </Link>
       <button onClick={() => router.push('/dashboard')}>Push Dashboard</button>
+      <button
+        onClick={() =>
+          router.push('/', undefined, {
+            disableSameURL: false,
+          })
+        }
+      >
+        Push Dashboard with disableSameURL
+      </button>
       <button className="replace" onClick={() => router.replace('/dashboard')}>
         Replace Dashboard
       </button>

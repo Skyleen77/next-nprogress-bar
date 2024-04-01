@@ -398,6 +398,7 @@ router.back(NProgressOptions?: RouterNProgressOptions)
 interface RouterNProgressOptions {
   showProgressBar?: boolean;
   startPosition?: number;
+  disableSameURL?: boolean;
 }
 ```
 

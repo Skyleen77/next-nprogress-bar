@@ -1,3 +1,4 @@
+import { start, done } from 'nprogress';
 import {
   AppProgressBar as AppProgressBarComponent,
   useRouter,
@@ -50,7 +51,16 @@ export interface ProgressBarProps {
 export interface RouterNProgressOptions {
   showProgressBar?: boolean;
   startPosition?: number;
+  disableSameURL?: boolean;
 }
+
+export const startProgress = () => {
+  start();
+};
+
+export const stopProgress = (force?: boolean) => {
+  done(force);
+};
 
 const AppProgressBar = withSuspense<ProgressBarProps>(AppProgressBarComponent);
 export { AppProgressBar, useRouter };

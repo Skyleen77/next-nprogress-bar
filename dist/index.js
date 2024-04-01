@@ -1,7 +1,7 @@
 'use strict';
 
-var React = require('react');
 var NProgress = require('nprogress');
+var React = require('react');
 var navigation = require('next/navigation');
 var Router = require('next/router');
 
@@ -208,7 +208,8 @@ function useRouter() {
         }
         var currentUrl = new URL(location.href);
         var targetUrl = new URL(href, location.href);
-        if (isSameURL(targetUrl, currentUrl))
+        if (isSameURL(targetUrl, currentUrl) &&
+            (NProgressOptions === null || NProgressOptions === void 0 ? void 0 : NProgressOptions.disableSameURL) !== false)
             return router.push(href, options);
         startProgress(NProgressOptions === null || NProgressOptions === void 0 ? void 0 : NProgressOptions.startPosition);
     }, [router]);
@@ -300,9 +301,17 @@ var PagesProgressBar = React.memo(function (_a) {
         (prevProps === null || prevProps === void 0 ? void 0 : prevProps.style) === (nextProps === null || nextProps === void 0 ? void 0 : nextProps.style));
 });
 
+var startProgress = function () {
+    NProgress.start();
+};
+var stopProgress = function (force) {
+    NProgress.done(force);
+};
 var AppProgressBar = withSuspense(AppProgressBar$1);
 
 exports.AppProgressBar = AppProgressBar;
 exports.PagesProgressBar = PagesProgressBar;
+exports.startProgress = startProgress;
+exports.stopProgress = stopProgress;
 exports.useRouter = useRouter;
 //# sourceMappingURL=index.js.map

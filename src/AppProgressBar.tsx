@@ -271,7 +271,11 @@ export function useRouter() {
       const currentUrl = new URL(location.href);
       const targetUrl = new URL(href, location.href);
 
-      if (isSameURL(targetUrl, currentUrl)) return router.push(href, options);
+      if (
+        isSameURL(targetUrl, currentUrl) &&
+        NProgressOptions?.disableSameURL !== false
+      )
+        return router.push(href, options);
 
       startProgress(NProgressOptions?.startPosition);
     },

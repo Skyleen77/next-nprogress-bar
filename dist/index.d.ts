@@ -44,7 +44,10 @@ export interface ProgressBarProps {
 export interface RouterNProgressOptions {
     showProgressBar?: boolean;
     startPosition?: number;
+    disableSameURL?: boolean;
 }
+export declare const startProgress: () => void;
+export declare const stopProgress: (force?: boolean) => void;
 declare const AppProgressBar: (props: ProgressBarProps) => import("react").JSX.Element;
 export { AppProgressBar, useRouter };
 export { PagesProgressBar } from './PagesProgressBar';
