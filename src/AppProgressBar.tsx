@@ -22,6 +22,7 @@ export const AppProgressBar = React.memo(
     height = '2px',
     options,
     shallowRouting = false,
+    disableSameURL = true,
     startPosition = 0,
     delay = 0,
     stopDelay = 0,
@@ -141,9 +142,18 @@ export const AppProgressBar = React.memo(
       };
 
       const handleAnchorClick = (event: MouseEvent) => {
+        // Skip preventDefault
+        if (event.defaultPrevented) return;
+
         const anchorElement = event.currentTarget as
           | HTMLAnchorElement
           | SVGAElement;
+        const target = event.target as HTMLElement | Element;
+        const preventProgress =
+          target?.getAttribute('data-prevent-nprogress') === 'true' ||
+          anchorElement?.getAttribute('data-prevent-nprogress') === 'true';
+
+        if (preventProgress) return;
 
         const anchorTarget = getAnchorProperty(anchorElement, 'target');
         // Skip anchors with target="_blank"
@@ -159,9 +169,13 @@ export const AppProgressBar = React.memo(
           : new URL(targetHref);
         const currentUrl = new URL(location.href);
 
-        if (shallowRouting && isSameURLWithoutSearch(targetUrl, currentUrl))
+        if (
+          shallowRouting &&
+          isSameURLWithoutSearch(targetUrl, currentUrl) &&
+          disableSameURL
+        )
           return;
-        if (isSameURL(targetUrl, currentUrl)) return;
+        if (isSameURL(targetUrl, currentUrl) && disableSameURL) return;
 
         startProgress();
       };
@@ -191,7 +205,7 @@ export const AppProgressBar = React.memo(
         });
 
         validAnchorElements.forEach((anchor) => {
-          anchor.addEventListener('click', handleAnchorClick);
+          anchor.addEventListener('click', handleAnchorClick, true);
         });
       };
 
@@ -209,6 +223,10 @@ export const AppProgressBar = React.memo(
     return styles;
   },
   (prevProps, nextProps) => {
+    if (nextProps?.memo === false) {
+      return false;
+    }
+
     if (!nextProps?.shouldCompareComplexProps) {
       return true;
     }
@@ -219,6 +237,9 @@ export const AppProgressBar = React.memo(
       prevProps?.shallowRouting === nextProps?.shallowRouting &&
       prevProps?.startPosition === nextProps?.startPosition &&
       prevProps?.delay === nextProps?.delay &&
+      prevProps?.disableSameURL === nextProps?.disableSameURL &&
+      prevProps?.stopDelay === nextProps?.stopDelay &&
+      prevProps?.nonce === nextProps?.nonce &&
       JSON.stringify(prevProps?.options) ===
         JSON.stringify(nextProps?.options) &&
       prevProps?.style === nextProps?.style

@@ -20,7 +20,7 @@
   - [TypeScript](#typescript)
     - [First approach in a use client layout](#first-approach-in-a-use-client-layout)
     - [Second approach wrap in a use client Providers component](#second-approach-wrap-in-a-use-client-providers-component)
-- [Tips](#tips)
+- [Data attributes](#data-attributes)
   - [Disable progress bar on specific links](#disable-progress-bar-on-specific-links)
 - [Props](#props)
   - [height](#height)
@@ -30,6 +30,7 @@
   - [shallowRouting](#shallowrouting)
   - [startPosition](#startposition)
   - [delay](#delay)
+  - [disableSameURL](#disableSameURL)
   - [stopDelay](#stopdelay)
   - [nonce](#nonce)
   - [style](#style)
@@ -284,7 +285,7 @@ export default function RootLayout({
 }
 ```
 
-## Tips
+## Data attributes
 
 ### Disable progress bar on specific links
 
@@ -295,6 +296,19 @@ _/!\ This will not work for Link in svg elements._
 ```jsx
 <Link href="#features" data-disable-nprogress={true}>
   Features
+</Link>
+```
+
+### Prevent progress
+
+You can prevent the progress bar from starting by adding the `data-prevent-nprogress={true}` attribute.
+
+```jsx
+<Link href="/dashboard">
+  <span>Dashboard</span>
+  <span onClick={(e) => e.preventDefault()} data-prevent-nprogress={true}>
+    preventDefault
+  </span>
 </Link>
 ```
 
@@ -328,6 +342,10 @@ The position the progress bar starts at from 0 to 1 - **by default 0**
 
 When the page loads faster than the progress bar, it does not display - **by default 0**
 
+### disableSameURL _optional_ - _boolen_
+
+Disable the progress bar when the target URL is the same as the current URL - **by default true**
+
 ### stopDelay _optional_ - _number_
 
 The delay in milliseconds before the progress bar stops - **by default 0**
@@ -335,6 +353,10 @@ The delay in milliseconds before the progress bar stops - **by default 0**
 ### nonce _optional_ - _string_
 
 A cryptographic nonce (number used once) used to declare inline scripts for Content Security Policy - **by default undefined**
+
+### memo _optional_ - _boolean_
+
+A cryptographic nonce (number used once) used to declare inline scripts for Content Security Policy - **by default true**
 
 ### style _optional_ - _string_
 

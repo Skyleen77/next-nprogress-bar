@@ -13,6 +13,25 @@ export default function Home() {
       <Link href="/">Same route</Link>
       <Link href="/?test=param">Sallow</Link>
       <Link href="/dashboard">Dashboard</Link>
+      <Link
+        href="/dashboard"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        <span>Dashboard</span>
+
+        <span
+          style={{
+            marginTop: 15,
+          }}
+          onClick={(e) => e.preventDefault()}
+          data-prevent-nprogress={true}
+        >
+          e.preventDefault()
+        </span>
+      </Link>
       <Link href="#test">Link with href</Link>
       <Link href="/dashboard" data-disable-nprogress={true}>
         Link with nprogress disabled

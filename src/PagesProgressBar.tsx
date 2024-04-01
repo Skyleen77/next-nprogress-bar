@@ -10,6 +10,7 @@ export const PagesProgressBar = React.memo(
     height = '2px',
     options,
     shallowRouting = false,
+    disableSameURL = true,
     startPosition = 0,
     delay = 0,
     stopDelay = 0,
@@ -119,7 +120,10 @@ export const PagesProgressBar = React.memo(
         const targetUrl = new URL(url, location.href);
         const currentUrl = new URL(Router.route, location.href);
 
-        if (!shallowRouting || !isSameURL(targetUrl, currentUrl)) {
+        if (
+          !shallowRouting ||
+          (!isSameURL(targetUrl, currentUrl) && disableSameURL)
+        ) {
           startProgress();
         }
       };
@@ -140,6 +144,10 @@ export const PagesProgressBar = React.memo(
     return styles;
   },
   (prevProps, nextProps) => {
+    if (nextProps?.memo === false) {
+      return false;
+    }
+
     if (!nextProps?.shouldCompareComplexProps) {
       return true;
     }
@@ -150,6 +158,9 @@ export const PagesProgressBar = React.memo(
       prevProps?.shallowRouting === nextProps?.shallowRouting &&
       prevProps?.startPosition === nextProps?.startPosition &&
       prevProps?.delay === nextProps?.delay &&
+      prevProps?.disableSameURL === nextProps?.disableSameURL &&
+      prevProps?.stopDelay === nextProps?.stopDelay &&
+      prevProps?.nonce === nextProps?.nonce &&
       JSON.stringify(prevProps?.options) ===
         JSON.stringify(nextProps?.options) &&
       prevProps?.style === nextProps?.style

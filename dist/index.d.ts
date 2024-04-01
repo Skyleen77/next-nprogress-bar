@@ -31,11 +31,13 @@ export interface ProgressBarProps {
     height?: string;
     options?: Partial<NProgressOptions>;
     shallowRouting?: boolean;
+    disableSameURL?: boolean;
     startPosition?: number;
     delay?: number;
     stopDelay?: number;
     style?: string;
     nonce?: string;
+    memo?: boolean;
     shouldCompareComplexProps?: boolean;
     targetPreprocessor?: (url: URL) => URL;
 }
