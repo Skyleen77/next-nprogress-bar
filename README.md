@@ -10,10 +10,10 @@
   - [Install](#install)
   - [Import](#import)
   - [Use](#use)
-- [Exemple with /pages/\_app](#exemple-with-pagesapp)
+- [Example with /pages/\_app](#example-with-pagesapp)
   - [JavaScript](#javascript)
   - [TypeScript](#typescript)
-- [Exemple with /app/layout](#exemple-with-applayout)
+- [Example with /app/layout](#example-with-applayout)
   - [JavaScript](#javascript)
     - [First approach in a use client layout](#first-approach-in-a-use-client-layout)
     - [Second approach wrap in a use client Providers component](#second-approach-wrap-in-a-use-client-providers-component)
@@ -76,7 +76,7 @@ import { PagesProgressBar as ProgressBar } from 'next-nprogress-bar';
 <ProgressBar />
 ```
 
-## Exemple with /pages/\_app
+## Example with /pages/\_app
 
 ### JavaScript
 
@@ -119,7 +119,7 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 ```
 
-## Exemple with /app/layout
+## Example with /app/layout
 
 ### JavaScript
 
