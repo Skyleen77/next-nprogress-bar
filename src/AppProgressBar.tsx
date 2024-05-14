@@ -29,6 +29,7 @@ export const AppProgressBar = React.memo(
     style,
     nonce,
     targetPreprocessor,
+    disableAnchorClick = false,
   }: ProgressBarProps) => {
     const styles = (
       <style nonce={nonce}>
@@ -126,6 +127,10 @@ export const AppProgressBar = React.memo(
 
     const elementsWithAttachedHandlers = useRef<(HTMLAnchorElement | SVGAElement)[]>([])
     useEffect(() => {
+      if (disableAnchorClick) {
+        return;
+      }
+
       let timer: NodeJS.Timeout;
 
       const startProgress = () => {
@@ -254,7 +259,8 @@ export const AppProgressBar = React.memo(
       prevProps?.nonce === nextProps?.nonce &&
       JSON.stringify(prevProps?.options) ===
         JSON.stringify(nextProps?.options) &&
-      prevProps?.style === nextProps?.style
+      prevProps?.style === nextProps?.style &&
+      prevProps.disableAnchorClick === nextProps.disableAnchorClick
     );
   },
 );
