@@ -31,6 +31,7 @@ export interface NProgressOptions {
  * @param nonce Custom nonce for Content-Security-Policy directives - @default undefined
  * @param shouldCompareComplexProps If you want to compare props in the React.memo return - @default false
  * @param targetPreprocessor If you want to./AppProgressBaress the target URL - @default undefined
+ * @param disableAnchorClick Disable triggering progress bar on anchor clicks - @default false
  */
 export interface ProgressBarProps {
   color?: string;
@@ -46,6 +47,7 @@ export interface ProgressBarProps {
   memo?: boolean;
   shouldCompareComplexProps?: boolean;
   targetPreprocessor?: (url: URL) => URL;
+  disableAnchorClick?: boolean;
 }
 
 export interface RouterNProgressOptions {
