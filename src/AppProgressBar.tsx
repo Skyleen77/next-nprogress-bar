@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import NProgress from 'nprogress';
 import { isSameURL, isSameURLWithoutSearch } from './utils/sameURL';
 import {
@@ -124,6 +124,7 @@ export const AppProgressBar = React.memo(
       }, stopDelay);
     }, [pathname, searchParams]);
 
+    const elementsWithAttachedHandlers = useRef<(HTMLAnchorElement | SVGAElement)[]>([])
     useEffect(() => {
       let timer: NodeJS.Timeout;
 
@@ -207,17 +208,28 @@ export const AppProgressBar = React.memo(
         validAnchorElements.forEach((anchor) => {
           anchor.addEventListener('click', handleAnchorClick, true);
         });
+        elementsWithAttachedHandlers.current = validAnchorElements
       };
 
       const mutationObserver = new MutationObserver(handleMutation);
       mutationObserver.observe(document, { childList: true, subtree: true });
 
+      const originalWindowHistoryPushState = window.history.pushState;
       window.history.pushState = new Proxy(window.history.pushState, {
         apply: (target, thisArg, argArray: PushStateInput) => {
           stopProgress();
           return target.apply(thisArg, argArray);
         },
       });
+
+      return () => {
+        mutationObserver.disconnect();
+        elementsWithAttachedHandlers.current.forEach((anchor) => {
+          anchor.removeEventListener('click', handleAnchorClick);
+        })
+        elementsWithAttachedHandlers.current = [];
+        window.history.pushState = originalWindowHistoryPushState;
+      }
     }, []);
 
     return styles;
