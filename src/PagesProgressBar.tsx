@@ -16,7 +16,7 @@ export const PagesProgressBar = React.memo(
     stopDelay = 0,
     style,
     nonce,
-  }: Omit<ProgressBarProps, 'targetPreprocessor'>) => {
+  }: Omit<ProgressBarProps, 'targetPreprocessor' | 'disableAnchorClick'>) => {
     const styles = (
       <style nonce={nonce}>
         {style ||

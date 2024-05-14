@@ -88,7 +88,7 @@ function getAnchorProperty(a, key) {
 }
 
 var AppProgressBar$1 = React.memo(function (_a) {
-    var _b = _a.color, color = _b === void 0 ? '#0A2FFF' : _b, _c = _a.height, height = _c === void 0 ? '2px' : _c, options = _a.options, _d = _a.shallowRouting, shallowRouting = _d === void 0 ? false : _d, _e = _a.disableSameURL, disableSameURL = _e === void 0 ? true : _e, _f = _a.startPosition, startPosition = _f === void 0 ? 0 : _f, _g = _a.delay, delay = _g === void 0 ? 0 : _g, _h = _a.stopDelay, stopDelay = _h === void 0 ? 0 : _h, style = _a.style, nonce = _a.nonce, targetPreprocessor = _a.targetPreprocessor;
+    var _b = _a.color, color = _b === void 0 ? '#0A2FFF' : _b, _c = _a.height, height = _c === void 0 ? '2px' : _c, options = _a.options, _d = _a.shallowRouting, shallowRouting = _d === void 0 ? false : _d, _e = _a.disableSameURL, disableSameURL = _e === void 0 ? true : _e, _f = _a.startPosition, startPosition = _f === void 0 ? 0 : _f, _g = _a.delay, delay = _g === void 0 ? 0 : _g, _h = _a.stopDelay, stopDelay = _h === void 0 ? 0 : _h, style = _a.style, nonce = _a.nonce, targetPreprocessor = _a.targetPreprocessor, _j = _a.disableAnchorClick, disableAnchorClick = _j === void 0 ? false : _j;
     var styles = (React.createElement("style", { nonce: nonce }, style ||
         "\n          #nprogress {\n            pointer-events: none;\n          }\n\n          #nprogress .bar {\n            background: ".concat(color, ";\n\n            position: fixed;\n            z-index: 1031;\n            top: 0;\n            left: 0;\n\n            width: 100%;\n            height: ").concat(height, ";\n          }\n\n          /* Fancy blur effect */\n          #nprogress .peg {\n            display: block;\n            position: absolute;\n            right: 0px;\n            width: 100px;\n            height: 100%;\n            box-shadow: 0 0 10px ").concat(color, ", 0 0 5px ").concat(color, ";\n            opacity: 1.0;\n\n            -webkit-transform: rotate(3deg) translate(0px, -4px);\n                -ms-transform: rotate(3deg) translate(0px, -4px);\n                    transform: rotate(3deg) translate(0px, -4px);\n          }\n\n          /* Remove these to get rid of the spinner */\n          #nprogress .spinner {\n            display: block;\n            position: fixed;\n            z-index: 1031;\n            top: 15px;\n            right: 15px;\n          }\n\n          #nprogress .spinner-icon {\n            width: 18px;\n            height: 18px;\n            box-sizing: border-box;\n\n            border: solid 2px transparent;\n            border-top-color: ").concat(color, ";\n            border-left-color: ").concat(color, ";\n            border-radius: 50%;\n\n            -webkit-animation: nprogress-spinner 400ms linear infinite;\n                    animation: nprogress-spinner 400ms linear infinite;\n          }\n\n          .nprogress-custom-parent {\n            overflow: hidden;\n            position: relative;\n          }\n\n          .nprogress-custom-parent #nprogress .spinner,\n          .nprogress-custom-parent #nprogress .bar {\n            position: absolute;\n          }\n\n          @-webkit-keyframes nprogress-spinner {\n            0%   { -webkit-transform: rotate(0deg); }\n            100% { -webkit-transform: rotate(360deg); }\n          }\n          @keyframes nprogress-spinner {\n            0%   { transform: rotate(0deg); }\n            100% { transform: rotate(360deg); }\n          }\n        ")));
     NProgress.configure(options || {});
@@ -102,7 +102,11 @@ var AppProgressBar$1 = React.memo(function (_a) {
             NProgress.done();
         }, stopDelay);
     }, [pathname, searchParams]);
+    var elementsWithAttachedHandlers = React.useRef([]);
     React.useEffect(function () {
+        if (disableAnchorClick) {
+            return;
+        }
         var timer;
         var startProgress = function () {
             timer = setTimeout(function () {
@@ -165,15 +169,25 @@ var AppProgressBar$1 = React.memo(function (_a) {
             validAnchorElements.forEach(function (anchor) {
                 anchor.addEventListener('click', handleAnchorClick, true);
             });
+            elementsWithAttachedHandlers.current = validAnchorElements;
         };
         var mutationObserver = new MutationObserver(handleMutation);
         mutationObserver.observe(document, { childList: true, subtree: true });
+        var originalWindowHistoryPushState = window.history.pushState;
         window.history.pushState = new Proxy(window.history.pushState, {
             apply: function (target, thisArg, argArray) {
                 stopProgress();
                 return target.apply(thisArg, argArray);
             },
         });
+        return function () {
+            mutationObserver.disconnect();
+            elementsWithAttachedHandlers.current.forEach(function (anchor) {
+                anchor.removeEventListener('click', handleAnchorClick);
+            });
+            elementsWithAttachedHandlers.current = [];
+            window.history.pushState = originalWindowHistoryPushState;
+        };
     }, []);
     return styles;
 }, function (prevProps, nextProps) {
@@ -193,7 +207,8 @@ var AppProgressBar$1 = React.memo(function (_a) {
         (prevProps === null || prevProps === void 0 ? void 0 : prevProps.nonce) === (nextProps === null || nextProps === void 0 ? void 0 : nextProps.nonce) &&
         JSON.stringify(prevProps === null || prevProps === void 0 ? void 0 : prevProps.options) ===
             JSON.stringify(nextProps === null || nextProps === void 0 ? void 0 : nextProps.options) &&
-        (prevProps === null || prevProps === void 0 ? void 0 : prevProps.style) === (nextProps === null || nextProps === void 0 ? void 0 : nextProps.style));
+        (prevProps === null || prevProps === void 0 ? void 0 : prevProps.style) === (nextProps === null || nextProps === void 0 ? void 0 : nextProps.style) &&
+        prevProps.disableAnchorClick === nextProps.disableAnchorClick);
 });
 function useRouter() {
     var router = navigation.useRouter();

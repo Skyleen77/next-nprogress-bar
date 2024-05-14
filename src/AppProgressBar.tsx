@@ -125,7 +125,9 @@ export const AppProgressBar = React.memo(
       }, stopDelay);
     }, [pathname, searchParams]);
 
-    const elementsWithAttachedHandlers = useRef<(HTMLAnchorElement | SVGAElement)[]>([])
+    const elementsWithAttachedHandlers = useRef<
+      (HTMLAnchorElement | SVGAElement)[]
+    >([]);
     useEffect(() => {
       if (disableAnchorClick) {
         return;
@@ -213,7 +215,7 @@ export const AppProgressBar = React.memo(
         validAnchorElements.forEach((anchor) => {
           anchor.addEventListener('click', handleAnchorClick, true);
         });
-        elementsWithAttachedHandlers.current = validAnchorElements
+        elementsWithAttachedHandlers.current = validAnchorElements;
       };
 
       const mutationObserver = new MutationObserver(handleMutation);
@@ -231,10 +233,10 @@ export const AppProgressBar = React.memo(
         mutationObserver.disconnect();
         elementsWithAttachedHandlers.current.forEach((anchor) => {
           anchor.removeEventListener('click', handleAnchorClick);
-        })
+        });
         elementsWithAttachedHandlers.current = [];
         window.history.pushState = originalWindowHistoryPushState;
-      }
+      };
     }, []);
 
     return styles;
