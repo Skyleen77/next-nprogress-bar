@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import NProgress from 'nprogress';
 import { isSameURL, isSameURLWithoutSearch } from './utils/sameURL';
