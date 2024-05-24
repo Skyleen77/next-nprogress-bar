@@ -167,3 +167,5 @@ export const PagesProgressBar = React.memo(
     );
   },
 );
+
+PagesProgressBar.displayName = 'PagesProgressBar';

@@ -269,6 +269,8 @@ export const AppProgressBar = React.memo(
   },
 );
 
+AppProgressBar.displayName = 'AppProgressBar';
+
 export function useRouter() {
   const router = useNextRouter();
 
