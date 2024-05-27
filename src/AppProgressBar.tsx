@@ -232,12 +232,12 @@ export const AppProgressBar = React.memo(
       return () => {
         mutationObserver.disconnect();
         elementsWithAttachedHandlers.current.forEach((anchor) => {
-          anchor.removeEventListener('click', handleAnchorClick);
+          anchor.removeEventListener('click', handleAnchorClick, true);
         });
         elementsWithAttachedHandlers.current = [];
         window.history.pushState = originalWindowHistoryPushState;
       };
-    }, []);
+    }, [disableAnchorClick, targetPreprocessor, shallowRouting, disableSameURL]);
 
     return styles;
   },
