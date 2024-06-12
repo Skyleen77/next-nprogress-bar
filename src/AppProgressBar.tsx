@@ -157,9 +157,21 @@ export const AppProgressBar = React.memo(
           | HTMLAnchorElement
           | SVGAElement;
         const target = event.target as HTMLElement | Element;
-        const preventProgress =
+        let preventProgress =
           target?.getAttribute('data-prevent-nprogress') === 'true' ||
           anchorElement?.getAttribute('data-prevent-nprogress') === 'true';
+
+        if (!preventProgress) {
+          let element:  HTMLElement | Element | null = target;
+
+          while (element && element.tagName.toLowerCase() !== 'a') {
+            if (element.parentElement?.getAttribute('data-prevent-nprogress') === 'true') {
+              preventProgress = true;
+              break;
+            }
+            element = element.parentElement;
+          }
+        }
 
         if (preventProgress) return;
 

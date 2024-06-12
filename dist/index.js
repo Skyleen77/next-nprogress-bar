@@ -123,6 +123,7 @@ var AppProgressBar$1 = React.memo(function (_a) {
             }, stopDelay);
         };
         var handleAnchorClick = function (event) {
+            var _a;
             // Skip preventDefault
             if (event.defaultPrevented)
                 return;
@@ -130,6 +131,16 @@ var AppProgressBar$1 = React.memo(function (_a) {
             var target = event.target;
             var preventProgress = (target === null || target === void 0 ? void 0 : target.getAttribute('data-prevent-nprogress')) === 'true' ||
                 (anchorElement === null || anchorElement === void 0 ? void 0 : anchorElement.getAttribute('data-prevent-nprogress')) === 'true';
+            if (!preventProgress) {
+                var element = target;
+                while (element && element.tagName.toLowerCase() !== 'a') {
+                    if (((_a = element.parentElement) === null || _a === void 0 ? void 0 : _a.getAttribute('data-prevent-nprogress')) === 'true') {
+                        preventProgress = true;
+                        break;
+                    }
+                    element = element.parentElement;
+                }
+            }
             if (preventProgress)
                 return;
             var anchorTarget = getAnchorProperty(anchorElement, 'target');
