@@ -194,12 +194,12 @@ var AppProgressBar$1 = React.memo(function (_a) {
         return function () {
             mutationObserver.disconnect();
             elementsWithAttachedHandlers.current.forEach(function (anchor) {
-                anchor.removeEventListener('click', handleAnchorClick);
+                anchor.removeEventListener('click', handleAnchorClick, true);
             });
             elementsWithAttachedHandlers.current = [];
             window.history.pushState = originalWindowHistoryPushState;
         };
-    }, []);
+    }, [disableAnchorClick, targetPreprocessor, shallowRouting, disableSameURL]);
     return styles;
 }, function (prevProps, nextProps) {
     if ((nextProps === null || nextProps === void 0 ? void 0 : nextProps.memo) === false) {
@@ -221,6 +221,7 @@ var AppProgressBar$1 = React.memo(function (_a) {
         (prevProps === null || prevProps === void 0 ? void 0 : prevProps.style) === (nextProps === null || nextProps === void 0 ? void 0 : nextProps.style) &&
         prevProps.disableAnchorClick === nextProps.disableAnchorClick);
 });
+AppProgressBar$1.displayName = 'AppProgressBar';
 function useRouter() {
     var router = navigation.useRouter();
     var startProgress = React.useCallback(function (startPosition) {
@@ -326,6 +327,7 @@ var PagesProgressBar = React.memo(function (_a) {
             JSON.stringify(nextProps === null || nextProps === void 0 ? void 0 : nextProps.options) &&
         (prevProps === null || prevProps === void 0 ? void 0 : prevProps.style) === (nextProps === null || nextProps === void 0 ? void 0 : nextProps.style));
 });
+PagesProgressBar.displayName = 'PagesProgressBar';
 
 var startProgress = function () {
     NProgress.start();
