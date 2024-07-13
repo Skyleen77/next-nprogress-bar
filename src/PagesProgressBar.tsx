@@ -29,7 +29,7 @@ export const PagesProgressBar = React.memo(
             background: ${color};
           
             position: fixed;
-            z-index: 1031;
+            z-index: 99999;
             top: 0;
             left: 0;
           

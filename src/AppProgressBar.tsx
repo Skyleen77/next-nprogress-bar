@@ -45,7 +45,7 @@ export const AppProgressBar = React.memo(
             background: ${color};
 
             position: fixed;
-            z-index: 1031;
+            z-index: 99999;
             top: 0;
             left: 0;
 
@@ -164,10 +164,13 @@ export const AppProgressBar = React.memo(
           anchorElement?.getAttribute('data-prevent-nprogress') === 'true';
 
         if (!preventProgress) {
-          let element:  HTMLElement | Element | null = target;
+          let element: HTMLElement | Element | null = target;
 
           while (element && element.tagName.toLowerCase() !== 'a') {
-            if (element.parentElement?.getAttribute('data-prevent-nprogress') === 'true') {
+            if (
+              element.parentElement?.getAttribute('data-prevent-nprogress') ===
+              'true'
+            ) {
               preventProgress = true;
               break;
             }
@@ -251,7 +254,12 @@ export const AppProgressBar = React.memo(
         elementsWithAttachedHandlers.current = [];
         window.history.pushState = originalWindowHistoryPushState;
       };
-    }, [disableAnchorClick, targetPreprocessor, shallowRouting, disableSameURL]);
+    }, [
+      disableAnchorClick,
+      targetPreprocessor,
+      shallowRouting,
+      disableSameURL,
+    ]);
 
     return styles;
   },
