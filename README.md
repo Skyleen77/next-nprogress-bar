@@ -469,6 +469,7 @@ import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
 ## Issues
 
 Please file an issue for bugs, missing documentation, or unexpected behavior.
+Don't hesitate to make a PR for any issue.
 
 [File an issue](https://github.com/Skyleen77/next-nprogress-bar/issues)
 
