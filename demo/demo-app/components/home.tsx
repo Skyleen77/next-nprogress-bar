@@ -74,7 +74,7 @@ export const Home = ({ progressLinks, svgLink }: HomeProps) => {
         </button>
 
         {isParametersOpen && (
-          <div className="w-[300px] pt-2 pb-6 flex flex-col gap-y-2.5">
+          <div className="min-[375px]:w-[324px] w-full px-6 pt-2 pb-6 flex flex-col gap-y-2.5">
             <Input
               label="Color"
               type="color"
