@@ -147,6 +147,7 @@ export const AppProgressBar = React.memo(
       const stopProgress = () => {
         if (timer) clearTimeout(timer);
         timer = setTimeout(() => {
+          if (!NProgress.isStarted()) return;
           NProgress.done();
         }, stopDelay);
       };
