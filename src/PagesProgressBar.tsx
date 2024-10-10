@@ -122,8 +122,10 @@ export const PagesProgressBar = React.memo(
         const currentUrl = new URL(Router.route, location.href);
 
         if (
-          !shallowRouting ||
-          (isSameURL(targetUrl, currentUrl) && !disableSameURL)
+          (!shallowRouting ||
+            (isSameURL(targetUrl, currentUrl) && !disableSameURL) ||
+            !isSameURL(targetUrl, currentUrl)) &&
+          !NProgress.isStarted()
         ) {
           startProgress();
         }

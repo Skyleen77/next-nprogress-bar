@@ -119,6 +119,8 @@ var AppProgressBar$1 = React.memo(function (_a) {
             if (timer)
                 clearTimeout(timer);
             timer = setTimeout(function () {
+                if (!NProgress.isStarted())
+                    return;
                 NProgress.done();
             }, stopDelay);
         };
@@ -291,14 +293,18 @@ var PagesProgressBar = React.memo(function (_a) {
             if (timer)
                 clearTimeout(timer);
             timer = setTimeout(function () {
+                if (!NProgress.isStarted())
+                    return;
                 NProgress.done(true);
             }, stopDelay);
         };
         var handleRouteStart = function (url) {
             var targetUrl = new URL(url, location.href);
             var currentUrl = new URL(Router.route, location.href);
-            if (!shallowRouting ||
-                (!isSameURL(targetUrl, currentUrl) && disableSameURL)) {
+            if ((!shallowRouting ||
+                (isSameURL(targetUrl, currentUrl) && !disableSameURL) ||
+                !isSameURL(targetUrl, currentUrl)) &&
+                !NProgress.isStarted()) {
                 startProgress();
             }
         };
