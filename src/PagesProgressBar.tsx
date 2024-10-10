@@ -123,7 +123,7 @@ export const PagesProgressBar = React.memo(
 
         if (
           !shallowRouting ||
-          (!isSameURL(targetUrl, currentUrl) && disableSameURL)
+          (isSameURL(targetUrl, currentUrl) && !disableSameURL)
         ) {
           startProgress();
         }
