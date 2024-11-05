@@ -230,8 +230,13 @@ var AppProgressBar$1 = React.memo(function (_a) {
         prevProps.disableAnchorClick === nextProps.disableAnchorClick);
 });
 AppProgressBar$1.displayName = 'AppProgressBar';
-function useRouter() {
-    var router = navigation.useRouter();
+function useRouter(customRouter) {
+    var useSelectedRouter = React.useMemo(function () {
+        if (customRouter)
+            return customRouter;
+        return navigation.useRouter;
+    }, [customRouter]);
+    var router = useSelectedRouter();
     var startProgress = React.useCallback(function (startPosition) {
         if (startPosition && startPosition > 0)
             NProgress.set(startPosition);
