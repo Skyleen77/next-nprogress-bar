@@ -10,7 +10,7 @@ import {
 } from 'next/navigation';
 import { ProgressBarProps, RouterNProgressOptions } from '.';
 import { getAnchorProperty } from './utils/getAnchorProperty';
-import { AppRouterInstance, NavigateOptions } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import { type AppRouterInstance, NavigateOptions } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 type PushStateInput = [
   data: any,
@@ -293,9 +293,9 @@ export const AppProgressBar = React.memo(
 AppProgressBar.displayName = 'AppProgressBar';
 
 export function useRouter(customRouter?: () => AppRouterInstance) {
-  const useSelectedRouter = useMemo(() => {
-    if (customRouter) return customRouter;
-    return useNextRouter;
+  const useSelectedRouter = useCallback(() => {
+    if (customRouter) return customRouter();
+    return useNextRouter();
   }, [customRouter]);
   
   const router = useSelectedRouter();
