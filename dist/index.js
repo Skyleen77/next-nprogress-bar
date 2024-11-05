@@ -231,10 +231,10 @@ var AppProgressBar$1 = React.memo(function (_a) {
 });
 AppProgressBar$1.displayName = 'AppProgressBar';
 function useRouter(customRouter) {
-    var useSelectedRouter = React.useMemo(function () {
+    var useSelectedRouter = React.useCallback(function () {
         if (customRouter)
-            return customRouter;
-        return navigation.useRouter;
+            return customRouter();
+        return navigation.useRouter();
     }, [customRouter]);
     var router = useSelectedRouter();
     var startProgress = React.useCallback(function (startPosition) {
