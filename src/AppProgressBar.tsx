@@ -10,7 +10,10 @@ import {
 } from 'next/navigation';
 import { ProgressBarProps, RouterNProgressOptions } from '.';
 import { getAnchorProperty } from './utils/getAnchorProperty';
-import { type AppRouterInstance, NavigateOptions } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import {
+  type AppRouterInstance,
+  NavigateOptions,
+} from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 type PushStateInput = [
   data: any,
@@ -297,7 +300,7 @@ export function useRouter(customRouter?: () => AppRouterInstance) {
     if (customRouter) return customRouter();
     return useNextRouter();
   }, [customRouter]);
-  
+
   const router = useSelectedRouter();
 
   const startProgress = useCallback(

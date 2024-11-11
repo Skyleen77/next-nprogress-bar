@@ -416,8 +416,9 @@ router.back();
 ```
 
 It also has an optional parameter (`customRouter`) that allows you to use this router with another custom router (for example, it could be the one from `next-intl`):
+
 ```tsx
-import { useRouter as useAnotherCustomRouter } from "sample-package";
+import { useRouter as useAnotherCustomRouter } from 'sample-package';
 const router = useRouter(useAnotherCustomRouter);
 
 // With progress bar
@@ -425,7 +426,6 @@ router.push('/about');
 router.replace('/?counter=10');
 router.back();
 ```
-
 
 ## Migrating from v1 to v2
 
