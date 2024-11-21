@@ -330,7 +330,7 @@ See [NProgress docs](https://www.npmjs.com/package/nprogress#configuration)
 
 ### shallowRouting _optional_ - _boolean_
 
-If the progress bar is not displayed when you only change URL parameters without changing route - **by default false**
+Do not display the progress bar when the query parameters change but the route remains the same - **by default false**
 
 See [Next.js docs](https://nextjs.org/docs/pages/building-your-application/routing/linking-and-navigating#shallow-routing)
 
