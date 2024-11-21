@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import NProgress from 'nprogress';
-import { isSameURL } from './utils/sameURL';
+import { isSameURL, isSameURLWithoutSearch } from './utils/sameURL';
 import Router from 'next/router';
 import { ProgressBarProps } from '.';
 
@@ -122,13 +122,14 @@ export const PagesProgressBar = React.memo(
         const currentUrl = new URL(Router.route, location.href);
 
         if (
-          (!shallowRouting ||
-            (isSameURL(targetUrl, currentUrl) && !disableSameURL) ||
-            !isSameURL(targetUrl, currentUrl)) &&
-          !NProgress.isStarted()
-        ) {
-          startProgress();
-        }
+            shallowRouting &&
+            isSameURLWithoutSearch(targetUrl, currentUrl) &&
+            disableSameURL
+        )
+          return;
+        if (isSameURL(targetUrl, currentUrl) && disableSameURL) return;
+
+        startProgress();
       };
       const handleRouteDone = () => stopProgress();
 
