@@ -10,7 +10,8 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
       <ProgressBar
         height="4px"
         color="#0A2FFF"
-        options={{ showSpinner: true }}
+        options={{ showSpinner: true, direction: 'rtl' }}
+        spinnerPosition="bottom-right"
         // shallowRouting
         // startPosition={0.3}
         stopDelay={1000}

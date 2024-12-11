@@ -1,6 +1,6 @@
 'use strict';
 
-var NProgress = require('nprogress');
+var nprogressV2 = require('nprogress-v2');
 var React = require('react');
 var navigation = require('next/navigation');
 var Router = require('next/router');
@@ -87,11 +87,28 @@ function getAnchorProperty(a, key) {
     return prop;
 }
 
+var css = function (_a) {
+    var color = _a.color, height = _a.height, spinnerPosition = _a.spinnerPosition;
+    return "\n#nprogress {\n  pointer-events: none;\n}\n\n#nprogress .bar {\n  background: ".concat(color, ";\n\n  position: fixed;\n  z-index: 99999;\n  top: 0;\n  left: 0;\n\n  width: 100%;\n  height: ").concat(height, ";\n}\n\n/* Fancy blur effect */\n#nprogress .peg {\n  display: block;\n  position: absolute;\n  right: 0px;\n  width: 100px;\n  height: 100%;\n  box-shadow: 0 0 10px ").concat(color, ", 0 0 5px ").concat(color, ";\n  opacity: 1.0;\n\n  -webkit-transform: rotate(3deg) translate(0px, -4px);\n      -ms-transform: rotate(3deg) translate(0px, -4px);\n          transform: rotate(3deg) translate(0px, -4px);\n}\n\n/* Remove these to get rid of the spinner */\n#nprogress .spinner {\n  display: block;\n  position: fixed;\n  z-index: 1031;\n  top: ").concat(spinnerPosition === 'top-right' || spinnerPosition === 'top-left'
+        ? '15px'
+        : 'auto', ";\n  bottom: ").concat(spinnerPosition === 'bottom-right' || spinnerPosition === 'bottom-left'
+        ? '15px'
+        : 'auto', ";\n  right: ").concat(spinnerPosition === 'top-right' || spinnerPosition === 'bottom-right'
+        ? '15px'
+        : 'auto', ";\n  left: ").concat(spinnerPosition === 'top-left' || spinnerPosition === 'bottom-left'
+        ? '15px'
+        : 'auto', ";\n}\n\n#nprogress .spinner-icon {\n  width: 18px;\n  height: 18px;\n  box-sizing: border-box;\n\n  border: solid 2px transparent;\n  border-top-color: ").concat(color, ";\n  border-left-color: ").concat(color, ";\n  border-radius: 50%;\n\n  -webkit-animation: nprogress-spinner 400ms linear infinite;\n          animation: nprogress-spinner 400ms linear infinite;\n}\n\n.nprogress-custom-parent {\n  overflow: hidden;\n  position: relative;\n}\n\n.nprogress-custom-parent #nprogress .spinner,\n.nprogress-custom-parent #nprogress .bar {\n  position: absolute;\n}\n\n@-webkit-keyframes nprogress-spinner {\n  0%   { -webkit-transform: rotate(0deg); }\n  100% { -webkit-transform: rotate(360deg); }\n}\n@keyframes nprogress-spinner {\n  0%   { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}\n");
+};
+
 var AppProgressBar$1 = React.memo(function (_a) {
-    var _b = _a.color, color = _b === void 0 ? '#0A2FFF' : _b, _c = _a.height, height = _c === void 0 ? '2px' : _c, options = _a.options, _d = _a.shallowRouting, shallowRouting = _d === void 0 ? false : _d, _e = _a.disableSameURL, disableSameURL = _e === void 0 ? true : _e, _f = _a.startPosition, startPosition = _f === void 0 ? 0 : _f, _g = _a.delay, delay = _g === void 0 ? 0 : _g, _h = _a.stopDelay, stopDelay = _h === void 0 ? 0 : _h, style = _a.style, nonce = _a.nonce, targetPreprocessor = _a.targetPreprocessor, _j = _a.disableAnchorClick, disableAnchorClick = _j === void 0 ? false : _j;
+    var _b = _a.color, color = _b === void 0 ? '#0A2FFF' : _b, _c = _a.height, height = _c === void 0 ? '2px' : _c, options = _a.options, _d = _a.spinnerPosition, spinnerPosition = _d === void 0 ? 'top-right' : _d, _e = _a.shallowRouting, shallowRouting = _e === void 0 ? false : _e, _f = _a.disableSameURL, disableSameURL = _f === void 0 ? true : _f, _g = _a.startPosition, startPosition = _g === void 0 ? 0 : _g, _h = _a.delay, delay = _h === void 0 ? 0 : _h, _j = _a.stopDelay, stopDelay = _j === void 0 ? 0 : _j, style = _a.style, nonce = _a.nonce, targetPreprocessor = _a.targetPreprocessor, _k = _a.disableAnchorClick, disableAnchorClick = _k === void 0 ? false : _k;
     var styles = (React.createElement("style", { nonce: nonce }, style ||
-        "\n          #nprogress {\n            pointer-events: none;\n          }\n\n          #nprogress .bar {\n            background: ".concat(color, ";\n\n            position: fixed;\n            z-index: 99999;\n            top: 0;\n            left: 0;\n\n            width: 100%;\n            height: ").concat(height, ";\n          }\n\n          /* Fancy blur effect */\n          #nprogress .peg {\n            display: block;\n            position: absolute;\n            right: 0px;\n            width: 100px;\n            height: 100%;\n            box-shadow: 0 0 10px ").concat(color, ", 0 0 5px ").concat(color, ";\n            opacity: 1.0;\n\n            -webkit-transform: rotate(3deg) translate(0px, -4px);\n                -ms-transform: rotate(3deg) translate(0px, -4px);\n                    transform: rotate(3deg) translate(0px, -4px);\n          }\n\n          /* Remove these to get rid of the spinner */\n          #nprogress .spinner {\n            display: block;\n            position: fixed;\n            z-index: 1031;\n            top: 15px;\n            right: 15px;\n          }\n\n          #nprogress .spinner-icon {\n            width: 18px;\n            height: 18px;\n            box-sizing: border-box;\n\n            border: solid 2px transparent;\n            border-top-color: ").concat(color, ";\n            border-left-color: ").concat(color, ";\n            border-radius: 50%;\n\n            -webkit-animation: nprogress-spinner 400ms linear infinite;\n                    animation: nprogress-spinner 400ms linear infinite;\n          }\n\n          .nprogress-custom-parent {\n            overflow: hidden;\n            position: relative;\n          }\n\n          .nprogress-custom-parent #nprogress .spinner,\n          .nprogress-custom-parent #nprogress .bar {\n            position: absolute;\n          }\n\n          @-webkit-keyframes nprogress-spinner {\n            0%   { -webkit-transform: rotate(0deg); }\n            100% { -webkit-transform: rotate(360deg); }\n          }\n          @keyframes nprogress-spinner {\n            0%   { transform: rotate(0deg); }\n            100% { transform: rotate(360deg); }\n          }\n        ")));
-    NProgress.configure(options || {});
+        css({
+            color: color,
+            height: height,
+            spinnerPosition: spinnerPosition,
+        })));
+    nprogressV2.NProgress.configure(options || {});
     var progressDoneTimer;
     var pathname = navigation.usePathname();
     var searchParams = navigation.useSearchParams();
@@ -99,7 +116,7 @@ var AppProgressBar$1 = React.memo(function (_a) {
         if (progressDoneTimer)
             clearTimeout(progressDoneTimer);
         progressDoneTimer = setTimeout(function () {
-            NProgress.done();
+            nprogressV2.NProgress.done();
         }, stopDelay);
     }, [pathname, searchParams]);
     var elementsWithAttachedHandlers = React.useRef([]);
@@ -111,17 +128,17 @@ var AppProgressBar$1 = React.memo(function (_a) {
         var startProgress = function () {
             timer = setTimeout(function () {
                 if (startPosition > 0)
-                    NProgress.set(startPosition);
-                NProgress.start();
+                    nprogressV2.NProgress.set(startPosition);
+                nprogressV2.NProgress.start();
             }, delay);
         };
         var stopProgress = function () {
             if (timer)
                 clearTimeout(timer);
             timer = setTimeout(function () {
-                if (!NProgress.isStarted())
+                if (!nprogressV2.NProgress.isStarted())
                     return;
-                NProgress.done();
+                nprogressV2.NProgress.done();
             }, stopDelay);
         };
         var handleAnchorClick = function (event) {
@@ -239,8 +256,8 @@ function useRouter(customRouter) {
     var router = useSelectedRouter();
     var startProgress = React.useCallback(function (startPosition) {
         if (startPosition && startPosition > 0)
-            NProgress.set(startPosition);
-        NProgress.start();
+            nprogressV2.NProgress.set(startPosition);
+        nprogressV2.NProgress.start();
     }, [router]);
     var progress = React.useCallback(function (href, options, NProgressOptions) {
         if ((NProgressOptions === null || NProgressOptions === void 0 ? void 0 : NProgressOptions.showProgressBar) === false) {
@@ -281,37 +298,42 @@ function withSuspense(Component) {
 }
 
 var PagesProgressBar = React.memo(function (_a) {
-    var _b = _a.color, color = _b === void 0 ? '#0A2FFF' : _b, _c = _a.height, height = _c === void 0 ? '2px' : _c, options = _a.options, _d = _a.shallowRouting, shallowRouting = _d === void 0 ? false : _d, _e = _a.disableSameURL, disableSameURL = _e === void 0 ? true : _e, _f = _a.startPosition, startPosition = _f === void 0 ? 0 : _f, _g = _a.delay, delay = _g === void 0 ? 0 : _g, _h = _a.stopDelay, stopDelay = _h === void 0 ? 0 : _h, style = _a.style, nonce = _a.nonce;
+    var _b = _a.color, color = _b === void 0 ? '#0A2FFF' : _b, _c = _a.height, height = _c === void 0 ? '2px' : _c, options = _a.options, _d = _a.spinnerPosition, spinnerPosition = _d === void 0 ? 'top-right' : _d, _e = _a.shallowRouting, shallowRouting = _e === void 0 ? false : _e, _f = _a.disableSameURL, disableSameURL = _f === void 0 ? true : _f, _g = _a.startPosition, startPosition = _g === void 0 ? 0 : _g, _h = _a.delay, delay = _h === void 0 ? 0 : _h, _j = _a.stopDelay, stopDelay = _j === void 0 ? 0 : _j, style = _a.style, nonce = _a.nonce;
     var styles = (React.createElement("style", { nonce: nonce }, style ||
-        "\n          #nprogress {\n            pointer-events: none;\n          }\n          \n          #nprogress .bar {\n            background: ".concat(color, ";\n          \n            position: fixed;\n            z-index: 99999;\n            top: 0;\n            left: 0;\n          \n            width: 100%;\n            height: ").concat(height, ";\n          }\n          \n          /* Fancy blur effect */\n          #nprogress .peg {\n            display: block;\n            position: absolute;\n            right: 0px;\n            width: 100px;\n            height: 100%;\n            box-shadow: 0 0 10px ").concat(color, ", 0 0 5px ").concat(color, ";\n            opacity: 1.0;\n          \n            -webkit-transform: rotate(3deg) translate(0px, -4px);\n                -ms-transform: rotate(3deg) translate(0px, -4px);\n                    transform: rotate(3deg) translate(0px, -4px);\n          }\n          \n          /* Remove these to get rid of the spinner */\n          #nprogress .spinner {\n            display: block;\n            position: fixed;\n            z-index: 1031;\n            top: 15px;\n            right: 15px;\n          }\n          \n          #nprogress .spinner-icon {\n            width: 18px;\n            height: 18px;\n            box-sizing: border-box;\n          \n            border: solid 2px transparent;\n            border-top-color: ").concat(color, ";\n            border-left-color: ").concat(color, ";\n            border-radius: 50%;\n          \n            -webkit-animation: nprogress-spinner 400ms linear infinite;\n                    animation: nprogress-spinner 400ms linear infinite;\n          }\n          \n          .nprogress-custom-parent {\n            overflow: hidden;\n            position: relative;\n          }\n          \n          .nprogress-custom-parent #nprogress .spinner,\n          .nprogress-custom-parent #nprogress .bar {\n            position: absolute;\n          }\n          \n          @-webkit-keyframes nprogress-spinner {\n            0%   { -webkit-transform: rotate(0deg); }\n            100% { -webkit-transform: rotate(360deg); }\n          }\n          @keyframes nprogress-spinner {\n            0%   { transform: rotate(0deg); }\n            100% { transform: rotate(360deg); }\n          }\n        ")));
-    NProgress.configure(options || {});
+        css({
+            color: color,
+            height: height,
+            spinnerPosition: spinnerPosition,
+        })));
+    nprogressV2.NProgress.configure(options || {});
     React.useEffect(function () {
         var timer;
         var startProgress = function () {
             timer = setTimeout(function () {
                 if (startPosition > 0)
-                    NProgress.set(startPosition);
-                NProgress.start();
+                    nprogressV2.NProgress.set(startPosition);
+                nprogressV2.NProgress.start();
             }, delay);
         };
         var stopProgress = function () {
             if (timer)
                 clearTimeout(timer);
             timer = setTimeout(function () {
-                if (!NProgress.isStarted())
+                if (!nprogressV2.NProgress.isStarted())
                     return;
-                NProgress.done(true);
+                nprogressV2.NProgress.done(true);
             }, stopDelay);
         };
         var handleRouteStart = function (url) {
             var targetUrl = new URL(url, location.href);
             var currentUrl = new URL(Router.route, location.href);
-            if ((!shallowRouting ||
-                (isSameURL(targetUrl, currentUrl) && !disableSameURL) ||
-                !isSameURL(targetUrl, currentUrl)) &&
-                !NProgress.isStarted()) {
-                startProgress();
-            }
+            if (shallowRouting &&
+                isSameURLWithoutSearch(targetUrl, currentUrl) &&
+                disableSameURL)
+                return;
+            if (isSameURL(targetUrl, currentUrl) && disableSameURL)
+                return;
+            startProgress();
         };
         var handleRouteDone = function () { return stopProgress(); };
         Router.events.on('routeChangeStart', handleRouteStart);
@@ -347,10 +369,10 @@ var PagesProgressBar = React.memo(function (_a) {
 PagesProgressBar.displayName = 'PagesProgressBar';
 
 var startProgress = function () {
-    NProgress.start();
+    nprogressV2.NProgress.start();
 };
 var stopProgress = function (force) {
-    NProgress.done(force);
+    nprogressV2.NProgress.done(force);
 };
 var AppProgressBar = withSuspense(AppProgressBar$1);
 

@@ -1,28 +1,21 @@
-import { start, done } from 'nprogress';
+import { NProgress, NProgressOptions } from 'nprogress-v2';
 import {
   AppProgressBar as AppProgressBarComponent,
   useRouter,
 } from './AppProgressBar';
 import withSuspense from './WithSuspense';
 
-export interface NProgressOptions {
-  minimum?: number;
-  template?: string;
-  easing?: string;
-  speed?: number;
-  trickle?: boolean;
-  trickleSpeed?: number;
-  showSpinner?: boolean;
-  parent?: string;
-  positionUsing?: string;
-  barSelector?: string;
-  spinnerSelector?: string;
-}
+export type SpinnerPosition =
+  | 'top-left'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-right';
 
 /**
  * @param color Color of the progress bar. @default #0A2FFF
  * @param height Height of the progress bar. @default 2px
  * @param options NProgress options. @default undefined
+ * @param spinnerPosition Position of the spinner. @default top-right
  * @param shallowRouting If the progress bar is not displayed when you use shallow routing - @default false
  * @param startPosition The position of the progress bar at the start of the page load - @default 0
  * @param delay When the page loads faster than the progress bar, it does not display - @default 0
@@ -38,6 +31,7 @@ export interface ProgressBarProps {
   color?: string;
   height?: string;
   options?: Partial<NProgressOptions>;
+  spinnerPosition?: SpinnerPosition;
   shallowRouting?: boolean;
   disableSameURL?: boolean;
   startPosition?: number;
@@ -58,13 +52,13 @@ export interface RouterNProgressOptions {
 }
 
 export const startProgress = () => {
-  start();
+  NProgress.start();
 };
 
 export const stopProgress = (force?: boolean) => {
-  done(force);
+  NProgress.done(force);
 };
 
 const AppProgressBar = withSuspense<ProgressBarProps>(AppProgressBarComponent);
-export { AppProgressBar, useRouter };
+export { AppProgressBar, useRouter, NProgressOptions };
 export { PagesProgressBar } from './PagesProgressBar';

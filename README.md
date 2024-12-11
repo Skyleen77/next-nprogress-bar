@@ -2,6 +2,9 @@
 <h1>Next NProgress bar</h1>
 
 <p>NProgress integration on Next.js compatible with /app and /pages folders</p>
+
+<b>Now using NProgress V2 🚀</b>
+
 </div>
 
 ## Table of Contents
@@ -26,6 +29,7 @@
   - [height](#height)
   - [color](#color)
   - [options](#options)
+  - [spinnerPosition] (#spinnerPosition)
   - [appDirectory](#appdirectory)
   - [shallowRouting](#shallowrouting)
   - [startPosition](#startposition)
@@ -326,7 +330,11 @@ Color of the progress bar - **by default #0A2FFF**
 
 **by default undefined**
 
-See [NProgress docs](https://www.npmjs.com/package/nprogress#configuration)
+See [NProgress V2 docs](https://www.npmjs.com/package/nprogress-v2#configuration)
+
+### spinnerPosition _optional_ - _SpinnerPosition ('top-left' | 'top-right' | 'bottom-left' | 'bottom-right')_
+
+Position of the spinner (if `showSpinner` is `true`) - **by default top-right**
 
 ### shallowRouting _optional_ - _boolean_
 
@@ -360,7 +368,7 @@ A cryptographic nonce (number used once) used to declare inline scripts for Cont
 
 ### style _optional_ - _string_
 
-Your custom CSS - **by default [NProgress CSS](https://github.com/rstacruz/nprogress/blob/master/nprogress.css)**
+Your custom CSS - **by default [NProgress CSS](https://github.com/Skyleen77/nprogress-v2/blob/main/src/index.css)**
 
 ### shouldCompareComplexProps _optional_ - _boolean_
 
