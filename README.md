@@ -29,7 +29,7 @@
   - [height](#height)
   - [color](#color)
   - [options](#options)
-  - [spinnerPosition] (#spinnerPosition)
+  - [spinnerPosition](#spinnerPosition)
   - [appDirectory](#appdirectory)
   - [shallowRouting](#shallowrouting)
   - [startPosition](#startposition)
