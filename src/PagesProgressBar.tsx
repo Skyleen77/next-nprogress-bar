@@ -52,7 +52,7 @@ export const PagesProgressBar = React.memo(
 
       const handleRouteStart = (url: string) => {
         const targetUrl = new URL(url, location.href);
-        const currentUrl = new URL(Router.route, location.href);
+        const currentUrl = new URL(Router.asPath, location.href);
 
         if (
           shallowRouting &&
