@@ -326,7 +326,7 @@ var PagesProgressBar = React.memo(function (_a) {
         };
         var handleRouteStart = function (url) {
             var targetUrl = new URL(url, location.href);
-            var currentUrl = new URL(Router.route, location.href);
+            var currentUrl = new URL(location.href);
             if (shallowRouting &&
                 isSameURLWithoutSearch(targetUrl, currentUrl) &&
                 disableSameURL)
