@@ -38,6 +38,7 @@
   - [stopDelay](#stopdelay)
   - [nonce](#nonce)
   - [style](#style)
+  - [disableStyle](#disablestyle)
   - [shouldCompareComplexProps](#shouldcomparecomplexprops)
   - [targetPreprocessor](#targetpreprocessor)
 - [App directory router](#app-directory-router)
@@ -370,6 +371,11 @@ A cryptographic nonce (number used once) used to declare inline scripts for Cont
 
 Your custom CSS - **by default [NProgress CSS](https://github.com/Skyleen77/nprogress-v2/blob/main/src/index.css)**
 
+### disableStyle
+
+Disable the default CSS - **by default false**
+If you need to disable the default CSS, you will need to add your own CSS to see the progress bar. You can use [NProgress CSS](https://github.com/Skyleen77/nprogress-v2/blob/main/src/index.css) as a base.
+
 ### shouldCompareComplexProps _optional_ - _boolean_
 
 Activates a detailed comparison of component props to determine if a rerender is necessary.
@@ -398,6 +404,7 @@ import { useRouter } from 'next-nprogress-bar';
 router.push(url: string, options?: NavigateOptions, NProgressOptions?: RouterNProgressOptions)
 router.replace(url: string, options?: NavigateOptions, NProgressOptions?: RouterNProgressOptions)
 router.back(NProgressOptions?: RouterNProgressOptions)
+router.refresh(NProgressOptions?: RouterNProgressOptions)
 ```
 
 `NavigateOptions` is the options of the next router.
@@ -421,6 +428,7 @@ const router = useRouter();
 router.push('/about');
 router.replace('/?counter=10');
 router.back();
+router.refresh();
 ```
 
 It also has an optional parameter (`customRouter`) that allows you to use this router with another custom router (for example, it could be the one from `next-intl`):
@@ -433,6 +441,7 @@ const router = useRouter(useAnotherCustomRouter);
 router.push('/about');
 router.replace('/?counter=10');
 router.back();
+router.refresh();
 ```
 
 ## Migrating from v1 to v2

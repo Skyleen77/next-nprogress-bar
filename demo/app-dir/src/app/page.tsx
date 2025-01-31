@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 // import { useRouter } from 'next-nprogress-bar';
-import { useRouter } from '../../../../dist';
+import { useRouter, startProgress, stopProgress } from '../../../../dist';
 
 export default function Home() {
   const router = useRouter();
@@ -10,6 +10,13 @@ export default function Home() {
   return (
     <main>
       <h1>Next NProgress Bar</h1>
+      <button className="default" onClick={() => startProgress()}>
+        Start progress
+      </button>
+      <button className="default" onClick={() => stopProgress()}>
+        Stop progress
+      </button>
+
       <Link href="/">Same route</Link>
       <Link href="/?test=param">Sallow</Link>
       <Link href="/dashboard">Dashboard</Link>
@@ -37,6 +44,7 @@ export default function Home() {
         Link with nprogress disabled
       </Link>
       <button onClick={() => router.push('/dashboard')}>Push Dashboard</button>
+      <button onClick={() => router.refresh()}>Refresh</button>
       <button
         onClick={() =>
           router.push('/', undefined, {

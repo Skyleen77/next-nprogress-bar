@@ -17,6 +17,7 @@ export const PagesProgressBar = React.memo(
     delay = 0,
     stopDelay = 0,
     style,
+    disableStyle = false,
     nonce,
   }: Omit<ProgressBarProps, 'targetPreprocessor' | 'disableAnchorClick'>) => {
     const styles = (
@@ -60,6 +61,8 @@ export const PagesProgressBar = React.memo(
           disableSameURL
         )
           return;
+
+        // If the URL is the same, we don't want to start the progress bar
         if (isSameURL(targetUrl, currentUrl) && disableSameURL) return;
 
         startProgress();
@@ -78,7 +81,7 @@ export const PagesProgressBar = React.memo(
       };
     }, []);
 
-    return styles;
+    return !disableStyle ? styles : null;
   },
   (prevProps, nextProps) => {
     if (nextProps?.memo === false) {
