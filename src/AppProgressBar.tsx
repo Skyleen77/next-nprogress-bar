@@ -34,6 +34,7 @@ export const AppProgressBar = React.memo(
     delay = 0,
     stopDelay = 0,
     style,
+    disableStyle = false,
     nonce,
     targetPreprocessor,
     disableAnchorClick = false,
@@ -198,7 +199,7 @@ export const AppProgressBar = React.memo(
       disableSameURL,
     ]);
 
-    return styles;
+    return !disableStyle ? styles : null;
   },
   (prevProps, nextProps) => {
     if (nextProps?.memo === false) {
@@ -244,26 +245,32 @@ export function useRouter(customRouter?: () => AppRouterInstance) {
     [router],
   );
 
+  const stopProgress = useCallback(() => {
+    if (!NProgress.isStarted()) return;
+    NProgress.done();
+  }, [router]);
+
   const progress = useCallback(
     (
       href: string,
+      method: 'push' | 'replace',
       options?: NavigateOptions,
       NProgressOptions?: RouterNProgressOptions,
     ) => {
       if (NProgressOptions?.showProgressBar === false) {
-        return router.push(href, options);
+        return router[method](href, options);
       }
 
       const currentUrl = new URL(location.href);
       const targetUrl = new URL(href, location.href);
+      const sameURL = isSameURL(targetUrl, currentUrl);
 
-      if (
-        isSameURL(targetUrl, currentUrl) &&
-        NProgressOptions?.disableSameURL !== false
-      )
-        return router.push(href, options);
+      if (sameURL && NProgressOptions?.disableSameURL !== false)
+        return router[method](href, options);
 
       startProgress(NProgressOptions?.startPosition);
+      if (sameURL) stopProgress();
+      return router[method](href, options);
     },
     [router],
   );
@@ -274,8 +281,7 @@ export function useRouter(customRouter?: () => AppRouterInstance) {
       options?: NavigateOptions,
       NProgressOptions?: RouterNProgressOptions,
     ) => {
-      progress(href, options, NProgressOptions);
-      return router.push(href, options);
+      progress(href, 'push', options, NProgressOptions);
     },
     [router, startProgress],
   );
@@ -286,8 +292,7 @@ export function useRouter(customRouter?: () => AppRouterInstance) {
       options?: NavigateOptions,
       NProgressOptions?: RouterNProgressOptions,
     ) => {
-      progress(href, options, NProgressOptions);
-      return router.replace(href, options);
+      progress(href, 'replace', options, NProgressOptions);
     },
     [router, startProgress],
   );
@@ -295,17 +300,25 @@ export function useRouter(customRouter?: () => AppRouterInstance) {
   const back = useCallback(
     (NProgressOptions?: RouterNProgressOptions) => {
       if (NProgressOptions?.showProgressBar === false) return router.back();
-
       startProgress(NProgressOptions?.startPosition);
-
       return router.back();
     },
     [router],
   );
 
+  const refresh = useCallback(
+    (NProgressOptions?: RouterNProgressOptions) => {
+      if (NProgressOptions?.showProgressBar === false) return router.back();
+      startProgress(NProgressOptions?.startPosition);
+      stopProgress();
+      return router.refresh();
+    },
+    [router],
+  );
+
   const enhancedRouter = useMemo(() => {
-    return { ...router, push, replace, back };
-  }, [router, push, replace, back]);
+    return { ...router, push, replace, back, refresh };
+  }, [router, push, replace, back, refresh]);
 
   return enhancedRouter;
 }

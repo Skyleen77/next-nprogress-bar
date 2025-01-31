@@ -14,11 +14,15 @@ button, a {
   position: relative;
 }
 
-button {
+button:not(.default) {
   background-color: red;
 }
 
-button::after {
+button.default {
+  background-color: green;
+}
+
+button:not(.default)::after {
   content: "router.push()";
 }
 

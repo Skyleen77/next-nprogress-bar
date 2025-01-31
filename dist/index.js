@@ -101,7 +101,7 @@ var css = function (_a) {
 };
 
 var AppProgressBar$1 = React.memo(function (_a) {
-    var _b = _a.color, color = _b === void 0 ? '#0A2FFF' : _b, _c = _a.height, height = _c === void 0 ? '2px' : _c, options = _a.options, _d = _a.spinnerPosition, spinnerPosition = _d === void 0 ? 'top-right' : _d, _e = _a.shallowRouting, shallowRouting = _e === void 0 ? false : _e, _f = _a.disableSameURL, disableSameURL = _f === void 0 ? true : _f, _g = _a.startPosition, startPosition = _g === void 0 ? 0 : _g, _h = _a.delay, delay = _h === void 0 ? 0 : _h, _j = _a.stopDelay, stopDelay = _j === void 0 ? 0 : _j, style = _a.style, nonce = _a.nonce, targetPreprocessor = _a.targetPreprocessor, _k = _a.disableAnchorClick, disableAnchorClick = _k === void 0 ? false : _k;
+    var _b = _a.color, color = _b === void 0 ? '#0A2FFF' : _b, _c = _a.height, height = _c === void 0 ? '2px' : _c, options = _a.options, _d = _a.spinnerPosition, spinnerPosition = _d === void 0 ? 'top-right' : _d, _e = _a.shallowRouting, shallowRouting = _e === void 0 ? false : _e, _f = _a.disableSameURL, disableSameURL = _f === void 0 ? true : _f, _g = _a.startPosition, startPosition = _g === void 0 ? 0 : _g, _h = _a.delay, delay = _h === void 0 ? 0 : _h, _j = _a.stopDelay, stopDelay = _j === void 0 ? 0 : _j, style = _a.style, _k = _a.disableStyle, disableStyle = _k === void 0 ? false : _k, nonce = _a.nonce, targetPreprocessor = _a.targetPreprocessor, _l = _a.disableAnchorClick, disableAnchorClick = _l === void 0 ? false : _l;
     var styles = (React.createElement("style", { nonce: nonce }, style ||
         css({
             color: color,
@@ -225,7 +225,7 @@ var AppProgressBar$1 = React.memo(function (_a) {
         shallowRouting,
         disableSameURL,
     ]);
-    return styles;
+    return !disableStyle ? styles : null;
 }, function (prevProps, nextProps) {
     if ((nextProps === null || nextProps === void 0 ? void 0 : nextProps.memo) === false) {
         return false;
@@ -259,24 +259,30 @@ function useRouter(customRouter) {
             nprogressV2.NProgress.set(startPosition);
         nprogressV2.NProgress.start();
     }, [router]);
-    var progress = React.useCallback(function (href, options, NProgressOptions) {
+    var stopProgress = React.useCallback(function () {
+        if (!nprogressV2.NProgress.isStarted())
+            return;
+        nprogressV2.NProgress.done();
+    }, [router]);
+    var progress = React.useCallback(function (href, method, options, NProgressOptions) {
         if ((NProgressOptions === null || NProgressOptions === void 0 ? void 0 : NProgressOptions.showProgressBar) === false) {
-            return router.push(href, options);
+            return router[method](href, options);
         }
         var currentUrl = new URL(location.href);
         var targetUrl = new URL(href, location.href);
-        if (isSameURL(targetUrl, currentUrl) &&
-            (NProgressOptions === null || NProgressOptions === void 0 ? void 0 : NProgressOptions.disableSameURL) !== false)
-            return router.push(href, options);
+        var sameURL = isSameURL(targetUrl, currentUrl);
+        if (sameURL && (NProgressOptions === null || NProgressOptions === void 0 ? void 0 : NProgressOptions.disableSameURL) !== false)
+            return router[method](href, options);
         startProgress(NProgressOptions === null || NProgressOptions === void 0 ? void 0 : NProgressOptions.startPosition);
+        if (sameURL)
+            stopProgress();
+        return router[method](href, options);
     }, [router]);
     var push = React.useCallback(function (href, options, NProgressOptions) {
-        progress(href, options, NProgressOptions);
-        return router.push(href, options);
+        progress(href, 'push', options, NProgressOptions);
     }, [router, startProgress]);
     var replace = React.useCallback(function (href, options, NProgressOptions) {
-        progress(href, options, NProgressOptions);
-        return router.replace(href, options);
+        progress(href, 'replace', options, NProgressOptions);
     }, [router, startProgress]);
     var back = React.useCallback(function (NProgressOptions) {
         if ((NProgressOptions === null || NProgressOptions === void 0 ? void 0 : NProgressOptions.showProgressBar) === false)
@@ -284,9 +290,16 @@ function useRouter(customRouter) {
         startProgress(NProgressOptions === null || NProgressOptions === void 0 ? void 0 : NProgressOptions.startPosition);
         return router.back();
     }, [router]);
+    var refresh = React.useCallback(function (NProgressOptions) {
+        if ((NProgressOptions === null || NProgressOptions === void 0 ? void 0 : NProgressOptions.showProgressBar) === false)
+            return router.back();
+        startProgress(NProgressOptions === null || NProgressOptions === void 0 ? void 0 : NProgressOptions.startPosition);
+        stopProgress();
+        return router.refresh();
+    }, [router]);
     var enhancedRouter = React.useMemo(function () {
-        return __assign(__assign({}, router), { push: push, replace: replace, back: back });
-    }, [router, push, replace, back]);
+        return __assign(__assign({}, router), { push: push, replace: replace, back: back, refresh: refresh });
+    }, [router, push, replace, back, refresh]);
     return enhancedRouter;
 }
 
@@ -298,7 +311,7 @@ function withSuspense(Component) {
 }
 
 var PagesProgressBar = React.memo(function (_a) {
-    var _b = _a.color, color = _b === void 0 ? '#0A2FFF' : _b, _c = _a.height, height = _c === void 0 ? '2px' : _c, options = _a.options, _d = _a.spinnerPosition, spinnerPosition = _d === void 0 ? 'top-right' : _d, _e = _a.shallowRouting, shallowRouting = _e === void 0 ? false : _e, _f = _a.disableSameURL, disableSameURL = _f === void 0 ? true : _f, _g = _a.startPosition, startPosition = _g === void 0 ? 0 : _g, _h = _a.delay, delay = _h === void 0 ? 0 : _h, _j = _a.stopDelay, stopDelay = _j === void 0 ? 0 : _j, style = _a.style, nonce = _a.nonce;
+    var _b = _a.color, color = _b === void 0 ? '#0A2FFF' : _b, _c = _a.height, height = _c === void 0 ? '2px' : _c, options = _a.options, _d = _a.spinnerPosition, spinnerPosition = _d === void 0 ? 'top-right' : _d, _e = _a.shallowRouting, shallowRouting = _e === void 0 ? false : _e, _f = _a.disableSameURL, disableSameURL = _f === void 0 ? true : _f, _g = _a.startPosition, startPosition = _g === void 0 ? 0 : _g, _h = _a.delay, delay = _h === void 0 ? 0 : _h, _j = _a.stopDelay, stopDelay = _j === void 0 ? 0 : _j, style = _a.style, _k = _a.disableStyle, disableStyle = _k === void 0 ? false : _k, nonce = _a.nonce;
     var styles = (React.createElement("style", { nonce: nonce }, style ||
         css({
             color: color,
@@ -331,6 +344,7 @@ var PagesProgressBar = React.memo(function (_a) {
                 isSameURLWithoutSearch(targetUrl, currentUrl) &&
                 disableSameURL)
                 return;
+            // If the URL is the same, we don't want to start the progress bar
             if (isSameURL(targetUrl, currentUrl) && disableSameURL)
                 return;
             startProgress();
@@ -346,7 +360,7 @@ var PagesProgressBar = React.memo(function (_a) {
             Router.events.off('routeChangeError', handleRouteDone);
         };
     }, []);
-    return styles;
+    return !disableStyle ? styles : null;
 }, function (prevProps, nextProps) {
     if ((nextProps === null || nextProps === void 0 ? void 0 : nextProps.memo) === false) {
         return false;
