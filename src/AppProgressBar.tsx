@@ -58,6 +58,7 @@ export const AppProgressBar = React.memo(
     const searchParams = useSearchParams();
 
     useEffect(() => {
+      NProgress.start();
       if (progressDoneTimer) clearTimeout(progressDoneTimer);
       progressDoneTimer = setTimeout(() => {
         NProgress.done();
