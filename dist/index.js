@@ -113,6 +113,7 @@ var AppProgressBar$1 = React.memo(function (_a) {
     var pathname = navigation.usePathname();
     var searchParams = navigation.useSearchParams();
     React.useEffect(function () {
+        nprogressV2.NProgress.start();
         if (progressDoneTimer)
             clearTimeout(progressDoneTimer);
         progressDoneTimer = setTimeout(function () {
