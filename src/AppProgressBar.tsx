@@ -8,7 +8,7 @@ import {
   useSearchParams,
   useRouter as useNextRouter,
 } from 'next/navigation';
-import type { ProgressBarProps, RouterNProgressOptions } from '.';
+import type { AppProgressBarProps, RouterNProgressOptions } from '.';
 import { getAnchorProperty } from './utils/getAnchorProperty';
 import {
   type AppRouterInstance,
@@ -38,7 +38,8 @@ export const AppProgressBar = React.memo(
     nonce,
     targetPreprocessor,
     disableAnchorClick = false,
-  }: ProgressBarProps) => {
+    startOnLoad = false,
+  }: AppProgressBarProps) => {
     const styles = (
       <style nonce={nonce}>
         {style ||
@@ -58,7 +59,7 @@ export const AppProgressBar = React.memo(
     const searchParams = useSearchParams();
 
     useEffect(() => {
-      NProgress.start();
+      if (startOnLoad) NProgress.start();
       if (progressDoneTimer) clearTimeout(progressDoneTimer);
       progressDoneTimer = setTimeout(() => {
         NProgress.done();

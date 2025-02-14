@@ -15,6 +15,8 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
         // shallowRouting
         // startPosition={0.3}
         stopDelay={1000}
+        disableSameURL
+        // startOnLoad
       />
     </>
   );

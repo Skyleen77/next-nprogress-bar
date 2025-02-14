@@ -1,6 +1,6 @@
 {
   "name": "next-nprogress-bar",
-  "version": "2.4.4",
+  "version": "2.4.5",
   "description": "NextJS progress bar compatible with new app directory",
   "repository": {
     "type": "git",

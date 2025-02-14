@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 // import { useRouter } from 'next-nprogress-bar';
-import { useRouter, startProgress, stopProgress } from '../../../../dist';
+import { useRouter, startProgress, stopProgress } from '../../../../../dist';
 
 export default function Home() {
   const router = useRouter();

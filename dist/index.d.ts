@@ -15,11 +15,9 @@ export type SpinnerPosition = 'top-left' | 'top-right' | 'bottom-left' | 'bottom
  * @param disableStyle Disable default css - @default false
  * @param nonce Custom nonce for Content-Security-Policy directives - @default undefined
  * @param shouldCompareComplexProps If you want to compare props in the React.memo return - @default false
- * @param targetPreprocessor If you want to./AppProgressBaress the target URL - @default undefined
- * @param disableAnchorClick Disable triggering progress bar on anchor clicks - @default false
  * @param disableSameURL Disable triggering progress bar on the same URL - @default true
  */
-export interface ProgressBarProps {
+export interface BaseProgressBarProps {
     color?: string;
     height?: string;
     options?: Partial<NProgressOptions>;
@@ -34,8 +32,18 @@ export interface ProgressBarProps {
     nonce?: string;
     memo?: boolean;
     shouldCompareComplexProps?: boolean;
+}
+export interface PagesProgressBarProps extends BaseProgressBarProps {
+}
+/**
+ * @param targetPreprocessor If you want to./AppProgressBaress the target URL - @default undefined
+ * @param disableAnchorClick Disable triggering progress bar on anchor clicks - @default false
+ * @param startOnLoad Start the progress bar on page load - @default false
+ */
+export interface AppProgressBarProps extends BaseProgressBarProps {
     targetPreprocessor?: (url: URL) => URL;
     disableAnchorClick?: boolean;
+    startOnLoad?: boolean;
 }
 /**
  * @param showProgressBar Show the progress bar. @default true
@@ -49,6 +57,6 @@ export interface RouterNProgressOptions {
 }
 export declare const startProgress: () => void;
 export declare const stopProgress: (force?: boolean) => void;
-declare const AppProgressBar: (props: ProgressBarProps) => import("react").JSX.Element;
+declare const AppProgressBar: (props: AppProgressBarProps) => import("react").JSX.Element;
 export { AppProgressBar, useRouter, NProgressOptions };
 export { PagesProgressBar } from './PagesProgressBar';

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { NProgress } from 'nprogress-v2';
 import { isSameURL, isSameURLWithoutSearch } from './utils/sameURL';
 import Router from 'next/router';
-import type { ProgressBarProps } from '.';
+import type { PagesProgressBarProps } from '.';
 import { css } from './utils/css';
 
 export const PagesProgressBar = React.memo(
@@ -19,7 +19,7 @@ export const PagesProgressBar = React.memo(
     style,
     disableStyle = false,
     nonce,
-  }: Omit<ProgressBarProps, 'targetPreprocessor' | 'disableAnchorClick'>) => {
+  }: PagesProgressBarProps) => {
     const styles = (
       <style nonce={nonce}>
         {style ||
