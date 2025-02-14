@@ -41,6 +41,7 @@
   - [disableStyle](#disablestyle)
   - [shouldCompareComplexProps](#shouldcomparecomplexprops)
   - [targetPreprocessor](#targetpreprocessor)
+  - [startOnLoad](#startonload)
 - [App directory router](#app-directory-router)
   - [Import](#import)
   - [Types](#types)
@@ -389,6 +390,10 @@ This is particularly useful in scenarios where URLs undergo transformations, suc
 The function takes a `URL` object as input and should return a modified `URL` object.
 If this prop is provided, the preprocessed URL will be used for comparisons, ensuring accurate determination of whether the navigation target is equivalent to the current URL.
 This can prevent unnecessary display of the progress bar when the target URL is effectively the same as the current URL after preprocessing. - **by default undefined**
+
+### startOnLoad _optional_ - _boolean_
+
+Start the progress bar on load - **by default false**
 
 ## App directory router
 

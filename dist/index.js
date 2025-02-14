@@ -101,7 +101,7 @@ var css = function (_a) {
 };
 
 var AppProgressBar$1 = React.memo(function (_a) {
-    var _b = _a.color, color = _b === void 0 ? '#0A2FFF' : _b, _c = _a.height, height = _c === void 0 ? '2px' : _c, options = _a.options, _d = _a.spinnerPosition, spinnerPosition = _d === void 0 ? 'top-right' : _d, _e = _a.shallowRouting, shallowRouting = _e === void 0 ? false : _e, _f = _a.disableSameURL, disableSameURL = _f === void 0 ? true : _f, _g = _a.startPosition, startPosition = _g === void 0 ? 0 : _g, _h = _a.delay, delay = _h === void 0 ? 0 : _h, _j = _a.stopDelay, stopDelay = _j === void 0 ? 0 : _j, style = _a.style, _k = _a.disableStyle, disableStyle = _k === void 0 ? false : _k, nonce = _a.nonce, targetPreprocessor = _a.targetPreprocessor, _l = _a.disableAnchorClick, disableAnchorClick = _l === void 0 ? false : _l;
+    var _b = _a.color, color = _b === void 0 ? '#0A2FFF' : _b, _c = _a.height, height = _c === void 0 ? '2px' : _c, options = _a.options, _d = _a.spinnerPosition, spinnerPosition = _d === void 0 ? 'top-right' : _d, _e = _a.shallowRouting, shallowRouting = _e === void 0 ? false : _e, _f = _a.disableSameURL, disableSameURL = _f === void 0 ? true : _f, _g = _a.startPosition, startPosition = _g === void 0 ? 0 : _g, _h = _a.delay, delay = _h === void 0 ? 0 : _h, _j = _a.stopDelay, stopDelay = _j === void 0 ? 0 : _j, style = _a.style, _k = _a.disableStyle, disableStyle = _k === void 0 ? false : _k, nonce = _a.nonce, targetPreprocessor = _a.targetPreprocessor, _l = _a.disableAnchorClick, disableAnchorClick = _l === void 0 ? false : _l, _m = _a.startOnLoad, startOnLoad = _m === void 0 ? false : _m;
     var styles = (React.createElement("style", { nonce: nonce }, style ||
         css({
             color: color,
@@ -113,7 +113,8 @@ var AppProgressBar$1 = React.memo(function (_a) {
     var pathname = navigation.usePathname();
     var searchParams = navigation.useSearchParams();
     React.useEffect(function () {
-        nprogressV2.NProgress.start();
+        if (startOnLoad)
+            nprogressV2.NProgress.start();
         if (progressDoneTimer)
             clearTimeout(progressDoneTimer);
         progressDoneTimer = setTimeout(function () {
