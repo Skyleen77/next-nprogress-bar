@@ -9,11 +9,11 @@ export const css = ({
   height?: string;
   spinnerPosition?: SpinnerPosition;
 }) => `
-#nprogress {
+.nprogress {
   pointer-events: none;
 }
 
-#nprogress .bar {
+.nprogress .bar {
   background: ${color};
 
   position: fixed;
@@ -26,7 +26,7 @@ export const css = ({
 }
 
 /* Fancy blur effect */
-#nprogress .peg {
+.nprogress .peg {
   display: block;
   position: absolute;
   right: 0px;
@@ -41,7 +41,7 @@ export const css = ({
 }
 
 /* Remove these to get rid of the spinner */
-#nprogress .spinner {
+.nprogress .spinner {
   display: block;
   position: fixed;
   z-index: 1031;
@@ -67,7 +67,7 @@ export const css = ({
   };
 }
 
-#nprogress .spinner-icon {
+.nprogress .spinner-icon {
   width: 18px;
   height: 18px;
   box-sizing: border-box;
@@ -86,8 +86,8 @@ export const css = ({
   position: relative;
 }
 
-.nprogress-custom-parent #nprogress .spinner,
-.nprogress-custom-parent #nprogress .bar {
+.nprogress-custom-parent .nprogress .spinner,
+.nprogress-custom-parent .nprogress .bar {
   position: absolute;
 }
 

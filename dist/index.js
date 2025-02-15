@@ -1,7 +1,7 @@
 'use strict';
 
-var nprogressV2 = require('nprogress-v2');
 var React = require('react');
+var nprogressV2 = require('nprogress-v2');
 var navigation = require('next/navigation');
 var Router = require('next/router');
 
@@ -19,7 +19,7 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
-/* global Reflect, Promise, SuppressedError, Symbol */
+/* global Reflect, Promise, SuppressedError, Symbol, Iterator */
 
 
 var __assign = function() {
@@ -89,7 +89,7 @@ function getAnchorProperty(a, key) {
 
 var css = function (_a) {
     var color = _a.color, height = _a.height, spinnerPosition = _a.spinnerPosition;
-    return "\n#nprogress {\n  pointer-events: none;\n}\n\n#nprogress .bar {\n  background: ".concat(color, ";\n\n  position: fixed;\n  z-index: 99999;\n  top: 0;\n  left: 0;\n\n  width: 100%;\n  height: ").concat(height, ";\n}\n\n/* Fancy blur effect */\n#nprogress .peg {\n  display: block;\n  position: absolute;\n  right: 0px;\n  width: 100px;\n  height: 100%;\n  box-shadow: 0 0 10px ").concat(color, ", 0 0 5px ").concat(color, ";\n  opacity: 1.0;\n\n  -webkit-transform: rotate(3deg) translate(0px, -4px);\n      -ms-transform: rotate(3deg) translate(0px, -4px);\n          transform: rotate(3deg) translate(0px, -4px);\n}\n\n/* Remove these to get rid of the spinner */\n#nprogress .spinner {\n  display: block;\n  position: fixed;\n  z-index: 1031;\n  top: ").concat(spinnerPosition === 'top-right' || spinnerPosition === 'top-left'
+    return "\n.nprogress {\n  pointer-events: none;\n}\n\n.nprogress .bar {\n  background: ".concat(color, ";\n\n  position: fixed;\n  z-index: 99999;\n  top: 0;\n  left: 0;\n\n  width: 100%;\n  height: ").concat(height, ";\n}\n\n/* Fancy blur effect */\n.nprogress .peg {\n  display: block;\n  position: absolute;\n  right: 0px;\n  width: 100px;\n  height: 100%;\n  box-shadow: 0 0 10px ").concat(color, ", 0 0 5px ").concat(color, ";\n  opacity: 1.0;\n\n  -webkit-transform: rotate(3deg) translate(0px, -4px);\n      -ms-transform: rotate(3deg) translate(0px, -4px);\n          transform: rotate(3deg) translate(0px, -4px);\n}\n\n/* Remove these to get rid of the spinner */\n.nprogress .spinner {\n  display: block;\n  position: fixed;\n  z-index: 1031;\n  top: ").concat(spinnerPosition === 'top-right' || spinnerPosition === 'top-left'
         ? '15px'
         : 'auto', ";\n  bottom: ").concat(spinnerPosition === 'bottom-right' || spinnerPosition === 'bottom-left'
         ? '15px'
@@ -97,7 +97,7 @@ var css = function (_a) {
         ? '15px'
         : 'auto', ";\n  left: ").concat(spinnerPosition === 'top-left' || spinnerPosition === 'bottom-left'
         ? '15px'
-        : 'auto', ";\n}\n\n#nprogress .spinner-icon {\n  width: 18px;\n  height: 18px;\n  box-sizing: border-box;\n\n  border: solid 2px transparent;\n  border-top-color: ").concat(color, ";\n  border-left-color: ").concat(color, ";\n  border-radius: 50%;\n\n  -webkit-animation: nprogress-spinner 400ms linear infinite;\n          animation: nprogress-spinner 400ms linear infinite;\n}\n\n.nprogress-custom-parent {\n  overflow: hidden;\n  position: relative;\n}\n\n.nprogress-custom-parent #nprogress .spinner,\n.nprogress-custom-parent #nprogress .bar {\n  position: absolute;\n}\n\n@-webkit-keyframes nprogress-spinner {\n  0%   { -webkit-transform: rotate(0deg); }\n  100% { -webkit-transform: rotate(360deg); }\n}\n@keyframes nprogress-spinner {\n  0%   { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}\n");
+        : 'auto', ";\n}\n\n.nprogress .spinner-icon {\n  width: 18px;\n  height: 18px;\n  box-sizing: border-box;\n\n  border: solid 2px transparent;\n  border-top-color: ").concat(color, ";\n  border-left-color: ").concat(color, ";\n  border-radius: 50%;\n\n  -webkit-animation: nprogress-spinner 400ms linear infinite;\n          animation: nprogress-spinner 400ms linear infinite;\n}\n\n.nprogress-custom-parent {\n  overflow: hidden;\n  position: relative;\n}\n\n.nprogress-custom-parent .nprogress .spinner,\n.nprogress-custom-parent .nprogress .bar {\n  position: absolute;\n}\n\n@-webkit-keyframes nprogress-spinner {\n  0%   { -webkit-transform: rotate(0deg); }\n  100% { -webkit-transform: rotate(360deg); }\n}\n@keyframes nprogress-spinner {\n  0%   { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}\n");
 };
 
 var AppProgressBar$1 = React.memo(function (_a) {
@@ -384,17 +384,86 @@ var PagesProgressBar = React.memo(function (_a) {
 });
 PagesProgressBar.displayName = 'PagesProgressBar';
 
-var startProgress = function () {
-    nprogressV2.NProgress.start();
+var ProgressBarContext = React.createContext(undefined);
+var useProgressBar = function () {
+    var context = React.useContext(ProgressBarContext);
+    if (!context) {
+        throw new Error('useProgressBar must be used within a ProgressBarProvider');
+    }
+    return context;
 };
-var stopProgress = function (force) {
-    nprogressV2.NProgress.done(force);
+var ProgressBarProvider = function (_a) {
+    var children = _a.children;
+    var start = React.useCallback(function () {
+        nprogressV2.NProgress.start();
+    }, []);
+    var stop = React.useCallback(function () {
+        nprogressV2.NProgress.done();
+    }, []);
+    var inc = React.useCallback(function (amount) {
+        nprogressV2.NProgress.inc(amount);
+    }, []);
+    var set = React.useCallback(function (n) {
+        nprogressV2.NProgress.set(n);
+    }, []);
+    var pause = React.useCallback(function () {
+        nprogressV2.NProgress.pause();
+    }, []);
+    var resume = React.useCallback(function () {
+        nprogressV2.NProgress.resume();
+    }, []);
+    var setOptions = React.useCallback(function (options) {
+        nprogressV2.NProgress.configure(options);
+    }, [nprogressV2.NProgress]);
+    var getOptions = React.useCallback(function () {
+        return nprogressV2.NProgress.settings;
+    }, [nprogressV2.NProgress]);
+    return (React.createElement(ProgressBarContext.Provider, { value: { start: start, stop: stop, inc: inc, set: set, pause: pause, resume: resume, setOptions: setOptions, getOptions: getOptions } }, children));
 };
+
+function classNames() {
+    var classes = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        classes[_i] = arguments[_i];
+    }
+    return classes.filter(Boolean).join(' ');
+}
+
+var Progress = function (_a) {
+    var _b = _a.as, Comp = _b === void 0 ? 'div' : _b, children = _a.children, className = _a.className, style = _a.style;
+    return (React.createElement(Comp, { className: classNames('nprogress', className), style: __assign(__assign({}, style), { display: 'none' }) }, children || (React.createElement(React.Fragment, null,
+        React.createElement(Progress.Bar, null,
+            React.createElement(Progress.Peg, null)),
+        React.createElement(Progress.Spinner, null,
+            React.createElement(Progress.SpinnerIcon, null))))));
+};
+var Bar = function (_a) {
+    var _b = _a.as, Comp = _b === void 0 ? 'div' : _b, children = _a.children, className = _a.className;
+    return (React.createElement(Comp, { className: classNames('bar', className), role: "bar" }, children));
+};
+var Peg = function (_a) {
+    var _b = _a.as, Comp = _b === void 0 ? 'div' : _b, children = _a.children, className = _a.className;
+    return React.createElement(Comp, { className: classNames('peg', className) }, children);
+};
+var Spinner = function (_a) {
+    var _b = _a.as, Comp = _b === void 0 ? 'div' : _b, children = _a.children, className = _a.className;
+    return (React.createElement(Comp, { className: classNames('spinner', className), role: "spinner" }, children));
+};
+var SpinnerIcon = function (_a) {
+    var _b = _a.as, Comp = _b === void 0 ? 'div' : _b, children = _a.children, className = _a.className;
+    return (React.createElement(Comp, { className: classNames('spinner-icon', className) }, children));
+};
+Progress.Bar = Bar;
+Progress.Peg = Peg;
+Progress.Spinner = Spinner;
+Progress.SpinnerIcon = SpinnerIcon;
+
 var AppProgressBar = withSuspense(AppProgressBar$1);
 
 exports.AppProgressBar = AppProgressBar;
 exports.PagesProgressBar = PagesProgressBar;
-exports.startProgress = startProgress;
-exports.stopProgress = stopProgress;
+exports.Progress = Progress;
+exports.ProgressBarProvider = ProgressBarProvider;
+exports.useProgressBar = useProgressBar;
 exports.useRouter = useRouter;
 //# sourceMappingURL=index.js.map

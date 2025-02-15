@@ -1,9 +1,10 @@
-import { NProgress, NProgressOptions } from 'nprogress-v2';
+import { NProgressOptions } from 'nprogress-v2';
 import {
   AppProgressBar as AppProgressBarComponent,
   useRouter,
 } from './AppProgressBar';
 import withSuspense from './WithSuspense';
+import React from 'react';
 
 export type SpinnerPosition =
   | 'top-left'
@@ -43,6 +44,27 @@ export interface BaseProgressBarProps {
   shouldCompareComplexProps?: boolean;
 }
 
+/**
+ * @param start Start the progress bar
+ * @param done Stop the progress bar
+ * @param inc Increase the progress Bar
+ * @param set Set the progress bar to a specific value
+ * @param pause Pause the progress bar
+ * @param resume Resume the progress bar
+ * @param setOptions Set the NProgress options
+ * @param getOptions Get the NProgress options
+ */
+export interface ProgressBarContextValue {
+  start: () => void;
+  stop: () => void;
+  inc: (amount?: number) => void;
+  set: (n: number) => void;
+  pause: () => void;
+  resume: () => void;
+  setOptions: (options: Partial<NProgressOptions>) => void;
+  getOptions: () => NProgressOptions;
+}
+
 export interface PagesProgressBarProps extends BaseProgressBarProps {}
 
 /**
@@ -67,16 +89,21 @@ export interface RouterNProgressOptions {
   disableSameURL?: boolean;
 }
 
-export const startProgress = () => {
-  NProgress.start();
-};
-
-export const stopProgress = (force?: boolean) => {
-  NProgress.done(force);
-};
+/**
+ * @param as Custom component - @default div
+ * @param children Children - @default undefined
+ * @param className Custom class - @default undefined
+ */
+export type ProgressComponentProps<T extends React.ElementType = 'div'> = {
+  as?: T;
+  children?: React.ReactNode;
+  className?: string;
+} & React.ComponentPropsWithoutRef<T>;
 
 const AppProgressBar = withSuspense<AppProgressBarProps>(
   AppProgressBarComponent,
 );
 export { AppProgressBar, useRouter, NProgressOptions };
 export { PagesProgressBar } from './PagesProgressBar';
+export { ProgressBarProvider, useProgressBar } from './ProgressBarProvider';
+export * from './Components';

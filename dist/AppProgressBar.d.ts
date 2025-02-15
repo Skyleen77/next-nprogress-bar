@@ -8,5 +8,5 @@ export declare function useRouter(customRouter?: () => AppRouterInstance): {
     back: (NProgressOptions?: RouterNProgressOptions) => void;
     refresh: (NProgressOptions?: RouterNProgressOptions) => void;
     forward(): void;
-    prefetch(href: string, options?: import("next/dist/shared/lib/app-router-context.shared-runtime").PrefetchOptions | undefined): void;
+    prefetch(href: string, options?: import("next/dist/shared/lib/app-router-context.shared-runtime").PrefetchOptions): void;
 };

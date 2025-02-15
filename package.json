@@ -1,6 +1,6 @@
 {
   "name": "next-nprogress-bar",
-  "version": "2.4.5",
+  "version": "3.0.0-beta.1",
   "description": "NextJS progress bar compatible with new app directory",
   "repository": {
     "type": "git",
@@ -17,7 +17,7 @@
   ],
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs",
-    "start": "rollup -c -w --bundleConfigAsCjs"
+    "dev": "rollup -c -w --bundleConfigAsCjs"
   },
   "keywords": [
     "next",
@@ -31,21 +31,26 @@
   "author": "Skyleen",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^20.1.2",
-    "@types/react": "^18.2.6",
-    "@types/react-dom": "^18.2.4",
+    "@types/node": "^22.12.0",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
     "babel-core": "^6.26.3",
     "babel-runtime": "^6.26.0",
-    "eslint": "^8.57.0",
-    "eslint-config-next": "^14.2.5",
-    "next": "^14.2.5",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "eslint": "^9.19.0",
+    "eslint-config-next": "^15.1.6",
+    "typescript": "^5.7.3",
+    "next": "^15.1.7",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "rollup": "^3.21.6",
-    "rollup-plugin-typescript2": "^0.34.1",
-    "typescript": "^5.0.4"
+    "rollup-plugin-typescript2": "^0.34.1"
+  },
+  "peerDependencies": {
+    "next": ">=13.0.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
   },
   "dependencies": {
-    "nprogress-v2": "^1.0.4"
+    "nprogress-v2": "^1.1.6"
   }
 }
