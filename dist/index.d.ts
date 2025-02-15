@@ -1,6 +1,6 @@
-/// <reference types="react" />
 import { NProgressOptions } from 'nprogress-v2';
 import { useRouter } from './AppProgressBar';
+import React from 'react';
 export type SpinnerPosition = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 /**
  * @param color Color of the progress bar. @default #0A2FFF
@@ -33,6 +33,26 @@ export interface BaseProgressBarProps {
     memo?: boolean;
     shouldCompareComplexProps?: boolean;
 }
+/**
+ * @param start Start the progress bar
+ * @param done Stop the progress bar
+ * @param inc Increase the progress Bar
+ * @param set Set the progress bar to a specific value
+ * @param pause Pause the progress bar
+ * @param resume Resume the progress bar
+ * @param setOptions Set the NProgress options
+ * @param getOptions Get the NProgress options
+ */
+export interface ProgressBarContextValue {
+    start: () => void;
+    stop: () => void;
+    inc: (amount?: number) => void;
+    set: (n: number) => void;
+    pause: () => void;
+    resume: () => void;
+    setOptions: (options: Partial<NProgressOptions>) => void;
+    getOptions: () => NProgressOptions;
+}
 export interface PagesProgressBarProps extends BaseProgressBarProps {
 }
 /**
@@ -55,8 +75,18 @@ export interface RouterNProgressOptions {
     startPosition?: number;
     disableSameURL?: boolean;
 }
-export declare const startProgress: () => void;
-export declare const stopProgress: (force?: boolean) => void;
-declare const AppProgressBar: (props: AppProgressBarProps) => import("react").JSX.Element;
+/**
+ * @param as Custom component - @default div
+ * @param children Children - @default undefined
+ * @param className Custom class - @default undefined
+ */
+export type ProgressComponentProps<T extends React.ElementType = 'div'> = {
+    as?: T;
+    children?: React.ReactNode;
+    className?: string;
+} & React.ComponentPropsWithoutRef<T>;
+declare const AppProgressBar: (props: AppProgressBarProps) => React.JSX.Element;
 export { AppProgressBar, useRouter, NProgressOptions };
 export { PagesProgressBar } from './PagesProgressBar';
+export { ProgressBarProvider, useProgressBar } from './ProgressBarProvider';
+export * from './Components';

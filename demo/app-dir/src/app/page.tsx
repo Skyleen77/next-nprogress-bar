@@ -2,19 +2,27 @@
 
 import Link from 'next/link';
 // import { useRouter } from 'next-nprogress-bar';
-import { useRouter, startProgress, stopProgress } from '../../../../dist';
+import { useProgressBar, useRouter } from '../../../../dist';
 
 export default function Home() {
   const router = useRouter();
+  const { start, stop, pause, resume } = useProgressBar();
 
   return (
-    <main>
-      <h1>Next NProgress Bar</h1>
-      <button className="default" onClick={() => startProgress()}>
+    <main className="p-6 mt-10">
+      <h1 className="text-4xl">Next NProgress Bar</h1>
+
+      <button className="default" onClick={start}>
         Start progress
       </button>
-      <button className="default" onClick={() => stopProgress()}>
+      <button className="default" onClick={stop}>
         Stop progress
+      </button>
+      <button className="default" onClick={pause}>
+        Pause progress
+      </button>
+      <button className="default" onClick={resume}>
+        Resume progress
       </button>
 
       <Link href="/">Same route</Link>
