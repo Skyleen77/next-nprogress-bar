@@ -9,7 +9,7 @@ export default function Home() {
   const { start, stop, pause, resume } = useProgressBar();
 
   return (
-    <main className="p-6 mt-10">
+    <main className="p-6 mt-32">
       <h1 className="text-4xl">Next NProgress Bar</h1>
 
       <button className="default" onClick={start}>

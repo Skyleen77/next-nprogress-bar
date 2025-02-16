@@ -42,8 +42,8 @@ importers:
         specifier: 15.0.4
         version: 15.0.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       next-nprogress-bar:
-        specifier: 3.0.0-beta.1
-        version: 3.0.0-beta.1(next@15.0.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        specifier: 3.0.0-beta.2
+        version: 3.0.0-beta.2(next@15.0.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       next-themes:
         specifier: ^0.4.4
         version: 0.4.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -2312,8 +2312,8 @@ packages:
     resolution: {integrity: sha512-8Ofs/AUQh8MaEcrlq5xOX0CQ9ypTF5dl78mjlMNfOK08fzpgTHQRQPBxcPlEtIw0yRpws+Zo/3r+5WRby7u3Gg==}
     engines: {node: '>= 0.6'}
 
-  next-nprogress-bar@3.0.0-beta.1:
-    resolution: {integrity: sha512-vpsR6MZ/Xl2sW0KMfnLduuZHjPLY89gIQ4mHGVjRMjUG0M24/R4PtfECqjkQCuYxDtyBJFxpp3rwZBkjLAZ8Gw==}
+  next-nprogress-bar@3.0.0-beta.2:
+    resolution: {integrity: sha512-M7UospzM4NFAHtbGHC+O+v+NK4JUCL2N2v0qH6+2zD73xp+hpJi2fCKw25yPGHqsEf95RYU/mkxqzQdG9iTatA==}
     peerDependencies:
       next: '>=13.0.0'
       react: '>=18.0.0'
@@ -5805,7 +5805,7 @@ snapshots:
 
   negotiator@1.0.0: {}
 
-  next-nprogress-bar@3.0.0-beta.1(next@15.0.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
+  next-nprogress-bar@3.0.0-beta.2(next@15.0.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
       next: 15.0.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       nprogress-v2: 1.1.7
