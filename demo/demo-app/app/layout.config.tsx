@@ -10,7 +10,7 @@ import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
  */
 export const baseOptions: BaseLayoutProps = {
   nav: {
-    title: <Logo className="h-8 md:mb-3" />,
+    title: <Logo className="h-[13.7px]" />,
   },
   links: [
     {
