@@ -1,13 +1,51 @@
 ---
-title: Hello World
-description: Your first document
+title: Installation
+description: Install Next NProgress Bar package
 ---
 
-Welcome to the docs! You can start writing documents in `/content/docs`.
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+import { Callout } from 'fumadocs-ui/components/callout';
 
-## What is Next?
+Next NProgress Bar is a simple progress bar for Next.js applications. It is lightweight and easy to use. It is inspired by the NProgress library.
+
+## Installation
+
+To install Next NProgress Bar, run the following command:
+
+<Tabs groupId="packageManager" items={['npm', 'pnpm', "yarn", "bun"]} persist>
+  <Tab value="npm">
+    ```bash
+    npm install next-nprogress-bar
+    ```
+  </Tab>
+  <Tab value="pnpm">
+    ```bash
+    pnpm add next-nprogress-bar
+    ```
+  </Tab>
+  <Tab value="yarn">
+    ```bash
+    yarn add next-nprogress-bar
+    ```
+  </Tab>
+  <Tab value="bun">
+    ```bash
+    bun add next-nprogress-bar
+    ```
+  </Tab>
+</Tabs>
+
+Now you are ready to use Next NProgress Bar in your Next.js application!
+
+<Callout title="Note">Next NProgress Bar is based on **nprogress-v2** which is a more modern and functional version of **nprogress**.</Callout>
+
+## Links
 
 <Cards>
-  <Card title="Learn more about Next.js" href="https://nextjs.org/docs" />
-  <Card title="Learn more about Fumadocs" href="https://fumadocs.vercel.app" />
+  <Card title="NPM" href="https://www.npmjs.com/package/next-nprogress-bar">
+    <img src="https://img.shields.io/npm/v/next-nprogress-bar?style=flat-square" alt="NPM Version" />
+  </Card>
+  <Card title="GitHub" href="https://github.com/Skyleen77/next-nprogress-bar">
+    <img src="https://img.shields.io/github/stars/Skyleen77/next-nprogress-bar?style=flat-square" alt="GitHub Stars" />
+  </Card>
 </Cards>
