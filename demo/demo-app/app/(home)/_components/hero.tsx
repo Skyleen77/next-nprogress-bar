@@ -12,12 +12,15 @@ import {
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { NextLogo } from './next-logo';
+import { useProgressBar } from 'next-nprogress-bar';
 
 const command = 'npm install next-nprogress-bar';
 
 export const Hero = () => {
   const [copy, setCopy] = useState(false);
   const CopyIcon = useMemo(() => (copy ? Check : Copy), [copy]);
+
+  const { start, stop, pause, resume } = useProgressBar();
 
   return (
     <div className="relative z-20 mx-auto max-w-7xl px-6 lg:pt-20 pt-32 w-full flex items-center justify-center">
@@ -79,11 +82,11 @@ export const Hero = () => {
         <div className="lg:!mt-16 !mt-10 flex flex-col items-center justify-center space-y-4">
           <h2 className="text-2xl font-semibold">Try it now !</h2>
           <div className="flex flex-row gap-x-3">
-            <Button size="icon-lg">
+            <Button size="icon-lg" onClick={start}>
               <PlayCircle className="!size-7" />
             </Button>
 
-            <Button size="icon-lg">
+            <Button size="icon-lg" onClick={stop}>
               <StopCircle className="!size-7" />
             </Button>
           </div>

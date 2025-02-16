@@ -11,6 +11,7 @@ export const css = ({
 }) => `
 .nprogress {
   pointer-events: none;
+  z-index: 99999;
 }
 
 .nprogress .bar {
