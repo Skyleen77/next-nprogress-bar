@@ -1,31 +1,16 @@
-# shadcn/ui monorepo template
+# BProgress
 
-This template is for creating a monorepo with shadcn/ui.
+BProgress is a lightweight JavaScript library that displays a progress bar at the top of the page to indicate the loading of an asynchronous action, commonly used to enhance user experience during page transitions or network requests.
 
-## Usage
+## Packages
 
-```bash
-pnpm dlx shadcn@latest init
-```
+- [@bprogress/core](https://github.com/Skyleen77/bprogress/tree/main/packages/core)
+- [@bprogress/next](https://github.com/Skyleen77/bprogress/tree/main/packages/next)
 
-## Adding components
+## Issues
 
-To add components to your app, run the following command at the root of your `web` app:
+If you encounter any problems, do not hesitate to [open an issue](https://github.com/Skyleen77/bprogress/issues) or make a PR [here](https://github.com/Skyleen77/bprogress).
 
-```bash
-pnpm dlx shadcn@latest add button -c apps/web
-```
+## License
 
-This will place the ui components in the `packages/ui/src/components` directory.
-
-## Tailwind
-
-Your `tailwind.config.ts` and `globals.css` are already set up to use the components from the `ui` package.
-
-## Using components
-
-To use the components in your app, import them from the `ui` package.
-
-```tsx
-import { Button } from "@workspace/ui/components/ui/button"
-```
+MIT
