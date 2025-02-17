@@ -1,0 +1,96 @@
+---
+title: What's new in v3
+description: The new features in BProgress v3
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## New features
+
+### `ProgressProvider`
+
+The component `ProgressBar` has been replaced by `ProgressProvider`. This provider contains the `ProgressBar` component and some methods with the `useProgress` hook to control the progress bar.
+
+```tsx
+<ProgressProvider 
+  height="4px"
+  color="#fffd00"
+  options={{ showSpinner: false }}
+  shallowRouting
+>
+  {children}
+</ProgressProvider>
+```
+
+[More information here](/docs/next/progress-provider)
+
+### `useProgress`
+
+The `useProgress` hook is used to manipulate the progress state.
+
+```tsx
+const { start, stop, inc, set, pause, resume, setOptions, getOptions } = useProgress();
+```
+
+[More information here](/docs/next/use-progress)
+
+### Progress components
+
+You can now add one or more progress bars anywhere in your code.
+
+```tsx
+<Progress />
+// or
+<Progress>
+  <Bar>
+    <Peg />
+  </Bar>
+  <Spinner>
+    <SpinnerIcon />
+  </Spinner>
+</Progress>
+```
+
+
+<Callout type='warn' title="Warning">
+  The `Progress` component must be used inside the `ProgressProvider` with the option `template` set to `null`.
+
+  ```tsx
+  <ProgressProvider options={{
+    template: null,
+  }}>
+    <Progress />
+  </ProgressProvider>
+  ```
+</Callout>
+
+This, combined with the `disableStyle` property, allows you to make your progress using TailwindCSS only.
+
+[More information here](/docs/next/progress-components/progress)
+
+### `useRouter` (only for App directory)
+
+A new `basePath` option has been added to the router.
+This option is only useful if you use a `basePath` in your `next.config.mjs` file.
+
+```tsx
+const router = useRouter(undefined, { basePath: '/docs' });
+```
+
+You can also pass the options directly on the `useRouter` hook if you want to use the same options for all router actions.
+
+```tsx
+const router = useRouter({ basePath: '/docs' });
+```
+
+<Callout title="Note">
+  By default, if you do not specify any options when calling a router method, the options defined during the initialization of the `useRouter` hook will be applied. However, if you provide specific options in the method call (`push`, `replace`, `back`, `refresh`), these will take precedence and override the default options set in the hook.
+</Callout>
+
+## Roadmap
+
+The package is destined to evolve into the best progress bar solution.
+
+We have defined a Roadmap to provide greater visibility on future developments. This will evolve over time.
+
+[See the Roadmap](/docs/roadmap)

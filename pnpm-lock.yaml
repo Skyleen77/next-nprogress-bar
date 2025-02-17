@@ -282,8 +282,8 @@ importers:
   packages/next:
     dependencies:
       '@bprogress/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.1.11
+        version: 1.1.11
     devDependencies:
       '@swc/core':
         specifier: ^1.10.16
@@ -416,6 +416,9 @@ packages:
   '@babel/runtime@7.26.9':
     resolution: {integrity: sha512-aA63XwOkcl4xxQa3HjPMqOP6LiK0ZDv3mUPYEFXkpHbaFjtGggE1A61FjFzJnB+p7/oy2gA8E+rcBNl/zC1tMg==}
     engines: {node: '>=6.9.0'}
+
+  '@bprogress/core@1.1.11':
+    resolution: {integrity: sha512-x+jc291PZQlNyNuAKMb4R1WmeSwdAeaSaSMfXQdNEBH7O8fLrfYQ1YEc/9noDO4M9dl4RffrxlERu+4V961MpQ==}
 
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -4700,6 +4703,8 @@ snapshots:
   '@babel/runtime@7.26.9':
     dependencies:
       regenerator-runtime: 0.14.1
+
+  '@bprogress/core@1.1.11': {}
 
   '@cspotcode/source-map-support@0.8.1':
     dependencies:

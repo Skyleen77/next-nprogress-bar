@@ -5,11 +5,15 @@
     "---Guide---",
     "installation",
     "quick-start",
+    "migration",
+    "whats-new",
     "---Components---",
     "progress-provider",
     "progress-components",
     "---Hooks---",
     "use-progress",
-    "---Advanced---"
+    "use-router",
+    "---Advanced---",
+    "data-attributes"
   ]
 }

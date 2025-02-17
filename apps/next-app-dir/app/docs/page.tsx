@@ -34,13 +34,13 @@ export default function Home() {
             marginTop: 15,
           }}
           onClick={(e) => e.preventDefault()}
-          data-prevent-bprogress={true}
+          data-prevent-progress={true}
         >
           e.preventDefault()
         </span>
       </Link>
       <Link href="#test">Link with href</Link>
-      <Link href="/dashboard" data-disable-bprogress={true}>
+      <Link href="/dashboard" data-disable-progress={true}>
         Link with bprogress disabled
       </Link>
       <button onClick={() => router.push('/')}>Push same url</button>
