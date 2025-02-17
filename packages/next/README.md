@@ -1,70 +1,56 @@
-<div align="center">
-<h1>BProgress for Next.js</h1>
+# BProgress for Next.js
 
-<p>BProgress integration on Next.js compatible with /app and /pages directory</p>
+BProgress integration on Next.js compatible with **/app** and **/pages** directory.
 
-</div>
+**Next NProgress Bar and NProgress V2 become BProgress!**
 
-## Getting started
+## Migration from `next-nprogress-bar`
 
-### Install
+If you are using `next-nprogress-bar`, you can migrate to `@bprogress/next` by following the [migration guide](https://bprogress.vercel.app/docs/next/migration).
+
+## Installation
+
+To install BProgress, run the following command:
 
 ```bash
 npm install @bprogress/next
 ```
 
-### Import
+## Import
 
-_Import it into your **/pages/\_app(.js/.jsx/.ts/.tsx)** or **/app/layout(.js/.jsx/.ts/.tsx)** folder_
+### App Directory
 
-```javascript
-// In app directory
-import { AppProgressBar as ProgressBar } from '@bprogress/next';
-
-// In pages directory
-import { PagesProgressBar as ProgressBar } from '@bprogress/next';
-```
-
-### Use
-
-```javascript
-<ProgressBar />
-```
-
-## Example with /pages/\_app
-
-### TypeScript
+Import into your `/app/layout(.js/.jsx/.ts/.tsx)` folder.
 
 ```tsx
-import type { AppProps } from 'next/app';
-import { PagesProgressBar as ProgressBar } from '@bprogress/next';
-
-export default function App({ Component, pageProps }: AppProps) {
-  return (
-    <>
-      <Component {...pageProps} />
-      <ProgressBar
-        height="4px"
-        color="#fffd00"
-        options={{ showSpinner: false }}
-        shallowRouting
-      />
-    </>
-  );
-}
+import { AppProgressProvider as ProgressProvider } from '@bprogress/next';
 ```
 
-## Example with /app/layout
+### Pages Directory
 
-### TypeScript
+Import into your `/pages/_app(.js/.jsx/.ts/.tsx)` folder.
 
-#### First approach in a use client layout
+```tsx
+import { PagesProgressProvider as ProgressProvider } from '@bprogress/next';
+```
+
+## Usage
+
+```tsx
+<ProgressProvider>...</ProgressProvider>
+```
+
+## Example
+
+### App Directory
+
+First approach in a use client layout.
 
 ```tsx
 // In /app/layout.tsx
 'use client';
 
-import { AppProgressBar as ProgressBar } from '@bprogress/next';
+import { AppProgressProvider as ProgressProvider } from '@bprogress/next';
 
 export default function RootLayout({
   children,
@@ -74,52 +60,50 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
-        <ProgressBar
+        <ProgressProvider
           height="4px"
           color="#fffd00"
           options={{ showSpinner: false }}
           shallowRouting
-        />
+        >
+          {children}
+        </ProgressProvider>
       </body>
     </html>
   );
 }
 ```
 
-#### Second approach wrap in a use client Providers component
+Second approach wrap in a use client Providers component. (Recommended)
 
-See [Next.js documentation](https://nextjs.org/docs/getting-started/react-essentials#rendering-third-party-context-providers-in-server-components)
-
-##### /components/ProgressBarProvider.tsx
+Create a Providers component to wrap your application with all the components requiring 'use client', such as BProgress or your different contexts...
 
 ```tsx
-// Create a Providers component to wrap your application with all the components requiring 'use client', such as BProgress bar or your different contexts...
+// In /app/providers.tsx
 'use client';
 
-import { AppProgressBar as ProgressBar } from '@bprogress/next';
+import { AppProgressProvider as ProgressProvider } from '@bprogress/next';
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
-    <>
+    <ProgressProvider
+      height="4px"
+      color="#fffd00"
+      options={{ showSpinner: false }}
+      shallowRouting
+    >
       {children}
-      <ProgressBar
-        height="4px"
-        color="#fffd00"
-        options={{ showSpinner: false }}
-        shallowRouting
-      />
-    </>
+    </ProgressProvider>
   );
 };
 
 export default Providers;
 ```
 
-##### /app/layout.tsx
+Then wrap your application with the Providers component.
 
 ```tsx
-// Import and use it in /app/layout.tsx
+// In /app/layout.tsx
 import Providers from './providers';
 
 export const metadata = {
@@ -142,167 +126,30 @@ export default function RootLayout({
 }
 ```
 
-## Data attributes
-
-### Disable progress bar on specific links
-
-You can disable the progress bar on specific links by adding the `data-disable-bprogress={true}` attribute.
-
-_/!\ This will not work for Link in svg elements._
-
-```jsx
-<Link href="#features" data-disable-bprogress={true}>
-  Features
-</Link>
-```
-
-### Prevent progress
-
-You can prevent the progress bar from starting by adding the `data-prevent-bprogress={true}` attribute.
-
-```jsx
-<Link href="/dashboard">
-  <span>Dashboard</span>
-  <span onClick={(e) => e.preventDefault()} data-prevent-bprogress={true}>
-    preventDefault
-  </span>
-</Link>
-```
-
-## Props
-
-### height _optional_ - _string_
-
-Height of the progress bar - **by default 2px**
-
-### color _optional_ - _string_
-
-Color of the progress bar - **by default #0A2FFF**
-
-### options _optional_ - _BProgressOptions_
-
-**by default undefined**
-
-See [BProgress docs](https://www.npmjs.com/package/@bprogress/core#configuration)
-
-### spinnerPosition _optional_ - _SpinnerPosition ('top-left' | 'top-right' | 'bottom-left' | 'bottom-right')_
-
-Position of the spinner (if `showSpinner` is `true`) - **by default top-right**
-
-### shallowRouting _optional_ - _boolean_
-
-Do not display the progress bar when the query parameters change but the route remains the same - **by default false**
-
-See [Next.js docs](https://nextjs.org/docs/pages/building-your-application/routing/linking-and-navigating#shallow-routing)
-
-### startPosition _optional_ - _number_
-
-The position the progress bar starts at from 0 to 1 - **by default 0**
-
-### delay _optional_ - _number_
-
-When the page loads faster than the progress bar, it does not display - **by default 0**
-
-### disableSameURL _optional_ - _boolen_
-
-Disable the progress bar when the target URL is the same as the current URL - **by default true**
-
-### stopDelay _optional_ - _number_
-
-The delay in milliseconds before the progress bar stops - **by default 0**
-
-### nonce _optional_ - _string_
-
-A cryptographic nonce (number used once) used to declare inline scripts for Content Security Policy - **by default undefined**
-
-### memo _optional_ - _boolean_
-
-A cryptographic nonce (number used once) used to declare inline scripts for Content Security Policy - **by default true**
-
-### style _optional_ - _string_
-
-Your custom CSS - **by default [BProgress CSS](https://github.com/Skyleen77/bprogress/blob/main/packages/core/index.css)**
-
-### disableStyle
-
-Disable the default CSS - **by default false**
-If you need to disable the default CSS, you will need to add your own CSS to see the progress bar. You can use [BProgress CSS](https://github.com/Skyleen77/bprogress/blob/main/packages/core/index.css) as a base.
-
-### shouldCompareComplexProps _optional_ - _boolean_
-
-Activates a detailed comparison of component props to determine if a rerender is necessary.
-When `true`, the component will only rerender if there are changes in key props such as `color`, `height`, `shallowRouting`, `delay`, `options`, and `style`.
-This is useful for optimizing performance in scenarios where these props change infrequently. If not provided or set to `false`, the component will assume props have not changed and will not rerender, which can enhance performance in scenarios where the props remain static. - **by default undefined**
-
-### targetPreprocessor _optional_ - _(url: URL) => URL_ - (_only for app directory progress bar_)
-
-Provides a custom function to preprocess the target URL before comparing it with the current URL.
-This is particularly useful in scenarios where URLs undergo transformations, such as localization or path modifications, after navigation.
-The function takes a `URL` object as input and should return a modified `URL` object.
-If this prop is provided, the preprocessed URL will be used for comparisons, ensuring accurate determination of whether the navigation target is equivalent to the current URL.
-This can prevent unnecessary display of the progress bar when the target URL is effectively the same as the current URL after preprocessing. - **by default undefined**
-
-### startOnLoad _optional_ - _boolean_
-
-Start the progress bar on load - **by default false**
-
-## App directory router
-
-### Import
-
-```jsx
-import { useRouter } from '@bprogress/next';
-```
-
-### Types
+### Pages Directory
 
 ```tsx
-router.push(url: string, options?: NavigateOptions, BProgressOptions?: RouterBProgressOptions)
-router.replace(url: string, options?: NavigateOptions, BProgressOptions?: RouterBProgressOptions)
-router.back(BProgressOptions?: RouterBProgressOptions)
-router.refresh(BProgressOptions?: RouterBProgressOptions)
-```
+// In /pages/_app.tsx
+import type { AppProps } from 'next/app';
+import { PagesProgressProvider as ProgressProvider } from '@bprogress/next';
 
-`NavigateOptions` is the options of the next router.
-
-```tsx
-interface RouterBProgressOptions {
-  showProgressBar?: boolean;
-  startPosition?: number;
-  disableSameURL?: boolean;
+export default function App({ Component, pageProps }: AppProps) {
+  return (
+    <ProgressProvider
+      height="4px"
+      color="#fffd00"
+      options={{ showSpinner: false }}
+      shallowRouting
+    >
+      <Component {...pageProps} />
+    </ProgressProvider>
+  );
 }
 ```
 
-### Use
+## More information on documentation
 
-Replace your 'next/navigation' routers with this one. It's the same router, but this one supports BProgress.
-
-```tsx
-const router = useRouter();
-
-// With progress bar
-router.push('/about');
-router.replace('/?counter=10');
-router.back();
-router.refresh();
-```
-
-It also has an optional parameter (`customRouter`) that allows you to use this router with another custom router (for example, it could be the one from `next-intl`):
-
-```tsx
-import { useRouter as useAnotherCustomRouter } from 'sample-package';
-const router = useRouter(useAnotherCustomRouter);
-
-// With progress bar
-router.push('/about');
-router.replace('/?counter=10');
-router.back();
-router.refresh();
-```
-
-## Migrating from next-nprogress-bar to @bprogress/next
-
-...
+Go to the [documentation](https://bprogress.vercel.app/docs/next/installation) to learn more about BProgress.
 
 ## Issues
 

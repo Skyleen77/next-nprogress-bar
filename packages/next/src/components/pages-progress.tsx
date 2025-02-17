@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { BProgress } from '@bprogress/core';
 import { isSameURL, isSameURLWithoutSearch } from '../utils/sameURL';
 import Router from 'next/router';
-import type { PagesProgressProps } from '..';
+import type { PagesProgressProps } from '../types';
 import { css } from '../utils/css';
 
 export const PagesProgress = React.memo(

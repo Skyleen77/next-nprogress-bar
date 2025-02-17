@@ -6,12 +6,13 @@ import {
   useSearchParams,
   useRouter as useNextRouter,
 } from 'next/navigation';
-import type { AppProgressProps, RouterBProgressOptions } from '..';
+import type {
+  AppProgressProps,
+  RouterActionsProgressOptions,
+  RouterProgressOptions,
+} from '../types';
 import { getAnchorProperty } from '../utils/getAnchorProperty';
-import {
-  type AppRouterInstance,
-  NavigateOptions,
-} from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import type { NavigateOptions } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { css } from '../utils/css';
 
 type PushStateInput = [
@@ -98,15 +99,15 @@ export const AppProgress = React.memo(
           | SVGAElement;
         const target = event.target as HTMLElement | Element;
         let preventProgress =
-          target?.getAttribute('data-prevent-bprogress') === 'true' ||
-          anchorElement?.getAttribute('data-prevent-bprogress') === 'true';
+          target?.getAttribute('data-prevent-progress') === 'true' ||
+          anchorElement?.getAttribute('data-prevent-progress') === 'true';
 
         if (!preventProgress) {
           let element: HTMLElement | Element | null = target;
 
           while (element && element.tagName.toLowerCase() !== 'a') {
             if (
-              element.parentElement?.getAttribute('data-prevent-bprogress') ===
+              element.parentElement?.getAttribute('data-prevent-progress') ===
               'true'
             ) {
               preventProgress = true;
@@ -152,7 +153,7 @@ export const AppProgress = React.memo(
         const validAnchorElements = anchorElements.filter((anchor) => {
           const href = getAnchorProperty(anchor, 'href');
           const isBProgressDisabled =
-            anchor.getAttribute('data-disable-bprogress') === 'true';
+            anchor.getAttribute('data-disable-progress') === 'true';
           const isNotTelOrMailto =
             href &&
             !href.startsWith('tel:') &&
@@ -229,7 +230,9 @@ export const AppProgress = React.memo(
 
 AppProgress.displayName = 'AppProgress';
 
-export function useRouter(customRouter?: () => AppRouterInstance) {
+export function useRouter(options?: RouterProgressOptions) {
+  const { customRouter, ...defaultProgressOptions } = options || {};
+
   const useSelectedRouter = useCallback(() => {
     if (customRouter) return customRouter();
     return useNextRouter();
@@ -237,90 +240,92 @@ export function useRouter(customRouter?: () => AppRouterInstance) {
 
   const router = useSelectedRouter();
 
-  const startProgress = useCallback(
-    (startPosition?: number) => {
-      if (startPosition && startPosition > 0) BProgress.set(startPosition);
-      BProgress.start();
-    },
-    [router],
-  );
+  const startProgress = useCallback((startPosition?: number) => {
+    if (startPosition && startPosition > 0) BProgress.set(startPosition);
+    BProgress.start();
+  }, []);
 
   const stopProgress = useCallback(() => {
     if (!BProgress.isStarted()) return;
     BProgress.done();
-  }, [router]);
+  }, []);
 
   const progress = useCallback(
     (
       href: string,
       method: 'push' | 'replace',
-      options?: NavigateOptions,
-      BProgressOptions?: RouterBProgressOptions,
+      optionsNav?: NavigateOptions,
+      progressOptions?: RouterActionsProgressOptions,
     ) => {
-      if (BProgressOptions?.showProgress === false) {
-        return router[method](href, options);
+      const mergedOptions = { ...defaultProgressOptions, ...progressOptions };
+
+      if (mergedOptions.showProgress === false) {
+        return router[method](href, optionsNav);
       }
 
       const currentUrl = new URL(location.href);
       const targetUrl = new URL(href, location.href);
 
-      if (BProgressOptions?.basePath) {
+      if (mergedOptions.basePath) {
         targetUrl.pathname =
-          BProgressOptions.basePath +
+          mergedOptions.basePath +
           (targetUrl.pathname !== '/' ? targetUrl.pathname : '');
       }
 
       const sameURL = isSameURL(targetUrl, currentUrl);
 
-      if (sameURL && BProgressOptions?.disableSameURL !== false)
-        return router[method](href, options);
+      if (sameURL && mergedOptions.disableSameURL !== false) {
+        return router[method](href, optionsNav);
+      }
 
-      startProgress(BProgressOptions?.startPosition);
+      startProgress(mergedOptions.startPosition);
       if (sameURL) stopProgress();
-      return router[method](href, options);
+      return router[method](href, optionsNav);
     },
-    [router],
+    [router, defaultProgressOptions, startProgress, stopProgress],
   );
 
   const push = useCallback(
     (
       href: string,
-      options?: NavigateOptions,
-      BProgressOptions?: RouterBProgressOptions,
+      optionsNav?: NavigateOptions,
+      progressOptions?: RouterActionsProgressOptions,
     ) => {
-      progress(href, 'push', options, BProgressOptions);
+      progress(href, 'push', optionsNav, progressOptions);
     },
-    [router, startProgress],
+    [progress],
   );
 
   const replace = useCallback(
     (
       href: string,
-      options?: NavigateOptions,
-      BProgressOptions?: RouterBProgressOptions,
+      optionsNav?: NavigateOptions,
+      progressOptions?: RouterActionsProgressOptions,
     ) => {
-      progress(href, 'replace', options, BProgressOptions);
+      progress(href, 'replace', optionsNav, progressOptions);
     },
-    [router, startProgress],
+    [progress],
   );
 
   const back = useCallback(
-    (BProgressOptions?: RouterBProgressOptions) => {
-      if (BProgressOptions?.showProgress === false) return router.back();
-      startProgress(BProgressOptions?.startPosition);
+    (progressOptions?: RouterActionsProgressOptions) => {
+      const mergedOptions = { ...defaultProgressOptions, ...progressOptions };
+      if (mergedOptions.showProgress === false) return router.back();
+      startProgress(mergedOptions.startPosition);
       return router.back();
     },
-    [router],
+    [router, defaultProgressOptions, startProgress],
   );
 
   const refresh = useCallback(
-    (BProgressOptions?: RouterBProgressOptions) => {
-      if (BProgressOptions?.showProgress === false) return router.back();
-      startProgress(BProgressOptions?.startPosition);
+    (progressOptions?: RouterActionsProgressOptions) => {
+      const mergedOptions = { ...defaultProgressOptions, ...progressOptions };
+      if (mergedOptions.showProgress === false) return router.refresh();
+      startProgress(mergedOptions.startPosition);
       stopProgress();
       return router.refresh();
     },
-    [router],
+    [router, defaultProgressOptions, startProgress, stopProgress],
   );
 
   const enhancedRouter = useMemo(() => {
