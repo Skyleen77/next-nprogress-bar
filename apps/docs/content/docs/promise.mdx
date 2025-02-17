@@ -1,0 +1,25 @@
+---
+title: promise()
+description: BProgress.promise() method
+---
+
+The `promise()` method integrates BProgress with a "promise-like" object (e.g., jQuery promises), automatically starting the progress bar and completing it when the promise is resolved.
+
+## Usage
+
+```js
+// Assume $promise is a jQuery promise-like
+BProgress.promise($promise);
+```
+
+## Typing
+
+```ts
+BProgress.promise($promise: any): BProgress;
+```
+
+## Parameters
+
+| Name     | Type | Description                                      |
+|----------|------|--------------------------------------------------|
+| $promise | any  | A jQuery-like promise object (with an .always() callback). |

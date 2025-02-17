@@ -1,0 +1,41 @@
+---
+title: Quick Start
+description: Get started with BProgress
+---
+
+## Import
+
+### CDN
+
+Import CSS in your `index.html` file.
+
+```html
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/@bprogress/core/dist/index.css" />
+```
+
+Import JavaScript in your `index.html` file.
+
+```html
+<script type="module">
+  import { BProgress } from 'https://unpkg.com/@bprogress/core/dist/index.mjs';
+
+  BProgress.configure({
+    ...
+  });
+</script>
+```
+
+### Node.js
+
+```js
+import { BProgress } from '@bprogress/core';
+```
+
+## Basic Usage
+
+Simply call `start()` and `done()` to control the progress bar.
+
+```js
+BProgress.start();
+BProgress.done();
+```

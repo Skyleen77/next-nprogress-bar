@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.code-block pre {
+  @apply !bg-transparent !p-0;
+}
+
+.code-block pre code {
+  @apply !bg-transparent;
+}
+
+.bprogress-logo {
+  display: inline-block;
+  width: 70%;
+  max-width: 300px;
+  height: 40px;
+  border: solid 4px currentColor;
+  border-radius: 999px;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.bprogress-logo:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  bottom: 4px;
+  background: currentColor;
+  border-radius: 999px;
+  animation: progress 14s infinite;
+}
+
+.fade {
+  transition: all 300ms linear 700ms;
+  -webkit-transform: translate3d(0,0,0);
+  -moz-transform: translate3d(0,0,0);
+  -ms-transform: translate3d(0,0,0);
+  -o-transform: translate3d(0,0,0);
+  transform: translate3d(0,0,0);
+  opacity: 1;
+}
+
+@keyframes progress {
+  0% {
+    width: 5%;
+  }
+  250% {
+    width: 40%;
+  }
+  50% {
+    width: 95%;
+  }
+  75% {
+    width: 60%;
+  }
+  100% {
+    width: 5%;
+  }
+}

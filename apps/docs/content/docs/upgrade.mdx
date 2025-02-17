@@ -1,0 +1,58 @@
+---
+title: Upgrade form 1.0 to 1.1
+description: Upgrade from NProgress-V2 version 1.0 to BProgress version 1.1
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+In addition to [migrating to BProgress](/docs/migration), if you are migrating from version `1.0` of NProgress-V2, you may need to make some changes.
+
+With version `1.1` there are a few new features and small changes.
+
+The only change will be in the CSS. If you have a custom css, replace the id selector `#` with a class selector `.` for `nprogress`, which has now become `bprogress`.
+
+This will give you something like this:
+
+```diff title=CSS
+- #nprogress
++ .bprogress
+```
+
+## What's new
+
+The big news is the ability to use **multiple progress bars anywhere in your code**.
+
+To do this you need to set a `template` to `null`:
+
+```js
+BProgress.configure({
+  template: null,
+});
+```
+
+And add one or more templates like this to your code:
+
+```html
+<div class="bprogress" style="display: none">
+  <div class="bar" role="bar">
+    <div class="peg"></div>
+  </div>
+  <div class="spinner" role="spinner">
+    <div class="spinner-icon"></div>
+  </div>
+</div>
+```
+
+<Callout type="warn" title="Pay Attention">Don't forget to set the div with the nprogress class to `display:none` by default.</Callout>
+
+Another new feature is the addition of the `width` value for `positionUsing`. This allows for greater flexibility, including the ability to create progress bars positioned absolutely within elements that are not directly aligned with the edges of the screen.
+
+```js
+BProgress.configure({
+  positionUsing: 'width',
+});
+```
+
+<Callout title="Note">
+  By default, `positionUsing` will give priority to `translate3d` (depending on browser compatibility), as this method leverages GPU acceleration, providing smoother animations and better performance, especially for complex or frequently updated UI elements. Using `translate3d` helps reduce layout recalculations and enhances rendering efficiency compared to other positioning methods.
+</Callout>

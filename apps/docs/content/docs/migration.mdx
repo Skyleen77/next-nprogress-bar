@@ -1,0 +1,39 @@
+---
+title: Migration from NProgress-V2
+description: Migrate from NProgress-V2 to BProgress
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+To **clarify the library’s identity** and enable it to **evolve more freely**, we decided to move away from the name **NProgress-V2** and adopt a new identity: **BProgress**. This rebranding gives us the opportunity to **start fresh on a solid foundation, introduce new features, and provide more integration libraries** while fostering a richer ecosystem around the project.
+
+There are two differences with the `nprogress-v2` package. 
+
+The first difference is the name of the `nprogress-v2` package, which is now called `@bprogress/core`. So you can change the import like this:
+
+```diff title=JavaScript
+- import { NProgress } from 'nprogress-v2';
++ import { BProgress } from '@bprogress/core';
+```
+
+The second difference is that all occurrences of “nprogress” have been replaced by “bprogress” in the code.
+
+So you can change your code like this for example:
+
+```diff title=JavaScript
+- NProgress.start();
++ BProgress.start();
+```
+
+CSS has also changed, so if you're using custom CSS, be sure to rename all your `.nprogress` to `.bprogress`.
+
+```diff title=CSS
+- .nprogress
++ .bprogress
+```
+
+And then you can use the `BProgress` object as you would use the `NProgress` object.
+
+<Callout type="warn" title="Warning">
+  The `nprogress-v2` package remains available and can still be used in its current version. However, it will no longer receive updates or maintenance in the future. While migrating to `@bprogress/core` is not mandatory, we recommend doing so to benefit from ongoing improvements and new features.
+</Callout>

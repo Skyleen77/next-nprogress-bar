@@ -1,0 +1,24 @@
+---
+title: render()
+description: BProgress.render() method
+---
+
+The `render()` method ensures a `.bprogress` element is present in the DOM. If `template` is not `null`, it creates it if missing. Otherwise, it relies on a user-provided element.
+
+## Usage
+
+```js
+BProgress.render(true);
+```
+
+## Typing
+
+```ts
+BProgress.render(fromStart: boolean = false): HTMLElement[];
+```
+
+## Parameters
+
+| Name      | Type    | Description                                                                 |
+|-----------|---------|-----------------------------------------------------------------------------|
+| fromStart | boolean | If `true`, the bar is rendered at 0% (used internally when starting for the first time) |
