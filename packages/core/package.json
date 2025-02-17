@@ -1,0 +1,40 @@
+{
+  "name": "@bprogress/core",
+  "version": "1.1.11",
+  "description": "NProgress-inspired library with more features",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Skyleen77/bprogress.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Skyleen77/bprogress/issues"
+  },
+  "homepage": "https://bprogress.vercel.app/",
+  "author": "Skyleen",
+  "license": "MIT",
+  "keywords": [
+    "nprogress",
+    "progress",
+    "bar",
+    "bprogress"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "pub:release": "pnpm publish --no-git-checks --access public"
+  },
+  "devDependencies": {
+    "@types/eslint": "^8.56.5",
+    "@types/node": "^20.17.10",
+    "eslint": "^8.57.0",
+    "tsup": "^8.3.5",
+    "typescript": "5.5.4"
+  }
+}

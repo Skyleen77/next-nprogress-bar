@@ -1,0 +1,31 @@
+---
+title: Peg
+description: Use the `Peg` component
+---
+
+The `Peg` component must be used inside the `Bar` component.
+
+## Import
+
+```tsx
+import { Peg } from '@bprogress/next';
+```
+
+## Usage
+
+The `Peg` component is used to create a shadow that acts like a luminous halo.
+
+```tsx
+<Peg />
+```
+
+The `Peg` component can be used with children.
+
+## Props
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| as | `React.ElementType` | `'div'` | The component to render the progress element |
+| children | `React.ReactNode` | `undefinded` | The children of the progress element |
+| classSelector | `string` | `'peg'` | The class selector of the progress element (depends on your css) |
+| ...rest | `React.ComponentPropsWithoutRef<T>` | - | The rest of the props are passed to the progress element |

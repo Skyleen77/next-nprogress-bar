@@ -1,0 +1,29 @@
+{
+  "title": "BProgress",
+  "root": true,
+  "pages": [
+    "---Guide---",
+    "index",
+    "installation",
+    "quick-start",
+    "migration",
+    "upgrade",
+    "---Methods---",
+    "configure",
+    "start",
+    "is-started",
+    "done",
+    "set",
+    "inc",
+    "trickle",
+    "promise",
+    "render",
+    "remove",
+    "pause",
+    "resume",
+    "is-rendered",
+    "get-positioning-css",
+    "---Integrations---",
+    "next"
+  ]
+}

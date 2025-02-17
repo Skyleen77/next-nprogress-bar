@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" href="dist/index.css" />
+    <title>BProgress Test</title>
+  </head>
+  <body>
+    <h1>BProgress Test</h1>
+
+    <!-- <div class="bprogress" style="display: none">
+      <div class="bar" role="bar">
+        <div class="peg"></div>
+      </div>
+      <div class="spinner" role="spinner">
+        <div class="spinner-icon"></div>
+      </div>
+    </div> -->
+
+    <button id="start-btn">Start</button>
+    <button id="inc-btn">Increment</button>
+    <button id="done-btn">Done</button>
+
+    <script type="module">
+      import { BProgress } from './dist/index.mjs';
+
+      console.log('BProgress', BProgress);
+
+      BProgress.configure({
+        // template: null,
+        // positionUsing: 'width',
+        // direction: 'rtl',
+      });
+
+      document
+        .getElementById('start-btn')
+        .addEventListener('click', function () {
+          BProgress.start();
+        });
+
+      document.getElementById('inc-btn').addEventListener('click', function () {
+        BProgress.inc(0.2);
+      });
+
+      document
+        .getElementById('done-btn')
+        .addEventListener('click', function () {
+          BProgress.done();
+        });
+
+      // window.addEventListener('load', function () {
+      //   BProgress.start();
+
+      //   setTimeout(function () {
+      //     BProgress.done();
+      //   }, 2000);
+      // });
+    </script>
+  </body>
+</html>

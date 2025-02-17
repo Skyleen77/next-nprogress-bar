@@ -1,56 +1,31 @@
 {
-  "name": "next-nprogress-bar",
-  "version": "3.0.0-beta.2",
-  "description": "NextJS progress bar compatible with new app directory",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Skyleen77/next-nprogress-bar.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Skyleen77/next-nprogress-bar/issues"
-  },
-  "homepage": "https://next-nprogress-bar.vercel.app",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
+  "name": "bprogress",
+  "version": "0.0.1",
+  "private": true,
+  "keywords": [
+    "nprogress",
+    "progress",
+    "bar",
+    "bprogress",
+    "next.js",
+    "react"
   ],
   "scripts": {
-    "build": "rollup -c --bundleConfigAsCjs",
-    "dev": "rollup -c -w --bundleConfigAsCjs"
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "docs:dev": "pnpm pnpm --filter docs dev",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
-  "keywords": [
-    "next",
-    "nextjs",
-    "next js",
-    "react",
-    "nprogress",
-    "progress bar",
-    "progress bar app directory"
-  ],
-  "author": "Skyleen",
-  "license": "MIT",
   "devDependencies": {
-    "@types/node": "^22.12.0",
-    "@types/react": "^19.0.8",
-    "@types/react-dom": "^19.0.3",
-    "babel-core": "^6.26.3",
-    "babel-runtime": "^6.26.0",
-    "eslint": "^9.19.0",
-    "eslint-config-next": "^15.1.6",
-    "typescript": "^5.7.3",
-    "next": "^15.1.7",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "rollup": "^3.21.6",
-    "rollup-plugin-typescript2": "^0.34.1"
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/typescript-config": "workspace:*",
+    "prettier": "^3.2.5",
+    "turbo": "^2.3.0",
+    "typescript": "5.5.4"
   },
-  "peerDependencies": {
-    "next": ">=13.0.0",
-    "react": ">=18.0.0",
-    "react-dom": ">=18.0.0"
-  },
-  "dependencies": {
-    "nprogress-v2": "^1.1.6"
+  "packageManager": "pnpm@9.12.3",
+  "engines": {
+    "node": ">=20"
   }
 }

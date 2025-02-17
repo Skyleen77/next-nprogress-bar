@@ -1,0 +1,15 @@
+{
+  "title": "Next.js",
+  "root": false,
+  "pages": [
+    "---Guide---",
+    "installation",
+    "quick-start",
+    "---Components---",
+    "progress-provider",
+    "progress-components",
+    "---Hooks---",
+    "use-progress",
+    "---Advanced---"
+  ]
+}

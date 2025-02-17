@@ -1,0 +1,31 @@
+---
+title: remove()
+description: BProgress.remove() method
+---
+
+The `remove()` method removes one or all `.bprogress` elements from the DOM.
+
+## Usage
+
+```js
+// Remove a specific element
+const element = document.querySelector('#my-progress');
+BProgress.remove(element);
+
+// Remove all
+BProgress.remove();
+```
+
+## Typing
+
+```ts
+BProgress.remove(progressElement?: HTMLElement): void;
+```
+
+## Parameters
+
+| Name  | Type    | Description                                                        |
+|-------|---------|--------------------------------------------------------------------|
+| progressElement | HTMLElement | If provided, removes or hides only that element. Otherwise removes all. |
+
+_If `template === null`, the element(s) are hidden (via `display: none`) instead of being fully removed._

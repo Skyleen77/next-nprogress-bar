@@ -1,0 +1,46 @@
+---
+title: Spinner
+description: Use the `Spinner` component
+---
+
+The `Spinner` component must be used inside the `Progress` component.
+
+## Import
+
+```tsx
+import { Spinner } from '@bprogress/next';
+```
+
+## Usage
+
+This component is used to display the spinner.
+
+```tsx
+<Spinner />
+```
+
+It can be used with a children like `SpinnerIcon`:
+
+```tsx
+<Spinner>
+  <SpinnerIcon />
+</Spinner>
+```
+
+Or with a custom spinner component like this:
+
+```tsx
+<Spinner>
+  <LoaderCircle className="animate-spin size-6" />
+</Spinner>
+```
+
+## Props
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| as | `React.ElementType` | `'div'` | The component to render the progress element |
+| children | `React.ReactNode` | `undefinded` | The children of the progress element |
+| classSelector | `string` | `'spinner'` | The class selector of the progress element (depends on your css) |
+| role | `string` | `'spinner'` | The role of the progress element (depends on the `barSelector` and `spinnerSelector` options you set) |
+| ...rest | `React.ComponentPropsWithoutRef<T>` | - | The rest of the props are passed to the progress element |
