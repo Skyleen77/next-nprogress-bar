@@ -56,6 +56,6 @@
     "react-dom": ">=18.0.0"
   },
   "dependencies": {
-    "@bprogress/core": "workspace:*"
+    "@bprogress/core": "1.1.11"
   }
 }
