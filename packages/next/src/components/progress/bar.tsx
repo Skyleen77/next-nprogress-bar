@@ -16,7 +16,6 @@ function BarInner<T extends React.ElementType = 'div'>(
   }: BarProps<T>,
   ref: React.ForwardedRef<React.ComponentRef<T>>,
 ) {
-  // Définition du composant à utiliser avec 'div' par défaut
   const Component = as ?? ('div' as T);
   return React.createElement(
     Component,
@@ -24,7 +23,6 @@ function BarInner<T extends React.ElementType = 'div'>(
       ref,
       className: classNames(classSelector, className),
       role,
-      // On cast les props restantes pour qu'elles correspondent aux props attendues par T
       ...(rest as React.ComponentPropsWithoutRef<T>),
     },
     children,
