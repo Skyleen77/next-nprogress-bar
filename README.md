@@ -1,11 +1,23 @@
 # BProgress
 
-BProgress is a lightweight JavaScript library that displays a progress bar at the top of the page to indicate the loading of an asynchronous action, commonly used to enhance user experience during page transitions or network requests.
+**Next NProgress Bar and NProgress V2 become BProgress!**
+
+**BProgress** is a modern reimplementation of **NProgress** in **TypeScript, featuring optimized syntax, better customization, and improved performance**. Unlike NProgress, which has been unmaintained for over five years, BProgress **follows modern best practices and includes new community-requested features**. Its goal is to simplify progress bar integration across multiple frameworks with dedicated packages. 🚀
+
+## Why is BProgress useful?
+
+**BProgress** is a lightweight progress bar designed to visually indicate loading states in web applications. It is commonly used to display a **smooth, animated progress bar** during **page transitions, data loading, or asynchronous operations**.
+
+It helps users understand that a new page or content is being loaded, making navigation more intuitive and preventing confusion during transitions.
 
 ## Packages
 
-- [@bprogress/core](https://github.com/Skyleen77/bprogress/tree/main/packages/core)
-- [@bprogress/next](https://github.com/Skyleen77/bprogress/tree/main/packages/next)
+- **Core**: [@bprogress/core](https://github.com/Skyleen77/bprogress/tree/main/packages/core)
+- **Next.js**: [@bprogress/next](https://github.com/Skyleen77/bprogress/tree/main/packages/next)
+
+## Documentation
+
+See the [official documentation](https://bprogress.vercel.app/docs) for more information on how to use BProgress.
 
 ## Issues
 
