@@ -1,0 +1,169 @@
+---
+title: Migration from next-nprogress-bar
+description: Migrate from next-nprogress-bar (v2) to BProgress (v3)
+---
+
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+
+**`next-nprogress-bar` becomes `@bprogress/next`!**
+
+Behind this new identity lies a **major update to the package**, bringing plenty of exciting **new features**.
+
+As the name has changed, there are a few name changes to be made in the package.
+
+## Installation
+
+You need to uninstall `next-nprogress-bar` and install `@bprogress/next`.
+
+<Tabs groupId="packageManager" items={['npm', 'pnpm', "yarn", "bun"]} persist>
+  <Tab value="npm">
+    ```diff
+- npm uninstall next-nprogress-bar
++ npm install @bprogress/next
+```
+  </Tab>
+  <Tab value="pnpm">
+    ```diff
+- pnpm remove next-nprogress-bar
++ pnpm add @bprogress/next
+```
+  </Tab>
+  <Tab value="yarn">
+    ```diff
+- yarn remove next-nprogress-bar
++ yarn add @bprogress/next
+```
+  </Tab>
+  <Tab value="bun">
+    ```diff
+- bun remove next-nprogress-bar
++ bun add @bprogress/next
+```
+  </Tab>
+</Tabs>
+
+## Import
+
+You need to update the import path in your application.
+
+```diff
+- import { ... } from 'next-nprogress-bar';
++ import { ... } from '@bprogress/next';
+```
+
+## Progress Component
+
+### Import
+
+Now you don't import a component but a provider to use the progress bar.
+
+```diff
+// App directory
+- import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
++ import { AppProgressProvider as ProgressProvider } from '@bprogress/next';
+
+// Pages directory
+- import { PagesProgressBar as ProgressBar } from 'next-nprogress-bar';
++ import { PagesProgressProvider as ProgressProvider } from 'next-nprogress-bar';
+```
+
+### Usage
+
+You'll use the `ProgressProvider` in the same place, but since it's a provider, it must be around your `children`.
+
+#### App directory
+
+```diff
+- {children}
+- <ProgressBar
+-   height="4px"
+-   color="#fffd00"
+-   options={{ showSpinner: false }}
+-   shallowRouting
+- />
++ <ProgressProvider
++   height="4px"
++   color="#fffd00"
++   options={{ showSpinner: false }}
++   shallowRouting
++ >
++   {children}
++ </ProgressProvider>
+```
+
+#### Pages directory
+
+```diff
+- <Component {...pageProps} />
+- <ProgressBar
+-   height="4px"
+-   color="#fffd00"
+-   options={{ showSpinner: false }}
+-   shallowRouting
+- />
+```
+
+```diff
++ <ProgressProvider
++   height="4px"
++   color="#fffd00"
++   options={{ showSpinner: false }}
++   shallowRouting
++ >
++   <Component {...pageProps} />
++ </ProgressProvider>
+```
+
+## Router (only for App directory)
+
+The `showProgressBar` option is renamed `showProgress`.
+
+```diff
+- router.push('/about', undefined, { showProgressBar: false });
++ router.push('/about', undefined, { showProgress: false });
+```
+
+If you use a custom router, you'll need to make these changes:
+
+```diff
+- const router = useRouter(myCustomRouter);
++ const router = useRouter({ customRouter: myCustomRouter });
+```
+
+### Types
+
+The type `RouterNProgressOptions` is renamed `RouterProgressOptions`.
+
+```diff
+- RouterNProgressOptions
++ RouterProgressOptions
+```
+
+## Data attributes
+
+If you use data attibutes to prevent or disable the progress bar on certain links, you'll need to make these changes:
+
+```diff
+// Disable progress bar on specific links
+- data-disable-nprogress
++ data-disable-progress
+
+// Prevent progress
+- data-prevent-nprogress
++ data-prevent-progress
+```
+
+## Custom CSS
+
+One of the great new features of BProgress version `1.1` is the ability to use a custom template anywhere in your code. So we use a class instead of an id to select the element. 
+
+If you are using custom CSS you will need to make this change:
+
+```diff
+- #nprogress
++ .bprogress
+```
+
+## Issues
+
+If you encounter any issues, please [open an issue](https://github.com/Skyleen77/bprogress/issues) on the BProgress repository. We'll be happy to help you as soon as possible!

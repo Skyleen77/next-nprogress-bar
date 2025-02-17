@@ -1,0 +1,163 @@
+---
+title: useRouter (app directory)
+description: Use `useRouter` hook
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+The app directory router doesn't manage routes like the page directory router. So we need a custom router that extends the Next.js router and enables the progress bar.
+
+<Callout type="warn" title="Warning">
+  The `useRouter` hook can only be used in the app directory. It will not work in the pages directory.
+</Callout>
+
+## Import
+
+```tsx
+import { useRouter } from '@bprogress/next';
+```
+
+## Usage
+
+See the [Next.js `useRouter` hook documentation for more information](https://nextjs.org/docs/app/api-reference/functions/use-router).
+
+```ts
+const router = useRouter();
+```
+
+## Options
+
+```ts
+useRouter(options?: RouterProgressOptions)
+```
+
+| Name | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| showProgress | boolean | `true` | Show the progress bar. |
+| startPosition | number | undefined | The start position of the progress bar. |
+| disableSameURL | boolean | `true` | Disable the progress bar when the URL is the same. |
+| basePath | string | undefined | The base path if you use a `basePath` in your app. |
+| customRouter | () => AppRouterInstance | undefined | A custom router instance. |
+
+### RouterProgressOptions
+
+```tsx
+interface RouterProgressOptions {
+  showProgress?: boolean;
+  startPosition?: number;
+  disableSameURL?: boolean;
+  basePath?: string;
+  customRouter?: () => AppRouterInstance;
+}
+```
+
+<Callout title="Note">
+  By default, if you do not specify any options when calling a router method, the options defined during the initialization of the `useRouter` hook will be applied. However, if you provide specific options in the method call (`push`, `replace`, `back`, `refresh`), these will take precedence and override the default options set in the hook.
+</Callout>
+
+## Methods
+
+### push
+
+#### Usage
+
+Pushes a new entry onto the history stack.
+
+```tsx
+router.push('/about');
+```
+
+#### Types
+
+```tsx
+router.push(url: string, options?: NavigateOptions, progressOptions?: RouterProgressOptions)
+```
+
+### replace
+
+#### Usage
+
+Replaces the current entry on the history stack.
+
+```tsx
+router.replace('/?counter=10');
+```
+
+#### Types
+
+```tsx
+router.replace(url: string, options?: NavigateOptions, progressOptions?: RouterProgressOptions)
+```
+
+### back
+
+#### Usage
+
+Goes back in the history stack.
+
+```tsx
+router.back();
+```
+
+#### Types
+
+```tsx
+router.back(progressOptions?: RouterProgressOptions)
+```
+
+### refresh
+
+#### Usage
+
+Refreshes the current page.
+
+```tsx
+router.refresh();
+```
+
+#### Types
+
+```tsx
+router.refresh(progressOptions?: RouterProgressOptions)
+```
+
+## Options
+
+### Usage
+
+```tsx
+router.push('/about', undefined, { disableSameURL: true });
+router.replace('/?counter=10', undefined, { disableSameURL: true });
+router.back({ disableSameURL: true });
+router.refresh({ disableSameURL: true });
+```
+
+
+### Types
+
+| Name | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| showProgress | boolean | `true` | Show the progress bar. |
+| startPosition | number | undefined | The start position of the progress bar. |
+| disableSameURL | boolean | `true` | Disable the progress bar when the URL is the same. |
+| basePath | string | undefined | The base path if you use a `basePath` in your app. |
+
+<Callout title="Note">
+  The `showProgress` option set to `false` disables the progress bar. However, if you don't want to see the progress bar during a router action, we recommend you use the Next.js router directly.
+</Callout>
+
+#### RouterProgressOptions
+
+```tsx
+interface RouterProgressOptions {
+  showProgress?: boolean;
+  startPosition?: number;
+  disableSameURL?: boolean;
+  basePath?: string;
+}
+```
+
+
+
+
+

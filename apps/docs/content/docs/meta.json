@@ -24,6 +24,8 @@
     "is-rendered",
     "get-positioning-css",
     "---Integrations---",
-    "next"
+    "next",
+    "---Roadmap---",
+    "roadmap"
   ]
 }
