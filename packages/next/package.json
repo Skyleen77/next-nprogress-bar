@@ -1,6 +1,6 @@
 {
   "name": "@bprogress/next",
-  "version": "3.0.0-beta.4",
+  "version": "3.0.0",
   "description": "Progress bar for Next.js compatible with new app directory",
   "repository": {
     "type": "git",
@@ -31,7 +31,9 @@
     "nprogress",
     "bprogress",
     "progress bar",
-    "progress bar app directory"
+    "progress bar app directory",
+    "app directory",
+    "pages directory"
   ],
   "author": "Skyleen",
   "license": "MIT",
