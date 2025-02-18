@@ -106,6 +106,9 @@ type BProgressDirection = 'ltr' | 'rtl';
 </div>
 ```
 
-<Callout type="warn" title="Pay Attention">
-  It's very important to have a `div` with the `bprogress` class and the `display:none` style surrounding the template. For the template, classes are important for CSS, but if you have a custom CSS you can put any classes you like. The roles depend on those configured in the `barSelector` and `spinnerSelector` options.
+It's very important to have a `div` with the `bprogress` class and the `display:none` style surrounding the template. For the template, classes are important for CSS, but if you have a custom CSS you can put any classes you like. The roles depend on those configured in the `barSelector` and `spinnerSelector` options.
+
+<Callout type="warn" title="Warning">
+  When using a custom component for the progress bar, the component will not be dynamically added or removed from the DOM. Instead, it will simply toggle between `display: block` and `display: none`.  
+  This behavior may impact performance, especially if the component involves complex rendering or layout calculations.
 </Callout>

@@ -8,8 +8,11 @@ import { TypeTable } from 'fumadocs-ui/components/type-table';
 
 One of the great new features of **BProgress** version `1.1` is the ability to integrate one or more progress bars anywhere in your code.
 
-<Callout title="Note">
-  The `Progress` component is optional, meaning you can use it to create one or more progress bars in your code. If you don't, the default progress bar will be created automatically.
+The `Progress` component is optional, meaning you can use it to create one or more progress bars in your code. If you don't, the default progress bar will be created automatically.
+
+<Callout type="warn" title="Warning">
+  When using a custom component for the progress bar, the component will not be dynamically added or removed from the DOM. Instead, it will simply toggle between `display: block` and `display: none`.  
+  This behavior may impact performance, especially if the component involves complex rendering or layout calculations.
 </Callout>
 
 ## Progress
@@ -35,6 +38,10 @@ import { Progress } from '@bprogress/next';
 ### Usage
 
 You can use one or more progressive components anywhere in your code.
+
+<Callout type='warn' title="Warning">
+  The `Progress` component has a `display:none;` style by default, and this will change to `display:block;` for display. You won't be able to play with the component's display property. 
+</Callout>
 
 You can use with no children:
 
