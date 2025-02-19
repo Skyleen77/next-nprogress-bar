@@ -19,9 +19,15 @@ The `Progress` component is optional, meaning you can use it to create one or mo
 
 ### Import
 
+You can import the `Progress` component like this:
+
 ```tsx
-import { Progress } from '@bprogress/next';
+import { Progress } from '@bprogress/...';
 ```
+
+<Callout title="Note">
+  Replace the `...` in the import with the library you're using. For example, if you use `@bprogress/next`, import by doing `from '@bprogress/next'`
+</Callout>
 
 <Callout type='warn' title="Warning">
   The `Progress` component must be used inside the `ProgressProvider` with the option `template` set to `null`.

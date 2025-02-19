@@ -9,9 +9,9 @@
     "whats-new",
     "---Components---",
     "progress-provider",
-    "progress-components",
+    "../react/progress-components",
     "---Hooks---",
-    "use-progress",
+    "../react/use-progress",
     "use-router",
     "---Advanced---",
     "data-attributes"

@@ -1,7 +1,7 @@
 {
   "name": "@bprogress/react",
   "version": "1.0.0",
-  "description": "Utility to create your own progress bar with React ",
+  "description": "Utility to create your own progress bar with React",
   "repository": {
     "type": "git",
     "url": "https://github.com/Skyleen77/bprogress/tree/main/packages/react"
@@ -51,6 +51,6 @@
     "react-dom": ">=18.0.0"
   },
   "dependencies": {
-    "@bprogress/core": "1.1.12"
+    "@bprogress/core": "^1.1.14"
   }
 }
