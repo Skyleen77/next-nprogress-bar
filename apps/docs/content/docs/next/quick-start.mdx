@@ -37,8 +37,7 @@ import { PagesProgressProvider as ProgressProvider } from '@bprogress/next';
 
 First approach in a use client layout.
 
-```tsx
-// In /app/layout.tsx
+```tsx title="app/layout.tsx"
 'use client';
 
 import { AppProgressProvider as ProgressProvider } from '@bprogress/next';
@@ -69,8 +68,7 @@ Second approach wrap in a use client Providers component. (Recommended)
 
 Create a Providers component to wrap your application with all the components requiring 'use client', such as BProgress or your different contexts...
 
-```tsx
-// In /app/providers.tsx
+```tsx title="app/providers.tsx"
 'use client';
 
 import { AppProgressProvider as ProgressProvider } from '@bprogress/next';
@@ -93,8 +91,7 @@ export default Providers;
 
 Then wrap your application with the Providers component.
 
-```tsx
-// In /app/layout.tsx
+```tsx title="app/layout.tsx"
 import Providers from './providers';
 
 export const metadata = {
@@ -119,8 +116,7 @@ export default function RootLayout({
 
 ### Pages Directory
 
-```tsx
-// In /pages/_app.tsx
+```tsx title="pages/_app.tsx"
 import type { AppProps } from 'next/app';
 import { PagesProgressProvider as ProgressProvider } from '@bprogress/next';
 

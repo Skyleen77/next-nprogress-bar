@@ -13,6 +13,7 @@ It helps users understand that a new page or content is being loaded, making nav
 ## Packages
 
 - **Core**: [@bprogress/core](https://github.com/Skyleen77/bprogress/tree/main/packages/core)
+- **React**: [@bprogress/react](https://github.com/Skyleen77/bprogress/tree/main/packages/react)
 - **Next.js**: [@bprogress/next](https://github.com/Skyleen77/bprogress/tree/main/packages/next)
 
 ## Documentation
