@@ -282,8 +282,8 @@ importers:
   packages/next:
     dependencies:
       '@bprogress/core':
-        specifier: 1.1.13
-        version: 1.1.13
+        specifier: 1.1.14
+        version: 1.1.14
     devDependencies:
       '@swc/core':
         specifier: ^1.10.16
@@ -417,8 +417,8 @@ packages:
     resolution: {integrity: sha512-aA63XwOkcl4xxQa3HjPMqOP6LiK0ZDv3mUPYEFXkpHbaFjtGggE1A61FjFzJnB+p7/oy2gA8E+rcBNl/zC1tMg==}
     engines: {node: '>=6.9.0'}
 
-  '@bprogress/core@1.1.13':
-    resolution: {integrity: sha512-CnRQAzzhzLt51f48RLR1R/QYxVjGuqHV3SYUHUcidploz0yGBeMWSuE+h/kR/noAGmsRGlBdtvFcO0gs9tKctA==}
+  '@bprogress/core@1.1.14':
+    resolution: {integrity: sha512-tYHOJCRC850FpPSc/XCjhq0K4Q4sV0PqndBO78V7Z+FANisJxbvEwu6DghTSM52lhBC4aEfNbEK3bix/gOi73w==}
 
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -4704,7 +4704,7 @@ snapshots:
     dependencies:
       regenerator-runtime: 0.14.1
 
-  '@bprogress/core@1.1.13': {}
+  '@bprogress/core@1.1.14': {}
 
   '@cspotcode/source-map-support@0.8.1':
     dependencies:

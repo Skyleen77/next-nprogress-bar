@@ -314,6 +314,7 @@ export class BProgress {
 
   // Pause the progress
   static pause(): typeof BProgress {
+    if (!this.isStarted()) return this;
     this.isPaused = true;
     return this;
   }
