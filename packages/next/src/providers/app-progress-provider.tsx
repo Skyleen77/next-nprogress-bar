@@ -1,8 +1,8 @@
 import React from 'react';
-import { BaseProgressProvider } from './base-progress-provider';
 import type { AppProgressProps, AppProgressProviderProps } from '../types';
 import { AppProgress } from '../components/app-progress';
 import withSuspense from '../utils/with-suspense';
+import { NextProgressProvider } from './next-progress-provider';
 
 const SuspendedAppProgress = withSuspense<AppProgressProps>(AppProgress);
 
@@ -11,9 +11,8 @@ export const AppProgressProvider = ({
   ...props
 }: AppProgressProviderProps) => {
   return (
-    <BaseProgressProvider>
-      <SuspendedAppProgress {...props} />
+    <NextProgressProvider ProgressComponent={SuspendedAppProgress} {...props}>
       {children}
-    </BaseProgressProvider>
+    </NextProgressProvider>
   );
 };
