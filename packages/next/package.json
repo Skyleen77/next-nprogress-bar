@@ -1,6 +1,6 @@
 {
   "name": "@bprogress/next",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "Progress bar for Next.js compatible with new app directory",
   "repository": {
     "type": "git",
@@ -40,8 +40,8 @@
   "devDependencies": {
     "@swc/core": "^1.10.16",
     "@types/node": "^22.12.0",
-    "@types/react": "^19.0.8",
-    "@types/react-dom": "^19.0.3",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.2",
     "babel-core": "^6.26.3",
     "babel-runtime": "^6.26.0",
     "eslint": "^9.19.0",
@@ -58,7 +58,7 @@
     "react-dom": ">=18.0.0"
   },
   "dependencies": {
-    "@bprogress/core": "^1.1.14",
-    "@bprogress/react": "^1.0.0"
+    "@bprogress/core": "^1.1.15",
+    "@bprogress/react": "^1.0.1"
   }
 }
