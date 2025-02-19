@@ -1,31 +1,23 @@
-import type { BProgressOptions } from '@bprogress/core';
-import { useRouter } from './components/app-progress';
-import type {
-  SpinnerPosition,
-  AppProgressProps,
-  PagesProgressProps,
-  ProgressContextValue,
-  RouterActionsProgressOptions,
-  RouterProgressOptions,
-  ProgressComponentProps,
-  AppProgressProviderProps,
-  PagesProgressProviderProps,
-} from './types';
-
-export { useRouter };
-export { useProgress } from './providers/base-progress-provider';
+export { useRouter } from './components/app-progress';
 export { AppProgressProvider } from './providers/app-progress-provider';
 export { PagesProgressProvider } from './providers/pages-progress-provider';
-export * from './components/progress';
+export {
+  useProgress,
+  Progress,
+  Bar,
+  Peg,
+  Spinner,
+  SpinnerIcon,
+} from '@bprogress/react';
 export type {
-  BProgressOptions,
   SpinnerPosition,
-  AppProgressProps,
-  PagesProgressProps,
   ProgressContextValue,
-  RouterActionsProgressOptions,
-  RouterProgressOptions,
   ProgressComponentProps,
-  AppProgressProviderProps,
-  PagesProgressProviderProps,
-};
+  ProgressProps,
+  BarProps,
+  PegProps,
+  SpinnerProps,
+  SpinnerIconProps,
+} from '@bprogress/react';
+export type * from './types';
+export type { BProgressOptions } from '@bprogress/core';

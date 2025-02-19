@@ -3,36 +3,15 @@ import { BProgress } from '@bprogress/core';
 import { isSameURL, isSameURLWithoutSearch } from '../utils/sameURL';
 import Router from 'next/router';
 import type { PagesProgressProps } from '../types';
-import { css } from '../utils/css';
 
 export const PagesProgress = React.memo(
   ({
-    color = '#0A2FFF',
-    height = '2px',
-    options,
-    spinnerPosition = 'top-right',
     shallowRouting = false,
     disableSameURL = true,
     startPosition = 0,
     delay = 0,
     stopDelay = 0,
-    style,
-    disableStyle = false,
-    nonce,
   }: PagesProgressProps) => {
-    const styles = (
-      <style nonce={nonce}>
-        {style ||
-          css({
-            color,
-            height,
-            spinnerPosition,
-          })}
-      </style>
-    );
-
-    BProgress.configure(options || {});
-
     useEffect(() => {
       let timer: NodeJS.Timeout;
 
@@ -81,7 +60,7 @@ export const PagesProgress = React.memo(
       };
     }, []);
 
-    return !disableStyle ? styles : null;
+    return null;
   },
   (prevProps, nextProps) => {
     if (nextProps?.memo === false) {

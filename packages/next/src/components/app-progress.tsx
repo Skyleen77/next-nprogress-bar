@@ -13,7 +13,6 @@ import type {
 } from '../types';
 import { getAnchorProperty } from '../utils/getAnchorProperty';
 import type { NavigateOptions } from 'next/dist/shared/lib/app-router-context.shared-runtime';
-import { css } from '../utils/css';
 
 type PushStateInput = [
   data: any,
@@ -23,35 +22,15 @@ type PushStateInput = [
 
 export const AppProgress = React.memo(
   ({
-    color = '#0A2FFF',
-    height = '2px',
-    options,
-    spinnerPosition = 'top-right',
     shallowRouting = false,
     disableSameURL = true,
     startPosition = 0,
     delay = 0,
     stopDelay = 0,
-    style,
-    disableStyle = false,
-    nonce,
     targetPreprocessor,
     disableAnchorClick = false,
     startOnLoad = false,
   }: AppProgressProps) => {
-    const styles = (
-      <style nonce={nonce}>
-        {style ||
-          css({
-            color,
-            height,
-            spinnerPosition,
-          })}
-      </style>
-    );
-
-    BProgress.configure(options || {});
-
     let progressDoneTimer: NodeJS.Timeout;
 
     const pathname = usePathname();
@@ -200,7 +179,7 @@ export const AppProgress = React.memo(
       disableSameURL,
     ]);
 
-    return !disableStyle ? styles : null;
+    return null;
   },
   (prevProps, nextProps) => {
     if (nextProps?.memo === false) {

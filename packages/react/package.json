@@ -1,15 +1,15 @@
 {
-  "name": "@bprogress/next",
-  "version": "3.0.2",
-  "description": "Progress bar for Next.js compatible with new app directory",
+  "name": "@bprogress/react",
+  "version": "1.0.0",
+  "description": "Utility to create your own progress bar with React ",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Skyleen77/bprogress/tree/main/packages/next"
+    "url": "https://github.com/Skyleen77/bprogress/tree/main/packages/react"
   },
   "bugs": {
     "url": "https://github.com/Skyleen77/bprogress/issues"
   },
-  "homepage": "https://bprogress.vercel.app/docs/next/installation",
+  "homepage": "https://bprogress.vercel.app/docs/react/installation",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -23,17 +23,13 @@
     "pub:release": "pnpm publish --no-git-checks --access public"
   },
   "keywords": [
-    "next",
-    "next nprogress",
-    "next bprogress",
-    "next progress",
     "react",
+    "react nprogress",
+    "react bprogress",
+    "react progress",
     "nprogress",
     "bprogress",
-    "progress bar",
-    "progress bar app directory",
-    "app directory",
-    "pages directory"
+    "progress bar"
   ],
   "author": "Skyleen",
   "license": "MIT",
@@ -45,20 +41,16 @@
     "babel-core": "^6.26.3",
     "babel-runtime": "^6.26.0",
     "eslint": "^9.19.0",
-    "eslint-config-next": "^15.1.6",
-    "next": "^15.1.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tsup": "^8.3.5",
     "typescript": "^5.7.3"
   },
   "peerDependencies": {
-    "next": ">=13.0.0",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },
   "dependencies": {
-    "@bprogress/core": "1.1.14",
-    "@bprogress/react": "workspace:*"
+    "@bprogress/core": "1.1.12"
   }
 }
