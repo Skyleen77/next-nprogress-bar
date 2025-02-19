@@ -321,6 +321,18 @@ export class BProgress {
   // Resume the progress
   static resume(): typeof BProgress {
     this.isPaused = false;
+    // If the progression is in progress and the trickle is activated, restart the loop
+    if (this.status !== null && this.settings.trickle) {
+      const work = () => {
+        if (this.isPaused) return;
+        setTimeout(() => {
+          if (!this.status) return;
+          this.trickle();
+          work();
+        }, this.settings.trickleSpeed);
+      };
+      work();
+    }
     return this;
   }
 
