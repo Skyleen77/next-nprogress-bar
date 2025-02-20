@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { BProgress } from '@bprogress/core';
-import { isSameURL, isSameURLWithoutSearch } from '../utils/sameURL';
+import { isSameURL, isSameURLWithoutSearch } from '@bprogress/react';
 import Router from 'next/router';
 import type { PagesProgressProps } from '../types';
 
@@ -72,17 +72,11 @@ export const PagesProgress = React.memo(
     }
 
     return (
-      prevProps?.color === nextProps?.color &&
-      prevProps?.height === nextProps?.height &&
       prevProps?.shallowRouting === nextProps?.shallowRouting &&
       prevProps?.startPosition === nextProps?.startPosition &&
       prevProps?.delay === nextProps?.delay &&
       prevProps?.disableSameURL === nextProps?.disableSameURL &&
-      prevProps?.stopDelay === nextProps?.stopDelay &&
-      prevProps?.nonce === nextProps?.nonce &&
-      JSON.stringify(prevProps?.options) ===
-        JSON.stringify(nextProps?.options) &&
-      prevProps?.style === nextProps?.style
+      prevProps?.stopDelay === nextProps?.stopDelay
     );
   },
 );

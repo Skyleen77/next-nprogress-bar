@@ -1,18 +1,9 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { BProgress } from '@bprogress/core';
+import { useLocation } from '@remix-run/react';
 import { isSameURL, isSameURLWithoutSearch } from '@bprogress/react';
-import {
-  usePathname,
-  useSearchParams,
-  useRouter as useNextRouter,
-} from 'next/navigation';
-import type {
-  AppProgressProps,
-  RouterActionsProgressOptions,
-  RouterProgressOptions,
-} from '../types';
+import type { RemixProgressProps } from '../types';
 import { getAnchorProperty } from '../utils/getAnchorProperty';
-import type { NavigateOptions } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 type PushStateInput = [
   data: any,
@@ -20,7 +11,7 @@ type PushStateInput = [
   url?: string | URL | null | undefined,
 ];
 
-export const AppProgress = React.memo(
+export const RemixProgress = React.memo(
   ({
     shallowRouting = false,
     disableSameURL = true,
@@ -30,11 +21,10 @@ export const AppProgress = React.memo(
     targetPreprocessor,
     disableAnchorClick = false,
     startOnLoad = false,
-  }: AppProgressProps) => {
+  }: RemixProgressProps) => {
     let progressDoneTimer: NodeJS.Timeout;
 
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
+    const routerLocation = useLocation();
 
     useEffect(() => {
       if (startOnLoad) BProgress.start();
@@ -42,7 +32,7 @@ export const AppProgress = React.memo(
       progressDoneTimer = setTimeout(() => {
         BProgress.done();
       }, stopDelay);
-    }, [pathname, searchParams]);
+    }, [routerLocation]);
 
     const elementsWithAttachedHandlers = useRef<
       (HTMLAnchorElement | SVGAElement)[]
@@ -54,8 +44,11 @@ export const AppProgress = React.memo(
       let timer: NodeJS.Timeout;
 
       const startProgress = () => {
+        console.log('startProgress');
+        console.log('delay', delay);
         timer = setTimeout(() => {
           if (startPosition > 0) BProgress.set(startPosition);
+          console.log('BProgress.start');
           BProgress.start();
         }, delay);
       };
@@ -69,6 +62,8 @@ export const AppProgress = React.memo(
       };
 
       const handleAnchorClick = (event: MouseEvent) => {
+        console.log('handleAnchorClick');
+
         // Skip preventDefault
         if (event.defaultPrevented) return;
 
@@ -79,6 +74,8 @@ export const AppProgress = React.memo(
         let preventProgress =
           target?.getAttribute('data-prevent-progress') === 'true' ||
           anchorElement?.getAttribute('data-prevent-progress') === 'true';
+
+        console.log('preventProgress', preventProgress);
 
         if (!preventProgress) {
           let element: HTMLElement | Element | null = target;
@@ -98,6 +95,8 @@ export const AppProgress = React.memo(
         if (preventProgress) return;
 
         const anchorTarget = getAnchorProperty(anchorElement, 'target');
+
+        console.log('anchorTarget', anchorTarget);
         // Skip anchors with target="_blank"
         if (anchorTarget === '_blank') return;
 
@@ -111,13 +110,22 @@ export const AppProgress = React.memo(
           : new URL(targetHref);
         const currentUrl = new URL(location.href);
 
+        console.log('targetHref', targetHref);
+        console.log('targetUrl', targetUrl);
+        console.log('currentUrl', currentUrl);
+
         if (
           shallowRouting &&
           isSameURLWithoutSearch(targetUrl, currentUrl) &&
           disableSameURL
         )
           return;
+
+        console.log('pass shallowRouting');
+
         if (isSameURL(targetUrl, currentUrl) && disableSameURL) return;
+
+        console.log('pass isSameURL');
 
         startProgress();
       };
@@ -181,128 +189,16 @@ export const AppProgress = React.memo(
     return null;
   },
   (prevProps, nextProps) => {
-    if (nextProps?.memo === false) {
-      return false;
-    }
-
-    if (!nextProps?.shouldCompareComplexProps) {
-      return true;
-    }
-
+    if (nextProps.memo === false) return false;
+    if (!nextProps.shouldCompareComplexProps) return true;
     return (
-      prevProps?.shallowRouting === nextProps?.shallowRouting &&
-      prevProps?.startPosition === nextProps?.startPosition &&
-      prevProps?.delay === nextProps?.delay &&
-      prevProps?.disableSameURL === nextProps?.disableSameURL &&
-      prevProps?.stopDelay === nextProps?.stopDelay &&
-      prevProps.disableAnchorClick === nextProps.disableAnchorClick
+      prevProps.shallowRouting === nextProps.shallowRouting &&
+      prevProps.startPosition === nextProps.startPosition &&
+      prevProps.delay === nextProps.delay &&
+      prevProps.disableSameURL === nextProps.disableSameURL &&
+      prevProps.stopDelay === nextProps.stopDelay
     );
   },
 );
 
-AppProgress.displayName = 'AppProgress';
-
-export function useRouter(options?: RouterProgressOptions) {
-  const { customRouter, ...defaultProgressOptions } = options || {};
-
-  const useSelectedRouter = useCallback(() => {
-    if (customRouter) return customRouter();
-    return useNextRouter();
-  }, [customRouter]);
-
-  const router = useSelectedRouter();
-
-  const startProgress = useCallback((startPosition?: number) => {
-    if (startPosition && startPosition > 0) BProgress.set(startPosition);
-    BProgress.start();
-  }, []);
-
-  const stopProgress = useCallback(() => {
-    if (!BProgress.isStarted()) return;
-    BProgress.done();
-  }, []);
-
-  const progress = useCallback(
-    (
-      href: string,
-      method: 'push' | 'replace',
-      optionsNav?: NavigateOptions,
-      progressOptions?: RouterActionsProgressOptions,
-    ) => {
-      const mergedOptions = { ...defaultProgressOptions, ...progressOptions };
-
-      if (mergedOptions.showProgress === false) {
-        return router[method](href, optionsNav);
-      }
-
-      const currentUrl = new URL(location.href);
-      const targetUrl = new URL(href, location.href);
-
-      if (mergedOptions.basePath) {
-        targetUrl.pathname =
-          mergedOptions.basePath +
-          (targetUrl.pathname !== '/' ? targetUrl.pathname : '');
-      }
-
-      const sameURL = isSameURL(targetUrl, currentUrl);
-
-      if (sameURL && mergedOptions.disableSameURL !== false) {
-        return router[method](href, optionsNav);
-      }
-
-      startProgress(mergedOptions.startPosition);
-      if (sameURL) stopProgress();
-      return router[method](href, optionsNav);
-    },
-    [router, defaultProgressOptions, startProgress, stopProgress],
-  );
-
-  const push = useCallback(
-    (
-      href: string,
-      optionsNav?: NavigateOptions,
-      progressOptions?: RouterActionsProgressOptions,
-    ) => {
-      progress(href, 'push', optionsNav, progressOptions);
-    },
-    [progress],
-  );
-
-  const replace = useCallback(
-    (
-      href: string,
-      optionsNav?: NavigateOptions,
-      progressOptions?: RouterActionsProgressOptions,
-    ) => {
-      progress(href, 'replace', optionsNav, progressOptions);
-    },
-    [progress],
-  );
-
-  const back = useCallback(
-    (progressOptions?: RouterActionsProgressOptions) => {
-      const mergedOptions = { ...defaultProgressOptions, ...progressOptions };
-      if (mergedOptions.showProgress === false) return router.back();
-      startProgress(mergedOptions.startPosition);
-      return router.back();
-    },
-    [router, defaultProgressOptions, startProgress],
-  );
-
-  const refresh = useCallback(
-    (progressOptions?: RouterActionsProgressOptions) => {
-      const mergedOptions = { ...defaultProgressOptions, ...progressOptions };
-      if (mergedOptions.showProgress === false) return router.refresh();
-      startProgress(mergedOptions.startPosition);
-      stopProgress();
-      return router.refresh();
-    },
-    [router, defaultProgressOptions, startProgress, stopProgress],
-  );
-
-  const enhancedRouter = useMemo(() => {
-    return { ...router, push, replace, back, refresh };
-  }, [router, push, replace, back, refresh]);
-
-  return enhancedRouter;
-}
+RemixProgress.displayName = 'RemixProgress';

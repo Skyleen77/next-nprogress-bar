@@ -1,15 +1,15 @@
 {
-  "name": "@bprogress/react",
-  "version": "1.0.2",
-  "description": "Utility to create your own progress bar with React",
+  "name": "@bprogress/remix",
+  "version": "1.0.0",
+  "description": "Progress bar for Remix",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Skyleen77/bprogress/tree/main/packages/react"
+    "url": "https://github.com/Skyleen77/bprogress/tree/main/packages/remix"
   },
   "bugs": {
     "url": "https://github.com/Skyleen77/bprogress/issues"
   },
-  "homepage": "https://bprogress.vercel.app/docs/react/installation",
+  "homepage": "https://bprogress.vercel.app/docs/remix/installation",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -23,13 +23,15 @@
     "pub:release": "pnpm publish --no-git-checks --access public"
   },
   "keywords": [
+    "remix",
+    "remix nprogress",
+    "remix bprogress",
+    "remix progress",
     "react",
-    "react nprogress",
-    "react bprogress",
-    "react progress",
     "nprogress",
     "bprogress",
-    "progress bar"
+    "progress bar",
+    "progress bar remix"
   ],
   "author": "Skyleen",
   "license": "MIT",
@@ -41,16 +43,20 @@
     "babel-core": "^6.26.3",
     "babel-runtime": "^6.26.0",
     "eslint": "^9.19.0",
+    "eslint-config-next": "^15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tsup": "^8.3.5",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "@remix-run/react": "^2.15.3"
   },
   "peerDependencies": {
+    "@remix-run/react": ">=2.0.0",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },
   "dependencies": {
-    "@bprogress/core": "^1.1.15"
+    "@bprogress/core": "^1.1.15",
+    "@bprogress/react": "^1.0.2"
   }
 }
