@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ProgressProvider } from '@bprogress/react';
-import type { RemixProgressProviderProps } from '../types';
 import { RemixProgress } from '../components/remix-progress';
+import type { RemixProgressProviderProps } from '../types';
 
 export const RemixProgressProvider = ({
   children,
@@ -18,11 +18,7 @@ export const RemixProgressProvider = ({
 
   useEffect(() => setIsMounted(true), []);
 
-  console.log('remix load server side');
-
   if (!isMounted) return <>{children}</>;
-
-  console.log('remix load client side');
 
   return (
     <ProgressProvider

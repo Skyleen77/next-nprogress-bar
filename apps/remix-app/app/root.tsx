@@ -33,7 +33,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <ProgressProvider>{children}</ProgressProvider>
+        <ProgressProvider startOnLoad>{children}</ProgressProvider>
         <ScrollRestoration />
         <Scripts />
       </body>

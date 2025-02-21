@@ -1,5 +1,6 @@
-export { useProgress, ProgressProvider } from './providers/progress-provider';
+export * from './providers/progress-provider';
+export * from './hooks/use-anchor-progress';
 export * from './components';
+export * from './utils';
 export type * from './types';
-export * from './utils/sameURL';
 export type { BProgressOptions } from '@bprogress/core';
